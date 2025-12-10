@@ -1,0 +1,31 @@
+2025-12-04 00:03:03 - src.clients.telegram_bot - INFO - [POLLING] Stopping polling thread...
+2025-12-04 00:03:08 - src.clients.telegram_bot - INFO - [POLLING] Polling thread stopped
+2025-12-04 00:03:08 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-12-04 00:03:17 - __main__ - INFO - Bot starting with logging level: INFO
+2025-12-04 00:03:23 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-12-04 00:03:23 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-12-04 00:03:23 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-12-04 00:03:23 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-12-04 00:03:23 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-12-04 00:03:24 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-12-04 00:03:24 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-12-04 00:04:33 - src.menu.command_executor - INFO - EXECUTING: show_trends with params {} for user 2139792302
+2025-12-04 00:04:33 - src.menu.command_executor - INFO - CALLING HANDLER: show_trends with formatted params: {}
+2025-12-04 00:04:34 - src.menu.command_executor - INFO - EXECUTION SUCCESS: show_trends executed successfully for user 2139792302
+2025-12-04 00:05:36 - src.menu.command_executor - INFO - EXECUTING: set_trend with params {'symbol': 'XAUUSD', 'timeframe': '15m', 'trend': 'BULLISH'} for user 2139792302
+2025-12-04 00:05:36 - src.menu.command_executor - INFO - CALLING HANDLER: set_trend with formatted params: {'symbol': 'XAUUSD', 'timeframe': '15m', 'trend': 'BULLISH'}
+2025-12-04 00:05:37 - src.menu.command_executor - INFO - EXECUTION SUCCESS: set_trend executed successfully for user 2139792302
+2025-12-04 00:18:48 - src.clients.telegram_bot - INFO - [POLLING] Stopping polling thread...
+2025-12-04 00:18:53 - src.clients.telegram_bot - INFO - [POLLING] Polling thread stopped
+2025-12-04 00:18:53 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-12-04 00:19:03 - __main__ - INFO - Bot starting with logging level: INFO
+2025-12-04 00:19:08 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-12-04 00:19:08 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-12-04 00:19:08 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-12-04 00:19:08 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-12-04 00:19:08 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-12-04 00:19:10 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-12-04 00:19:10 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-12-04 01:47:46 - src.clients.telegram_bot - INFO - [POLLING] Stopping polling thread...
+2025-12-04 01:47:51 - src.clients.telegram_bot - INFO - [POLLING] Polling thread stopped
+2025-12-04 01:47:51 - src.services.price_monitor_service - INFO - Monitor loop cancelled

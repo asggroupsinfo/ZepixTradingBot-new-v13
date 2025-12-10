@@ -1,0 +1,35 @@
+2025-12-03 14:10:37 - __main__ - INFO - Bot starting with logging level: INFO
+2025-12-03 14:10:52 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-12-03 14:10:52 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-12-03 14:10:52 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-12-03 14:10:52 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-12-03 14:10:52 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-12-03 14:10:55 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-12-03 14:10:55 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-12-03 14:12:39 - src.menu.command_executor - INFO - EXECUTING: trend_matrix with params {} for user 2139792302
+2025-12-03 14:12:39 - src.menu.command_executor - INFO - CALLING HANDLER: trend_matrix with formatted params: {}
+2025-12-03 14:12:41 - src.menu.command_executor - INFO - EXECUTION SUCCESS: trend_matrix executed successfully for user 2139792302
+2025-12-03 14:15:57 - src.menu.command_executor - INFO - EXECUTING: view_risk_status with params {} for user 2139792302
+2025-12-03 14:15:57 - src.menu.command_executor - INFO - CALLING HANDLER: view_risk_status with formatted params: {}
+2025-12-03 14:15:59 - src.menu.command_executor - INFO - EXECUTION SUCCESS: view_risk_status executed successfully for user 2139792302
+2025-12-03 14:16:53 - src.menu.command_executor - INFO - EXECUTING: status with params {} for user 2139792302
+2025-12-03 14:16:53 - src.menu.command_executor - INFO - CALLING HANDLER: status with formatted params: {}
+2025-12-03 14:16:55 - src.menu.command_executor - INFO - EXECUTION SUCCESS: status executed successfully for user 2139792302
+2025-12-03 14:26:15 - src.menu.command_executor - INFO - EXECUTING: trend_matrix with params {} for user 2139792302
+2025-12-03 14:26:15 - src.menu.command_executor - INFO - CALLING HANDLER: trend_matrix with formatted params: {}
+2025-12-03 14:26:17 - src.menu.command_executor - INFO - EXECUTION SUCCESS: trend_matrix executed successfully for user 2139792302
+2025-12-03 18:43:24 - __main__ - INFO - Bot starting with logging level: INFO
+2025-12-03 18:43:29 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-12-03 18:43:29 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-12-03 18:43:29 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-12-03 18:43:29 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-12-03 18:43:29 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-12-03 18:43:31 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-12-03 18:43:31 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-12-03 20:20:11 - src.clients.telegram_bot - ERROR - [POLLING-ERROR-CYCLE-180] Telegram polling error: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=35)
+2025-12-03 22:46:03 - src.clients.telegram_bot - ERROR - [POLLING-ERROR-CYCLE-246] Telegram polling error: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2025-12-03 22:46:13 - src.clients.telegram_bot - ERROR - [POLLING-ERROR-CYCLE-247] Telegram polling error: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot8526101969:AAF9fqQlPbNUkb1fg3vylwG4uDNiz-Z9IY4/getUpdates?offset=0&timeout=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001BDB50C38C0>: Failed to resolve 'api.telegram.org' ([Errno 11001] getaddrinfo failed)"))
+2025-12-03 22:46:23 - src.clients.telegram_bot - ERROR - [POLLING-ERROR-CYCLE-248] Telegram polling error: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot8526101969:AAF9fqQlPbNUkb1fg3vylwG4uDNiz-Z9IY4/getUpdates?offset=0&timeout=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001BDB55600E0>: Failed to resolve 'api.telegram.org' ([Errno 11001] getaddrinfo failed)"))
+2025-12-03 22:46:33 - src.clients.telegram_bot - ERROR - [POLLING-ERROR-CYCLE-249] Telegram polling error: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot8526101969:AAF9fqQlPbNUkb1fg3vylwG4uDNiz-Z9IY4/getUpdates?offset=0&timeout=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001BDB55608F0>: Failed to resolve 'api.telegram.org' ([Errno 11001] getaddrinfo failed)"))
+2025-12-03 22:46:43 - src.clients.telegram_bot - ERROR - [POLLING-ERROR-CYCLE-250] Telegram polling error: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot8526101969:AAF9fqQlPbNUkb1fg3vylwG4uDNiz-Z9IY4/getUpdates?offset=0&timeout=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001BDB50C37D0>: Failed to resolve 'api.telegram.org' ([Errno 11001] getaddrinfo failed)"))
+2025-12-03 22:46:53 - src.clients.telegram_bot - ERROR - [POLLING-ERROR-CYCLE-251] Telegram polling error: HTTPSConnectionPool(host='api.telegram.org', port=443): Max retries exceeded with url: /bot8526101969:AAF9fqQlPbNUkb1fg3vylwG4uDNiz-Z9IY4/getUpdates?offset=0&timeout=30 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001BDB4B3D820>: Failed to resolve 'api.telegram.org' ([Errno 11001] getaddrinfo failed)"))

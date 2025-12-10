@@ -1,0 +1,137 @@
+2025-11-21 00:19:20 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 00:19:20 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 00:19:20 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 00:19:20 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 00:19:22 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 00:19:22 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-11-21 00:19:22 - src.services.price_monitor_service - INFO - Monitor loop stopped after 1 cycles
+2025-11-21 00:19:36 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 00:19:36 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 00:19:36 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 00:19:36 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 00:19:39 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 00:20:40 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-11-21 00:20:40 - src.services.price_monitor_service - INFO - Monitor loop stopped after 3 cycles
+2025-11-21 00:52:11 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 00:52:11 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 00:52:11 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 00:52:11 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 00:52:12 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 00:56:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #10, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:01:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #20, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:06:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #30, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:11:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #40, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:16:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #50, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:21:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #60, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:26:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #70, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:31:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #80, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:36:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #90, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:41:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #100, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:46:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #110, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:51:43 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #120, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 01:55:21 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 01:55:21 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 01:55:21 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 01:55:21 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 01:55:22 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 01:59:52 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #10, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:00:08 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 02:00:08 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 02:00:08 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 02:00:08 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 02:00:09 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 02:00:46 - src.menu.command_executor - INFO - EXECUTING: health_status with params {} for user 2139792302
+2025-11-21 02:01:16 - src.menu.command_executor - INFO - EXECUTING: error_stats with params {} for user 2139792302
+2025-11-21 02:01:34 - src.menu.command_executor - INFO - EXECUTING: reset_errors with params {} for user 2139792302
+2025-11-21 02:01:49 - src.menu.command_executor - INFO - EXECUTING: reset_health with params {} for user 2139792302
+2025-11-21 02:04:39 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #10, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:05:01 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 02:05:01 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 02:05:01 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 02:05:01 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 02:05:02 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 02:05:35 - src.menu.command_executor - INFO - EXECUTING: health_status with params {} for user 2139792302
+2025-11-21 02:05:35 - src.menu.command_executor - INFO - CALLING HANDLER: health_status with formatted params: {}
+2025-11-21 02:05:37 - src.menu.command_executor - INFO - EXECUTION SUCCESS: health_status executed successfully for user 2139792302
+2025-11-21 02:06:11 - src.menu.command_executor - INFO - EXECUTING: error_stats with params {} for user 2139792302
+2025-11-21 02:06:11 - src.menu.command_executor - INFO - CALLING HANDLER: error_stats with formatted params: {}
+2025-11-21 02:06:13 - src.menu.command_executor - INFO - EXECUTION SUCCESS: error_stats executed successfully for user 2139792302
+2025-11-21 02:06:53 - src.menu.command_executor - INFO - EXECUTING: reset_errors with params {} for user 2139792302
+2025-11-21 02:06:53 - src.menu.command_executor - INFO - CALLING HANDLER: reset_errors with formatted params: {}
+2025-11-21 02:06:54 - src.menu.command_executor - INFO - Error counters reset by user command
+2025-11-21 02:06:54 - src.menu.command_executor - INFO - EXECUTION SUCCESS: reset_errors executed successfully for user 2139792302
+2025-11-21 02:07:16 - src.menu.command_executor - INFO - EXECUTING: reset_health with params {} for user 2139792302
+2025-11-21 02:07:16 - src.menu.command_executor - INFO - CALLING HANDLER: reset_health with formatted params: {}
+2025-11-21 02:07:17 - src.menu.command_executor - INFO - Health counters reset by user command
+2025-11-21 02:07:17 - src.menu.command_executor - INFO - EXECUTION SUCCESS: reset_health executed successfully for user 2139792302
+2025-11-21 02:07:44 - src.menu.command_executor - INFO - EXECUTING: error_stats with params {} for user 2139792302
+2025-11-21 02:07:44 - src.menu.command_executor - INFO - CALLING HANDLER: error_stats with formatted params: {}
+2025-11-21 02:07:46 - src.menu.command_executor - INFO - EXECUTION SUCCESS: error_stats executed successfully for user 2139792302
+2025-11-21 02:09:32 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #10, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:14:32 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #20, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:19:32 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 02:19:32 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 02:19:32 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 02:19:32 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 02:19:33 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 02:23:55 - src.menu.command_executor - INFO - EXECUTING: health_status with params {} for user 2139792302
+2025-11-21 02:23:55 - src.menu.command_executor - INFO - CALLING HANDLER: health_status with formatted params: {}
+2025-11-21 02:23:56 - src.menu.command_executor - INFO - EXECUTION SUCCESS: health_status executed successfully for user 2139792302
+2025-11-21 02:24:03 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #10, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:24:47 - src.menu.command_executor - INFO - EXECUTING: error_stats with params {} for user 2139792302
+2025-11-21 02:24:47 - src.menu.command_executor - INFO - CALLING HANDLER: error_stats with formatted params: {}
+2025-11-21 02:24:49 - src.menu.command_executor - INFO - EXECUTION SUCCESS: error_stats executed successfully for user 2139792302
+2025-11-21 02:25:06 - src.menu.command_executor - INFO - EXECUTING: reset_errors with params {} for user 2139792302
+2025-11-21 02:25:06 - src.menu.command_executor - INFO - CALLING HANDLER: reset_errors with formatted params: {}
+2025-11-21 02:25:08 - src.menu.command_executor - INFO - Error counters reset by user command
+2025-11-21 02:25:08 - src.menu.command_executor - INFO - EXECUTION SUCCESS: reset_errors executed successfully for user 2139792302
+2025-11-21 02:25:52 - src.menu.command_executor - INFO - EXECUTING: reset_health with params {} for user 2139792302
+2025-11-21 02:25:52 - src.menu.command_executor - INFO - CALLING HANDLER: reset_health with formatted params: {}
+2025-11-21 02:25:53 - src.menu.command_executor - INFO - Health counters reset by user command
+2025-11-21 02:25:53 - src.menu.command_executor - INFO - EXECUTION SUCCESS: reset_health executed successfully for user 2139792302
+2025-11-21 02:29:03 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #20, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:34:03 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #30, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:39:04 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #40, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:39:05 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-11-21 02:39:05 - src.services.price_monitor_service - INFO - Monitor loop stopped after 40 cycles
+2025-11-21 02:48:04 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 02:48:04 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 02:48:04 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 02:48:04 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 02:48:06 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 02:51:08 - src.menu.command_executor - INFO - EXECUTING: health_status with params {} for user 2139792302
+2025-11-21 02:51:08 - src.menu.command_executor - INFO - CALLING HANDLER: health_status with formatted params: {}
+2025-11-21 02:51:09 - src.menu.command_executor - INFO - EXECUTION SUCCESS: health_status executed successfully for user 2139792302
+2025-11-21 02:51:44 - src.menu.command_executor - INFO - EXECUTING: error_stats with params {} for user 2139792302
+2025-11-21 02:51:44 - src.menu.command_executor - INFO - CALLING HANDLER: error_stats with formatted params: {}
+2025-11-21 02:51:45 - src.menu.command_executor - INFO - EXECUTION SUCCESS: error_stats executed successfully for user 2139792302
+2025-11-21 02:52:36 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #10, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 02:56:55 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 02:56:55 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 02:56:55 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 02:56:55 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 02:56:56 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True
+2025-11-21 02:59:52 - src.menu.command_executor - INFO - EXECUTING: set_log_level with params {'level': 'DEBUG'} for user 2139792302
+2025-11-21 02:59:52 - src.menu.command_executor - INFO - CALLING HANDLER: set_log_level with formatted params: {'level': 'DEBUG'}
+2025-11-21 02:59:53 - src.menu.command_executor - INFO - Log level changed: INFO → DEBUG (verified: True)
+2025-11-21 02:59:53 - src.menu.command_executor - INFO - TEST: This is an INFO message (level=DEBUG)
+2025-11-21 02:59:53 - src.menu.command_executor - INFO - EXECUTION SUCCESS: set_log_level executed successfully for user 2139792302
+2025-11-21 03:00:32 - src.menu.command_executor - INFO - EXECUTING: set_log_level with params {'level': 'INFO'} for user 2139792302
+2025-11-21 03:00:32 - src.menu.command_executor - INFO - CALLING HANDLER: set_log_level with formatted params: {'level': 'INFO'}
+2025-11-21 03:00:33 - src.menu.command_executor - INFO - Log level changed: DEBUG → INFO (verified: True)
+2025-11-21 03:00:33 - src.menu.command_executor - INFO - TEST: This is an INFO message (level=INFO)
+2025-11-21 03:00:33 - src.menu.command_executor - INFO - EXECUTION SUCCESS: set_log_level executed successfully for user 2139792302
+2025-11-21 03:01:26 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #10, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 03:01:30 - src.menu.command_executor - INFO - EXECUTING: set_log_level with params {'level': 'WARNING'} for user 2139792302
+2025-11-21 03:01:30 - src.menu.command_executor - INFO - CALLING HANDLER: set_log_level with formatted params: {'level': 'WARNING'}
+2025-11-21 03:03:08 - src.menu.command_executor - INFO - Log level changed: CRITICAL → DEBUG (verified: True)
+2025-11-21 03:03:08 - src.menu.command_executor - INFO - TEST: This is an INFO message (level=DEBUG)
+2025-11-21 03:03:08 - src.menu.command_executor - INFO - EXECUTION SUCCESS: set_log_level executed successfully for user 2139792302
+2025-11-21 03:06:26 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #20, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 03:11:26 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #30, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 03:16:26 - src.services.price_monitor_service - INFO - 💓 Monitor loop heartbeat - Cycle #40, Running: True, Pending: SL Hunt=0, TP=0, Exit=0
+2025-11-21 03:17:04 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-21 03:17:04 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-21 03:17:04 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-21 03:17:04 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-21 03:17:05 - src.services.price_monitor_service - INFO - 🔄 Monitor loop started - Interval: 30s, Config: SL Hunt=True, TP=True, Exit=True

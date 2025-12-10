@@ -1,0 +1,435 @@
+2025-11-26 01:36:45 - __main__ - INFO - Bot starting with logging level: INFO
+2025-11-26 01:36:46 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-11-26 01:36:46 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-26 01:36:46 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-26 01:36:46 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-26 01:36:46 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-26 01:36:47 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-11-26 01:36:47 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-11-26 01:36:47 - src.clients.telegram_bot - INFO - [POLLING] Stopping polling thread...
+2025-11-26 01:36:48 - src.clients.telegram_bot - WARNING - [POLLING] HTTP 409 #1: Webhook conflict - attempting recovery
+2025-11-26 01:36:49 - src.clients.telegram_bot - INFO - [POLLING] HTTP 409 Recovery: Webhook cleared
+2025-11-26 01:36:52 - src.clients.telegram_bot - INFO - [POLLING] Polling thread stopped
+2025-11-26 01:36:52 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-11-26 01:37:10 - __main__ - INFO - Bot starting with logging level: INFO
+2025-11-26 01:37:11 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-11-26 01:37:11 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-26 01:37:11 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-26 01:37:11 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-26 01:37:11 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-26 01:37:12 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-11-26 01:37:12 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-11-26 01:37:13 - src.clients.telegram_bot - INFO - [POLLING] Stopping polling thread...
+2025-11-26 01:37:18 - src.clients.telegram_bot - INFO - [POLLING] Polling thread stopped
+2025-11-26 01:37:18 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-11-26 01:42:23 - src.main - INFO - Bot starting with logging level: INFO
+2025-11-26 01:42:27 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-11-26 01:42:27 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-26 01:42:27 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-26 01:42:27 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-26 01:42:27 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-26 01:42:28 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-11-26 01:42:28 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-11-26 01:43:24 - src.menu.command_executor - INFO - EXECUTING: set_log_level with params {'level': 'DEBUG'} for user 2139792302
+2025-11-26 01:43:24 - src.menu.command_executor - INFO - CALLING HANDLER: set_log_level with formatted params: {'level': 'DEBUG'}
+2025-11-26 01:43:24 - src.menu.command_executor - INFO - Saved log level 'DEBUG' to config/logging_settings.json
+2025-11-26 01:43:25 - src.menu.command_executor - INFO - Log level changed: DEBUG → DEBUG (verified: True)
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - TEST: This is a DEBUG message (level=DEBUG)
+2025-11-26 01:43:25 - src.menu.command_executor - INFO - TEST: This is an INFO message (level=DEBUG)
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: True
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler set_log_level returned (no exception)
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command set_log_level completed
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:43:25 - src.menu.command_executor - INFO - EXECUTION SUCCESS: set_log_level executed successfully for user 2139792302
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command set_log_level executed successfully
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: set_log_level
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for set_log_level
+2025-11-26 01:43:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for set_log_level
+2025-11-26 01:43:27 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-7] Making request to Telegram...
+2025-11-26 01:43:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:43:58 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-7] Got response: status=200
+2025-11-26 01:43:58 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-8] Making request to Telegram...
+2025-11-26 01:43:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:44:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:44:29 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-8] Got response: status=200
+2025-11-26 01:44:29 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-9] Making request to Telegram...
+2025-11-26 01:44:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:45:00 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-9] Got response: status=200
+2025-11-26 01:45:00 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-10] Making request to Telegram...
+2025-11-26 01:45:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:45:31 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-10] Got response: status=200
+2025-11-26 01:45:31 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-11] Making request to Telegram...
+2025-11-26 01:45:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:46:02 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-11] Got response: status=200
+2025-11-26 01:46:02 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-12] Making request to Telegram...
+2025-11-26 01:46:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:46:33 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-12] Got response: status=200
+2025-11-26 01:46:33 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-13] Making request to Telegram...
+2025-11-26 01:46:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:46:58 - src.services.price_monitor_service - DEBUG - 💰 [MARGIN_CHECK] ✅ No positions | Free: $9288.10 | Equity: $9288.10 | Used: $0.00
+2025-11-26 01:47:04 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-13] Got response: status=200
+2025-11-26 01:47:07 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-14] Making request to Telegram...
+2025-11-26 01:47:10 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-14] Got response: status=200
+2025-11-26 01:47:14 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-15] Making request to Telegram...
+2025-11-26 01:47:15 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-15] Got response: status=200
+2025-11-26 01:47:18 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-16] Making request to Telegram...
+2025-11-26 01:47:20 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-16] Got response: status=200
+2025-11-26 01:47:23 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-17] Making request to Telegram...
+2025-11-26 01:47:24 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-17] Got response: status=200
+2025-11-26 01:47:25 - src.menu.command_executor - INFO - EXECUTING: set_log_level with params {'level': 'INFO'} for user 2139792302
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=set_log_level, Params={'level': 'INFO'}, User=2139792302
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: set_log_level with params: {'level': 'INFO'}
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:47:25 - src.menu.command_executor - INFO - CALLING HANDLER: set_log_level with formatted params: {'level': 'INFO'}
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: set_log_level with params: {'level': 'INFO'}
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_set_log_level of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_set_log_level of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for set_log_level
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_set_log_level of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {'level': 'INFO'}
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {'level': 'INFO'}
+2025-11-26 01:47:25 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:47:25 - src.menu.command_executor - INFO - Saved log level 'INFO' to config/logging_settings.json
+2025-11-26 01:47:26 - src.menu.command_executor - INFO - Log level changed: DEBUG → INFO (verified: True)
+2025-11-26 01:47:26 - src.menu.command_executor - INFO - TEST: This is an INFO message (level=INFO)
+2025-11-26 01:47:26 - src.menu.command_executor - INFO - EXECUTION SUCCESS: set_log_level executed successfully for user 2139792302
+2025-11-26 01:48:58 - src.menu.command_executor - INFO - EXECUTING: set_log_level with params {'level': 'DEBUG'} for user 2139792302
+2025-11-26 01:48:58 - src.menu.command_executor - INFO - CALLING HANDLER: set_log_level with formatted params: {'level': 'DEBUG'}
+2025-11-26 01:48:58 - src.menu.command_executor - INFO - Saved log level 'DEBUG' to config/logging_settings.json
+2025-11-26 01:48:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:48:59 - src.menu.command_executor - INFO - Log level changed: INFO → DEBUG (verified: True)
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - TEST: This is a DEBUG message (level=DEBUG)
+2025-11-26 01:48:59 - src.menu.command_executor - INFO - TEST: This is an INFO message (level=DEBUG)
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: True
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler set_log_level returned (no exception)
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command set_log_level completed
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:48:59 - src.menu.command_executor - INFO - EXECUTION SUCCESS: set_log_level executed successfully for user 2139792302
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command set_log_level executed successfully
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: set_log_level
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for set_log_level
+2025-11-26 01:48:59 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for set_log_level
+2025-11-26 01:49:01 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-30] Making request to Telegram...
+2025-11-26 01:49:04 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-30] Got response: status=200
+2025-11-26 01:49:07 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-31] Making request to Telegram...
+2025-11-26 01:49:09 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-31] Got response: status=200
+2025-11-26 01:49:12 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-32] Making request to Telegram...
+2025-11-26 01:49:13 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-32] Got response: status=200
+2025-11-26 01:49:16 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-33] Making request to Telegram...
+2025-11-26 01:49:17 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-33] Got response: status=200
+2025-11-26 01:49:21 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-34] Making request to Telegram...
+2025-11-26 01:49:24 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-34] Got response: status=200
+2025-11-26 01:49:27 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-35] Making request to Telegram...
+2025-11-26 01:49:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:49:28 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-35] Got response: status=200
+2025-11-26 01:49:30 - src.menu.command_executor - INFO - EXECUTING: profit_status with params {} for user 2139792302
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=profit_status, Params={}, User=2139792302
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: profit_status with params: {}
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:49:30 - src.menu.command_executor - INFO - CALLING HANDLER: profit_status with formatted params: {}
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: profit_status with params: {}
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <function CommandExecutor.execute_command.<locals>.<lambda> at 0x000001F76E8154E0>
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <function CommandExecutor.execute_command.<locals>.<lambda> at 0x000001F76E8154E0> is callable
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for profit_status
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <function CommandExecutor.execute_command.<locals>.<lambda> at 0x000001F76E8154E0>
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {}
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {}
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:49:30 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/profit_status', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}}
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler profit_status returned (no exception)
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command profit_status completed
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:49:31 - src.menu.command_executor - INFO - EXECUTION SUCCESS: profit_status executed successfully for user 2139792302
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command profit_status executed successfully
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: profit_status
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for profit_status
+2025-11-26 01:49:31 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for profit_status
+2025-11-26 01:49:33 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-36] Making request to Telegram...
+2025-11-26 01:49:34 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-36] Got response: status=200
+2025-11-26 01:49:38 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-37] Making request to Telegram...
+2025-11-26 01:49:40 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-37] Got response: status=200
+2025-11-26 01:49:44 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-38] Making request to Telegram...
+2025-11-26 01:49:45 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-38] Got response: status=200
+2025-11-26 01:49:46 - src.menu.command_executor - INFO - EXECUTING: export_current_session with params {} for user 2139792302
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=export_current_session, Params={}, User=2139792302
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: export_current_session with params: {}
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:49:46 - src.menu.command_executor - INFO - CALLING HANDLER: export_current_session with formatted params: {}
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: export_current_session with params: {}
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_export_current_session of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_export_current_session of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for export_current_session
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_export_current_session of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {}
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {}
+2025-11-26 01:49:46 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:49:47 - src.menu.command_executor - WARNING - Could not send file via Telegram: TelegramBot.send_document() got an unexpected keyword argument 'caption'
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: True
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler export_current_session returned (no exception)
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command export_current_session completed
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:49:47 - src.menu.command_executor - INFO - EXECUTION SUCCESS: export_current_session executed successfully for user 2139792302
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command export_current_session executed successfully
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: export_current_session
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for export_current_session
+2025-11-26 01:49:47 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for export_current_session
+2025-11-26 01:49:49 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-39] Making request to Telegram...
+2025-11-26 01:49:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:49:59 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-39] Got response: status=200
+2025-11-26 01:50:03 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-40] Making request to Telegram...
+2025-11-26 01:50:08 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-40] Got response: status=200
+2025-11-26 01:50:12 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-41] Making request to Telegram...
+2025-11-26 01:50:24 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-41] Got response: status=200
+2025-11-26 01:50:27 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-42] Making request to Telegram...
+2025-11-26 01:50:28 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-42] Got response: status=200
+2025-11-26 01:50:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:50:32 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-43] Making request to Telegram...
+2025-11-26 01:50:34 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-43] Got response: status=200
+2025-11-26 01:50:35 - src.menu.command_executor - INFO - EXECUTING: profit_sl_status with params {} for user 2139792302
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=profit_sl_status, Params={}, User=2139792302
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: profit_sl_status with params: {}
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:50:35 - src.menu.command_executor - INFO - CALLING HANDLER: profit_sl_status with formatted params: {}
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: profit_sl_status with params: {}
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <function CommandExecutor.execute_command.<locals>.<lambda> at 0x000001F76E815DA0>
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <function CommandExecutor.execute_command.<locals>.<lambda> at 0x000001F76E815DA0> is callable
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for profit_sl_status
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <function CommandExecutor.execute_command.<locals>.<lambda> at 0x000001F76E815DA0>
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {}
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {}
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:50:35 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/profit_sl_status', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}}
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler profit_sl_status returned (no exception)
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command profit_sl_status completed
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:50:36 - src.menu.command_executor - INFO - EXECUTION SUCCESS: profit_sl_status executed successfully for user 2139792302
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command profit_sl_status executed successfully
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: profit_sl_status
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for profit_sl_status
+2025-11-26 01:50:36 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for profit_sl_status
+2025-11-26 01:50:38 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-44] Making request to Telegram...
+2025-11-26 01:50:42 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-44] Got response: status=200
+2025-11-26 01:50:45 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-45] Making request to Telegram...
+2025-11-26 01:50:47 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-45] Got response: status=200
+2025-11-26 01:50:50 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-46] Making request to Telegram...
+2025-11-26 01:50:52 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-46] Got response: status=200
+2025-11-26 01:50:55 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-47] Making request to Telegram...
+2025-11-26 01:50:56 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-47] Got response: status=200
+2025-11-26 01:50:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:50:59 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-48] Making request to Telegram...
+2025-11-26 01:51:00 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-48] Got response: status=200
+2025-11-26 01:51:01 - src.menu.command_executor - INFO - EXECUTING: tp_system with params {'mode': 'status'} for user 2139792302
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=tp_system, Params={'mode': 'status'}, User=2139792302
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: tp_system with params: {'mode': 'status'}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:51:01 - src.menu.command_executor - INFO - CALLING HANDLER: tp_system with formatted params: {'mode': 'status'}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: tp_system with params: {'mode': 'status'}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for tp_system
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {'mode': 'status'}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {'mode': 'status'}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/tp_system status', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}, 'mode': 'status'}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler tp_system returned (no exception)
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command tp_system completed
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:51:01 - src.menu.command_executor - INFO - EXECUTION SUCCESS: tp_system executed successfully for user 2139792302
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command tp_system executed successfully
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: tp_system
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for tp_system
+2025-11-26 01:51:01 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for tp_system
+2025-11-26 01:51:04 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-49] Making request to Telegram...
+2025-11-26 01:51:05 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-49] Got response: status=200
+2025-11-26 01:51:10 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-50] Making request to Telegram...
+2025-11-26 01:51:11 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-50] Got response: status=200
+2025-11-26 01:51:14 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-51] Making request to Telegram...
+2025-11-26 01:51:15 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-51] Got response: status=200
+2025-11-26 01:51:19 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-52] Making request to Telegram...
+2025-11-26 01:51:20 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-52] Got response: status=200
+2025-11-26 01:51:23 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-53] Making request to Telegram...
+2025-11-26 01:51:24 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-53] Got response: status=200
+2025-11-26 01:51:25 - src.menu.command_executor - INFO - EXECUTING: tp_system with params {'mode': 'status'} for user 2139792302
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=tp_system, Params={'mode': 'status'}, User=2139792302
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: tp_system with params: {'mode': 'status'}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:51:25 - src.menu.command_executor - INFO - CALLING HANDLER: tp_system with formatted params: {'mode': 'status'}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: tp_system with params: {'mode': 'status'}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for tp_system
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {'mode': 'status'}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {'mode': 'status'}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/tp_system status', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}, 'mode': 'status'}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler tp_system returned (no exception)
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command tp_system completed
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:51:25 - src.menu.command_executor - INFO - EXECUTION SUCCESS: tp_system executed successfully for user 2139792302
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command tp_system executed successfully
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: tp_system
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for tp_system
+2025-11-26 01:51:25 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for tp_system
+2025-11-26 01:51:28 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-54] Making request to Telegram...
+2025-11-26 01:51:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:51:37 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-54] Got response: status=200
+2025-11-26 01:51:40 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-55] Making request to Telegram...
+2025-11-26 01:51:41 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-55] Got response: status=200
+2025-11-26 01:51:45 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-56] Making request to Telegram...
+2025-11-26 01:51:50 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-56] Got response: status=200
+2025-11-26 01:51:53 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-57] Making request to Telegram...
+2025-11-26 01:51:54 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-57] Got response: status=200
+2025-11-26 01:51:56 - src.menu.command_executor - INFO - EXECUTING: tp_system with params {'mode': 'status'} for user 2139792302
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=tp_system, Params={'mode': 'status'}, User=2139792302
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: tp_system with params: {'mode': 'status'}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:51:56 - src.menu.command_executor - INFO - CALLING HANDLER: tp_system with formatted params: {'mode': 'status'}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: tp_system with params: {'mode': 'status'}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for tp_system
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_tp_system of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {'mode': 'status'}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {'mode': 'status'}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/tp_system status', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}, 'mode': 'status'}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler tp_system returned (no exception)
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command tp_system completed
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:51:56 - src.menu.command_executor - INFO - EXECUTION SUCCESS: tp_system executed successfully for user 2139792302
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command tp_system executed successfully
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: tp_system
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for tp_system
+2025-11-26 01:51:56 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for tp_system
+2025-11-26 01:51:58 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-58] Making request to Telegram...
+2025-11-26 01:51:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:51:58 - src.services.price_monitor_service - DEBUG - 💰 [MARGIN_CHECK] ✅ No positions | Free: $9288.10 | Equity: $9288.10 | Used: $0.00
+2025-11-26 01:52:04 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-58] Got response: status=200
+2025-11-26 01:52:07 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-59] Making request to Telegram...
+2025-11-26 01:52:08 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-59] Got response: status=200
+2025-11-26 01:52:11 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-60] Making request to Telegram...
+2025-11-26 01:52:12 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-60] Got response: status=200
+2025-11-26 01:52:16 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-61] Making request to Telegram...
+2025-11-26 01:52:17 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-61] Got response: status=200
+2025-11-26 01:52:18 - src.menu.command_executor - INFO - EXECUTING: sl_hunt with params {'mode': 'status'} for user 2139792302
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=sl_hunt, Params={'mode': 'status'}, User=2139792302
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: sl_hunt with params: {'mode': 'status'}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:52:18 - src.menu.command_executor - INFO - CALLING HANDLER: sl_hunt with formatted params: {'mode': 'status'}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: sl_hunt with params: {'mode': 'status'}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for sl_hunt
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {'mode': 'status'}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {'mode': 'status'}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/sl_hunt status', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}, 'mode': 'status'}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler sl_hunt returned (no exception)
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command sl_hunt completed
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:52:18 - src.menu.command_executor - INFO - EXECUTION SUCCESS: sl_hunt executed successfully for user 2139792302
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command sl_hunt executed successfully
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: sl_hunt
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for sl_hunt
+2025-11-26 01:52:18 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for sl_hunt
+2025-11-26 01:52:20 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-62] Making request to Telegram...
+2025-11-26 01:52:25 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-62] Got response: status=200
+2025-11-26 01:52:28 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-63] Making request to Telegram...
+2025-11-26 01:52:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:52:29 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-63] Got response: status=200
+2025-11-26 01:52:33 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-64] Making request to Telegram...
+2025-11-26 01:52:34 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-64] Got response: status=200
+2025-11-26 01:52:37 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-65] Making request to Telegram...
+2025-11-26 01:52:38 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-65] Got response: status=200
+2025-11-26 01:52:40 - src.menu.command_executor - INFO - EXECUTING: sl_hunt with params {'mode': 'on'} for user 2139792302
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=sl_hunt, Params={'mode': 'on'}, User=2139792302
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: sl_hunt with params: {'mode': 'on'}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:52:40 - src.menu.command_executor - INFO - CALLING HANDLER: sl_hunt with formatted params: {'mode': 'on'}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: sl_hunt with params: {'mode': 'on'}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for sl_hunt
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {'mode': 'on'}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {'mode': 'on'}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/sl_hunt on', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}, 'mode': 'on'}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler sl_hunt returned (no exception)
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command sl_hunt completed
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:52:40 - src.menu.command_executor - INFO - EXECUTION SUCCESS: sl_hunt executed successfully for user 2139792302
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command sl_hunt executed successfully
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: sl_hunt
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for sl_hunt
+2025-11-26 01:52:40 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for sl_hunt
+2025-11-26 01:52:42 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-66] Making request to Telegram...
+2025-11-26 01:52:48 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-66] Got response: status=200
+2025-11-26 01:52:52 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-67] Making request to Telegram...
+2025-11-26 01:52:53 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-67] Got response: status=200
+2025-11-26 01:52:56 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-68] Making request to Telegram...
+2025-11-26 01:52:57 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-68] Got response: status=200
+2025-11-26 01:52:58 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:53:01 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-69] Making request to Telegram...
+2025-11-26 01:53:02 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-69] Got response: status=200
+2025-11-26 01:53:03 - src.menu.command_executor - INFO - EXECUTING: sl_hunt with params {'mode': 'status'} for user 2139792302
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 🚨 DEBUG EXECUTE: Command=sl_hunt, Params={'mode': 'status'}, User=2139792302
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: sl_hunt with params: {'mode': 'status'}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': False, 'handler_complete': False, 'success': False}
+2025-11-26 01:53:03 - src.menu.command_executor - INFO - CALLING HANDLER: sl_hunt with formatted params: {'mode': 'status'}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] User 2139792302 executing command: sl_hunt with params: {'mode': 'status'}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - ✅ HANDLER FOUND: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - ✅ HANDLER VERIFIED: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>> is callable
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] About to call handler for sl_hunt
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler function: <bound method CommandExecutor._execute_sl_hunt of <src.menu.command_executor.CommandExecutor object at 0x000001F76E75BD40>>
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Formatted params: {'mode': 'status'}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 📨 CALLING HANDLER with formatted_params: {'mode': 'status'}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': False, 'success': False}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 📨 MESSAGE CREATED: {'text': '/sl_hunt status', 'message_id': None, 'from': {'id': 2139792302}, 'chat': {'id': 2139792302}, 'mode': 'status'}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 🎯 HANDLER RESULT: None
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Handler sl_hunt returned (no exception)
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 🎯 HANDLER RETURNED: Command sl_hunt completed
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 📊 EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': False}
+2025-11-26 01:53:03 - src.menu.command_executor - INFO - EXECUTION SUCCESS: sl_hunt executed successfully for user 2139792302
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] [OK] Command sl_hunt executed successfully
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - ✅ EXECUTION SUCCESS: sl_hunt
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - 📊 FINAL EXECUTION STEPS: {'validation': True, 'handler_call': True, 'handler_complete': True, 'success': True}
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Marking execution as SUCCESS for sl_hunt
+2025-11-26 01:53:03 - src.menu.command_executor - DEBUG - [MENU EXECUTION] Returning True for sl_hunt
+2025-11-26 01:53:06 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-70] Making request to Telegram...
+2025-11-26 01:53:28 - src.services.price_monitor_service - DEBUG - [MONITOR_CYCLE] Checking opportunities - SL Hunt: 0, TP Continuation: 0, Exit Continuation: 0
+2025-11-26 01:53:33 - src.clients.telegram_bot - INFO - [POLLING] Stopping polling thread...
+2025-11-26 01:53:36 - src.clients.telegram_bot - DEBUG - [POLLING-CYCLE-70] Got response: status=200
+2025-11-26 01:53:36 - src.clients.telegram_bot - INFO - [POLLING] Polling thread stopped
+2025-11-26 01:53:36 - src.services.price_monitor_service - INFO - Monitor loop cancelled
+2025-11-26 01:53:36 - src.services.price_monitor_service - DEBUG - Monitor loop stopped after 23 cycles
+2025-11-26 02:12:37 - src.main - INFO - Bot starting with logging level: INFO
+2025-11-26 02:12:40 - src.clients.telegram_bot - INFO - SUCCESS: Trend manager set in Telegram bot
+2025-11-26 02:12:40 - src.core.trading_engine - INFO - 📋 [RE-ENTRY_CONFIG] Startup Configuration:
+2025-11-26 02:12:40 - src.services.price_monitor_service - INFO - ✅ Price Monitor Service started successfully - Task created: <Task pending name='Task-3' coro=<PriceMonitorService._monitor_loop() running at C:\Users\Ansh Shivaay Gupta\Downloads\ZepixTradingBot-old-v2-main\ZepixTradingBot-old-v2-main\src\services\price_monitor_service.py:129>>, is_running: True
+2025-11-26 02:12:40 - src.core.trading_engine - INFO - ✅ Price Monitor Service confirmed running after initialization
+2025-11-26 02:12:40 - src.managers.profit_booking_manager - INFO - SUCCESS: Recovered 0 profit booking chains from database
+2025-11-26 02:12:41 - src.clients.telegram_bot - INFO - [POLLING] Starting polling loop...
+2025-11-26 02:12:41 - src.clients.telegram_bot - INFO - SUCCESS: Telegram bot polling started
+2025-11-26 02:14:03 - src.menu.command_executor - INFO - EXECUTING: export_current_session with params {} for user 2139792302
+2025-11-26 02:14:03 - src.menu.command_executor - INFO - CALLING HANDLER: export_current_session with formatted params: {}

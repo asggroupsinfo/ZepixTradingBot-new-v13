@@ -591,7 +591,6 @@ class TelegramBot:
             f"LOGIC2: {logic_alignments.get('LOGIC2', 'NEUTRAL')}\n"
             f"LOGIC3: {logic_alignments.get('LOGIC3', 'NEUTRAL')}\n\n"
             "<b>Live Signals (XAUUSD):</b>\n"
-            f"5min: {xau_trends.get('5m', 'NA')}\n"
             f"15min: {xau_trends.get('15m', 'NA')}\n"
             f"1H: {xau_trends.get('1h', 'NA')}\n"
             f"1D: {xau_trends.get('1d', 'NA')}"

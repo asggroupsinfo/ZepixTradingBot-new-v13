@@ -254,13 +254,17 @@ class RiskManager:
         
         # Get SL pips (approximate - actual calculation done in pip_calculator)
         # For validation, we use a conservative estimate
-        pip_value_std = symbol_config.get("pip_value_per_std_lot", 10.0)
+        # Get pip value (support both keys)
+        pip_value_std = symbol_config.get("pip_value_per_std_lot")
+        if pip_value_std is None:
+             pip_value_std = symbol_config.get("pip_value", 10.0)
+             
         pip_value = pip_value_std * (lot_size * 2)  # 2x lot size
         
-        # Estimate SL pips (conservative - actual will be calculated by pip_calculator)
-        # Use a reasonable estimate: 50 pips for LOW, 75 for MEDIUM, 100 for HIGH
-        sl_estimates = {"LOW": 50, "MEDIUM": 75, "HIGH": 100}
-        estimated_sl_pips = sl_estimates.get(volatility, 75)
+        # Estimate SL pips (RELAXED ESTIMATES to avoid blocking valid trades)
+        # The real validation happens later with actual SL
+        sl_estimates = {"LOW": 30, "MEDIUM": 45, "HIGH": 60}
+        estimated_sl_pips = sl_estimates.get(volatility, 60)
         
         # Calculate expected loss for 2 orders
         expected_loss = estimated_sl_pips * pip_value

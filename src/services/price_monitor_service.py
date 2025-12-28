@@ -419,16 +419,10 @@ class PriceMonitorService:
     
     async def _check_margin_health(self):
         """
-        🆕 CRITICAL: Monitor margin levels and auto-close positions if margin gets dangerous
-        This prevents MT5 from auto-liquidating positions
-        
-        Margin levels:
-        > 150% = Safe (we keep this as minimum)
-        100-150% = Warning (reduce risk)
-        < 100% = Margin call territory (emergency close)
-        
-        NOTE: When NO positions open, margin_level = 0 (normal, not alert)
+        [DISABLED] Margin checks removed per USER REQUEST.
+        Bot will NOT close trades based on margin levels.
         """
+        return
         try:
             # Get current margin metrics
             margin_level = self.mt5_client.get_margin_level()
@@ -474,28 +468,33 @@ class PriceMonitorService:
                         key=lambda x: x.get('profit', 0)
                     )
                     
-                    # Emergency close the worst losing position
+                    # Emergency close the worst losing position, OR just largest volume if all profitable
                     if losing_positions:
                         worst_pos = losing_positions[0]
-                        ticket = worst_pos.get('ticket')
-                        loss = worst_pos.get('profit', 0)
+                    else:
+                        # Fallback: Close largest position to free margin
+                        # Sort by volume descending
+                        worst_pos = sorted(open_positions, key=lambda x: x.get('volume', 0), reverse=True)[0]
                         
-                        self.logger.critical(
-                            f"🆘 EMERGENCY CLOSE: Ticket {ticket} with ${loss:.2f} loss "
-                            f"to prevent margin call"
-                        )
+                    ticket = worst_pos.get('ticket')
+                    loss = worst_pos.get('profit', 0)
+                    
+                    self.logger.critical(
+                        f"🆘 EMERGENCY CLOSE: Ticket {ticket} with ${loss:.2f} loss "
+                        f"to prevent margin call"
+                    )
                         
-                        # Close the position
-                        success = self.mt5_client.close_position(ticket)
-                        
-                        if success and hasattr(self.trading_engine, 'telegram_bot'):
-                            try:
-                                self.trading_engine.telegram_bot.send_message(
-                                    f"🚨 EMERGENCY: Closed position {ticket} (Loss: ${loss:.2f}) "
-                                    f"due to critical margin level {margin_level:.2f}%"
-                                )
-                            except Exception:
-                                pass
+                    # Close the position
+                    success = self.mt5_client.close_position(ticket)
+                    
+                    if success and hasattr(self.trading_engine, 'telegram_bot'):
+                        try:
+                            self.trading_engine.telegram_bot.send_message(
+                                f"🚨 EMERGENCY: Closed position {ticket} (Loss: ${loss:.2f}) "
+                                f"due to critical margin level {margin_level:.2f}%"
+                            )
+                        except Exception:
+                            pass
             
             # WARNING THRESHOLD: If margin level 100-150%, send warning but don't close
             # Only show warning if positions exist (margin_used > 0)
@@ -537,89 +536,89 @@ class PriceMonitorService:
             return
         
         for symbol in list(self.sl_hunt_pending.keys()):
-            pending = self.sl_hunt_pending[symbol]
+            # Handle list of pending items
+            pending_items = self.sl_hunt_pending[symbol]
             
-            # Get current price from MT5
-            current_price = self._get_current_price(symbol, pending['direction'])
-            if current_price is None:
-                self.logger.debug(f"[SL_HUNT] {symbol}: Failed to get current price")
-                continue
+            # Use a new list to keep active items
+            active_items = []
             
-            target_price = pending['target_price']
-            direction = pending['direction']
-            chain_id = pending['chain_id']
-            sl_price = pending.get('sl_price', 0)
-            
-            # DEBUG: Log price comparison
-            self.logger.debug(
-                f"[SL_HUNT] {symbol} {direction.upper()}: "
-                f"Current={current_price:.5f} Target={target_price:.5f} "
-                f"SL={sl_price:.5f} Gap={abs(current_price - target_price):.5f}"
-            )
-            
-            # Check if price has reached target
-            price_reached = False
-            if direction == 'buy':
-                price_reached = current_price >= target_price
-            else:
-                price_reached = current_price <= target_price
-            
-            # Background price check - saved to file in DEBUG mode
-            price_diff = current_price - target_price if direction == 'buy' else target_price - current_price
-            self.logger.debug(
-                f"🔍 [SL_HUNT_PRICE_CHECK] {symbol} {direction.upper()}: "
-                f"Current={current_price:.5f} Target={target_price:.5f} "
-                f"SL={sl_price:.5f} Diff={price_diff:.5f} "
-                f"Reached={'✅ YES' if price_reached else '❌ NO'}"
-            )
-            
-            if price_reached:
-                # Validate trend alignment before re-entry
-                logic = pending.get('logic', 'LOGIC1')
-                alignment = self.trend_manager.check_logic_alignment(symbol, logic)
+            for pending in pending_items:
+                # Check if window expired
+                if 'expiration_time' in pending and datetime.now() > pending['expiration_time']:
+                    self.logger.info(f"⏳ SL Hunt window expired for {symbol} (Chain: {pending.get('chain_id')})")
+                    continue
+                    
+                # Get current price from MT5
+                current_price = self._get_current_price(symbol, pending['direction'])
+                if current_price is None:
+                    self.logger.debug(f"[SL_HUNT] {symbol}: Failed to get current price")
+                    active_items.append(pending) # Keep retrying
+                    continue
                 
-                # Background alignment check - saved to file in DEBUG mode
+                target_price = pending['target_price']
+                direction = pending['direction']
+                chain_id = pending['chain_id']
+                sl_price = pending.get('sl_price', 0)
+                
+                # DEBUG: Log price comparison
                 self.logger.debug(
-                    f"🔍 [SL_HUNT_ALIGNMENT] {symbol} {logic}: "
-                    f"Aligned={'✅ YES' if alignment['aligned'] else '❌ NO'}, "
-                    f"Direction={alignment['direction']}, "
-                    f"Details={alignment.get('details', {})}, "
-                    f"Failure={alignment.get('failure_reason', 'N/A')}"
+                    f"[SL_HUNT] {symbol} {direction.upper()} (Chain {chain_id}): "
+                    f"Current={current_price:.5f} Target={target_price:.5f} "
+                    f"SL={sl_price:.5f} Gap={abs(current_price - target_price):.5f}"
                 )
                 
-                if not alignment['aligned']:
-                    self.logger.warning(
-                        f"⚠️ [SL_HUNT_BLOCKED] {symbol}: Re-entry blocked - "
-                        f"Alignment failed: {alignment.get('failure_reason', 'Unknown reason')}"
+                # Check if price has reached target
+                price_reached = False
+                if direction == 'buy':
+                    price_reached = current_price >= target_price
+                else:
+                    price_reached = current_price <= target_price
+                
+                # Background price check - saved to file in DEBUG mode
+                price_diff = current_price - target_price if direction == 'buy' else target_price - current_price
+                
+                if price_reached:
+                    # Validate trend alignment before re-entry
+                    logic = pending.get('logic', 'LOGIC1')
+                    alignment = self.trend_manager.check_logic_alignment(symbol, logic)
+                    
+                    if not alignment['aligned']:
+                        self.logger.warning(
+                            f"⚠️ [SL_HUNT_BLOCKED] {symbol}: Re-entry blocked - "
+                            f"Alignment failed: {alignment.get('failure_reason', 'Unknown reason')}"
+                        )
+                        active_items.append(pending) # Keep checking alignment until timeout
+                        continue
+                        
+                    # TRIGGER RE-ENTRY
+                    self.logger.info(
+                        f"🚨 TRIGGERED: SL Hunt Re-Entry Triggered: {symbol} @ {current_price:.5f} "
+                        f"(Target: {target_price:.5f}) Chain: {chain_id}"
                     )
-                    del self.sl_hunt_pending[symbol]
-                    continue
-                
-                # Check signal direction matches alignment
-                signal_direction = "BULLISH" if direction == "buy" else "BEARISH"
-                alignment_direction = alignment['direction'].upper()
-                if alignment_direction != signal_direction:
-                    self.logger.warning(
-                        f"⚠️ [SL_HUNT_BLOCKED] {symbol}: Re-entry blocked - "
-                        f"Direction mismatch: Signal={signal_direction} != Alignment={alignment_direction}"
+                    
+                    success = await self._execute_sl_hunt_reentry(
+                        symbol, direction, current_price, chain_id, logic
                     )
-                    del self.sl_hunt_pending[symbol]
-                    continue
-                
-                # Execute SL hunt re-entry
-                self.logger.info(f"TRIGGERED: SL Hunt Re-Entry Triggered: {symbol} @ {current_price}")
-                
-                # Create re-entry order with reduced SL
-                await self._execute_sl_hunt_reentry(
-                    symbol=symbol,
-                    direction=direction,
-                    price=current_price,
-                    chain_id=chain_id,
-                    logic=logic
-                )
-                
-                # Remove from pending
+                    
+                    if success:
+                        self.logger.info(
+                            f"✅ [SL_HUNT_SUCCESS] Executed re-entry for {symbol} Chain {chain_id}"
+                        )
+                        # Do NOT add back to active_items (It's done)
+                    else:
+                        self.logger.error(
+                            f"❌ [SL_HUNT_FAIL] Failed to execute re-entry for {symbol} Chain {chain_id}"
+                        )
+                        active_items.append(pending) # Retry next time?
+                else:
+                    active_items.append(pending) # Not reached yet, keep monitoring
+            
+            # Update the list for this symbol
+            if not active_items:
                 del self.sl_hunt_pending[symbol]
+                self.monitored_symbols.discard(symbol)
+            else:
+                self.sl_hunt_pending[symbol] = active_items
     
     async def _check_tp_continuation_reentries(self):
         """
@@ -630,89 +629,96 @@ class PriceMonitorService:
             return
         
         for symbol in list(self.tp_continuation_pending.keys()):
-            pending = self.tp_continuation_pending[symbol]
+            # Handle list of pending items
+            pending_items = self.tp_continuation_pending[symbol]
+            active_items = []
             
-            # Get current price from MT5
-            current_price = self._get_current_price(symbol, pending['direction'])
-            if current_price is None:
-                self.logger.debug(f"[TP_CONTINUATION] {symbol}: Failed to get current price")
-                continue
-            
-            tp_price = pending['tp_price']
-            direction = pending['direction']
-            chain_id = pending['chain_id']
-            price_gap_pips = self.config["re_entry_config"]["tp_continuation_price_gap_pips"]
-            
-            # Calculate pip value for symbol
-            symbol_config = self.config["symbol_config"][symbol]
-            pip_size = symbol_config["pip_size"]
-            price_gap = price_gap_pips * pip_size
-            
-            # Calculate target price
-            if direction == 'buy':
-                target_price = tp_price + price_gap
-            else:
-                target_price = tp_price - price_gap
-            
-            # DEBUG: Log price comparison
-            self.logger.debug(
-                f"[TP_CONTINUATION] {symbol} {direction.upper()}: "
-                f"Current={current_price:.5f} TP={tp_price:.5f} "
-                f"Target={target_price:.5f} Gap={price_gap_pips}pips "
-                f"GapPrice={price_gap:.5f}"
-            )
-            
-            # Check if price has moved enough from TP
-            gap_reached = False
-            if direction == 'buy':
-                gap_reached = current_price >= target_price
-            else:
-                gap_reached = current_price <= target_price
-            
-            # BACKGROUND LOOP - TP continuation price check silenced
-            
-            if gap_reached:
-                # Validate trend alignment
-                logic = pending.get('logic', 'LOGIC1')
-                alignment = self.trend_manager.check_logic_alignment(symbol, logic)
-                
-                if not alignment['aligned']:
-                    self.logger.warning(
-                        f"⚠️ [TP_CONTINUATION_BLOCKED] {symbol}: Re-entry blocked - "
-                        f"Alignment failed: {alignment.get('failure_reason', 'Unknown reason')}"
-                    )
-                    del self.tp_continuation_pending[symbol]
+            for pending in pending_items:
+                # Check if window expired
+                if 'expiration_time' in pending and datetime.now() > pending['expiration_time']:
+                    self.logger.info(f"⏳ TP Continuation window expired for {symbol} (Chain: {pending.get('chain_id')})")
                     continue
                 
-                signal_direction = "BULLISH" if direction == "buy" else "BEARISH"
-                alignment_direction = alignment['direction'].upper()
-                if alignment_direction != signal_direction:
-                    self.logger.warning(
-                        f"⚠️ [TP_CONTINUATION_BLOCKED] {symbol}: Re-entry blocked - "
-                        f"Direction mismatch: Signal={signal_direction} != Alignment={alignment_direction}"
-                    )
-                    del self.tp_continuation_pending[symbol]
+                # Get current price
+                current_price = self._get_current_price(symbol, pending['direction'])
+                if current_price is None:
+                    self.logger.debug(f"[TP_CONTINUATION] {symbol}: Failed to get current price")
+                    active_items.append(pending)
                     continue
                 
-                # Execute TP continuation re-entry
-                self.logger.info(f"TRIGGERED: TP Continuation Re-Entry Triggered: {symbol} @ {current_price}")
+                # Target price logic
+                tp_price = pending['tp_price']
+                pip_size = self.config["symbol_config"][symbol]["pip_size"]
+                gap_pips = self.config["re_entry_config"].get("tp_continuation_price_gap_pips", 2) # Use existing config key
                 
-                await self._execute_tp_continuation_reentry(
-                    symbol=symbol,
-                    direction=direction,
-                    price=current_price,
-                    chain_id=chain_id,
-                    logic=logic
+                if pending['direction'] == 'buy':
+                    target_price = tp_price + (gap_pips * pip_size)
+                else:
+                    target_price = tp_price - (gap_pips * pip_size)
+                    
+                # DEBUG: Log price comparison
+                self.logger.debug(
+                    f"[TP_CONTINUATION] {symbol} {pending['direction'].upper()}: "
+                    f"Current={current_price:.5f} TP={tp_price:.5f} "
+                    f"Target={target_price:.5f} Gap={gap_pips}pips "
+                    f"GapPrice={(gap_pips * pip_size):.5f}"
                 )
+
+                # Check price
+                price_reached = False
+                if pending['direction'] == 'buy':
+                    price_reached = current_price >= target_price
+                else:
+                    price_reached = current_price <= target_price
                 
-                # Remove from pending
+                if price_reached:
+                    logic = pending.get('logic', 'LOGIC1')
+                    chain_id = pending['chain_id']
+
+                    # Validate trend alignment
+                    alignment = self.trend_manager.check_logic_alignment(symbol, logic)
+                    
+                    if not alignment['aligned']:
+                        self.logger.warning(
+                            f"⚠️ [TP_CONTINUATION_BLOCKED] {symbol}: Re-entry blocked - "
+                            f"Alignment failed: {alignment.get('failure_reason', 'Unknown reason')}"
+                        )
+                        active_items.append(pending) # Keep checking alignment until timeout
+                        continue
+                    
+                    signal_direction = "BULLISH" if pending['direction'] == "buy" else "BEARISH"
+                    alignment_direction = alignment['direction'].upper()
+                    if alignment_direction != signal_direction:
+                        self.logger.warning(
+                            f"⚠️ [TP_CONTINUATION_BLOCKED] {symbol}: Re-entry blocked - "
+                            f"Direction mismatch: Signal={signal_direction} != Alignment={alignment_direction}"
+                        )
+                        active_items.append(pending) # Keep checking alignment until timeout
+                        continue
+                    
+                    # Execute TP continuation re-entry
+                    self.logger.info(f"TRIGGERED: TP Continuation Re-Entry Triggered: {symbol} @ {current_price}")
+                    
+                    success = await self._execute_tp_continuation_reentry(
+                        symbol, pending['direction'], current_price, chain_id, logic
+                    )
+                    
+                    if not success:
+                       active_items.append(pending) # Retry if failed?
+                else:
+                    active_items.append(pending)
+            
+            if not active_items:
                 del self.tp_continuation_pending[symbol]
+                self.monitored_symbols.discard(symbol)
+            else:
+                self.tp_continuation_pending[symbol] = active_items
     
     async def _check_exit_continuation_reentries(self):
         """
         Check for re-entry after Exit Appeared/Reversal exit signals
         After exit (Exit Appeared/Reversal), continue monitoring for re-entry with price gap
-        Example: Exit @ 3640.200 → Monitor → Re-entry @ 3642.200 (gap required)
+        Example: Exit @ 3640.200 -> Monitor -> Re-entry @ 3642.200 (gap required)
         """
         if not self.config["re_entry_config"].get("exit_continuation_enabled", True):
             return
@@ -803,24 +809,57 @@ class PriceMonitorService:
                 self.logger.info(f"SUCCESS: Exit continuation re-entry executed for {symbol}")
     
     async def _execute_sl_hunt_reentry(self, symbol: str, direction: str, 
-                                       price: float, chain_id: str, logic: str):
+                                       price: float, chain_id: str, logic: str) -> bool:
         """Execute automatic SL hunt re-entry"""
         
         # Get chain info
         chain = self.reentry_manager.active_chains.get(chain_id)
-        if not chain or chain.current_level >= chain.max_level:
-            return
+        
+        # 🆕 ADD DETAILED VALIDATION LOGGING
+        if not chain:
+            self.logger.error(
+                f"❌ [SL_HUNT_RECOVERY_FAILED] {symbol}: Chain {chain_id[:12]}... NOT FOUND in active_chains"
+            )
+            self.logger.debug(f"Active chains: {list(self.reentry_manager.active_chains.keys())}")
+            return False
+        
+        if chain.current_level >= chain.max_level:
+            self.logger.warning(
+                f"⚠️ [SL_HUNT_RECOVERY_BLOCKED] {symbol}: Chain at MAX LEVEL "
+                f"({chain.current_level}/{chain.max_level})"
+            )
+            return False
+        
+        self.logger.info(f"✅ [SL_HUNT_RECOVERY_START] {symbol}: Chain valid, executing re-entry...")
         
         # Calculate new SL with reduction
         reduction_per_level = self.config["re_entry_config"]["sl_reduction_per_level"]
         sl_adjustment = (1 - reduction_per_level) ** chain.current_level
         
+        # ✅ CRITICAL FIX: Get account balance FIRST (needed for SL calculation regardless of lot size source)
         account_balance = self.mt5_client.get_account_balance()
-        lot_size = self.trading_engine.risk_manager.get_fixed_lot_size(account_balance)
+        
+        # ✅ CRITICAL FIX: Use stored lot size from chain metadata (actual broker-adjusted size)
+        # This prevents "Invalid volume" errors when broker adjusts lot sizes
+        lot_size = chain.metadata.get("actual_lot_size", None)
+        
+        if not lot_size:
+            # Fallback for legacy chains without stored lot size
+            lot_size = self.trading_engine.risk_manager.get_lot_size_for_logic(
+                account_balance, logic=logic
+            )
+            self.logger.warning(
+                f"⚠️ [SL_HUNT_LOT_FALLBACK] Chain {chain_id[:12]}... missing actual_lot_size in metadata, "
+                f"using fallback calculation: {lot_size:.2f}"
+            )
+        else:
+            self.logger.info(
+                f"📊 [SL_HUNT_LOT_RETRIEVED] Using stored lot size from chain metadata: {lot_size:.2f}"
+            )
         
         # Calculate SL and TP
         sl_price, sl_distance = self.pip_calculator.calculate_sl_price(
-            symbol, price, direction, lot_size, account_balance, sl_adjustment
+            symbol, price, direction, lot_size, account_balance, sl_adjustment, logic=logic
         )
         
         tp_price = self.pip_calculator.calculate_tp_price(
@@ -855,6 +894,18 @@ class PriceMonitorService:
             )
             if trade_id:
                 trade.trade_id = trade_id
+                self.logger.info(f"✅ [SL_HUNT_ORDER_PLACED] {symbol}: MT5 Order #{trade_id} placed successfully")
+            else:
+                self.logger.error(f"❌ [SL_HUNT_ORDER_FAILED] {symbol}: MT5 order placement returned None")
+                # Send failure notification
+                if hasattr(self.trading_engine, 'telegram_bot'):
+                    self.trading_engine.telegram_bot.send_message(
+                        f"⚠️ SL HUNT RECOVERY FAILED\n"
+                        f"Symbol: {symbol}\n"
+                        f"Reason: MT5 order placement failed\n"
+                        f"Chain: {chain_id}"
+                    )
+                return False  # Don't update chain if order failed
         
         # Update chain
         self.reentry_manager.update_chain_level(chain_id, trade.trade_id)
@@ -865,38 +916,65 @@ class PriceMonitorService:
         
         # Send Telegram notification
         sl_reduction_percent = (1 - sl_adjustment) * 100
-        self.trading_engine.telegram_bot.send_message(
-            f"🔄 SL HUNT RE-ENTRY #{chain.current_level + 1}\n"
-            f"Strategy: {logic}\n"
-            f"Symbol: {symbol}\n"
-            f"Direction: {direction.upper()}\n"
-            f"Entry: {price:.5f}\n"
-            f"SL: {sl_price:.5f} (-{sl_reduction_percent:.0f}% reduction)\n"
-            f"TP: {tp_price:.5f}\n"
-            f"Lots: {lot_size:.2f}\n"
-            f"Chain: {chain_id}\n"
-            f"Level: {chain.current_level + 1}/{chain.max_level}"
-        )
+        if hasattr(self.trading_engine, 'telegram_bot'):
+            self.trading_engine.telegram_bot.send_message(
+                f"🔄 SL HUNT RE-ENTRY #{chain.current_level + 1}\n"
+                f"Strategy: {logic}\n"
+                f"Symbol: {symbol}\n"
+                f"Direction: {direction.upper()}\n"
+                f"Entry: {price:.5f}\n"
+                f"SL: {sl_price:.5f} (-{sl_reduction_percent:.0f}% reduction)\n"
+                f"TP: {tp_price:.5f}\n"
+                f"Lots: {lot_size:.2f}\n"
+                f"Chain: {chain_id}\n"
+                f"Level: {chain.current_level + 1}/{chain.max_level}"
+            )
+        return True
     
     async def _execute_tp_continuation_reentry(self, symbol: str, direction: str,
-                                               price: float, chain_id: str, logic: str):
+                                               price: float, chain_id: str, logic: str) -> bool:
         """Execute automatic TP continuation re-entry"""
         
         # Get chain info
         chain = self.reentry_manager.active_chains.get(chain_id)
-        if not chain or chain.current_level >= chain.max_level:
-            return
+        if not chain:
+            self.logger.error(
+                f"❌ [TP_CONTINUATION_FAILED] {symbol}: Chain {chain_id[:12]}... NOT FOUND in active_chains"
+            )
+            self.logger.debug(f"Active chains: {list(self.reentry_manager.active_chains.keys())}")
+            return False
         
+        if chain.current_level >= chain.max_level:
+            self.logger.warning(
+                f"⚠️ [TP_CONTINUATION_BLOCKED] {symbol}: Chain at MAX LEVEL "
+                f"({chain.current_level}/{chain.max_level})"
+            )
+            return False
+        
+        self.logger.info(f"✅ [TP_CONTINUATION_START] {symbol}: Chain valid, executing re-entry...")
+
         # Calculate new SL with reduction
         reduction_per_level = self.config["re_entry_config"]["sl_reduction_per_level"]
         sl_adjustment = (1 - reduction_per_level) ** chain.current_level
         
         account_balance = self.mt5_client.get_account_balance()
-        lot_size = self.trading_engine.risk_manager.get_fixed_lot_size(account_balance)
+        
+        # Use stored lot size from chain metadata if available, otherwise calculate
+        lot_size = chain.metadata.get("actual_lot_size", None)
+        if not lot_size:
+            lot_size = self.trading_engine.risk_manager.get_lot_size_for_logic(account_balance, logic=logic)
+            self.logger.warning(
+                f"⚠️ [TP_CONTINUATION_LOT_FALLBACK] Chain {chain_id[:12]}... missing actual_lot_size in metadata, "
+                f"using fallback calculation: {lot_size:.2f}"
+            )
+        else:
+            self.logger.info(
+                f"📊 [TP_CONTINUATION_LOT_RETRIEVED] Using stored lot size from chain metadata: {lot_size:.2f}"
+            )
         
         # Calculate SL and TP
         sl_price, sl_distance = self.pip_calculator.calculate_sl_price(
-            symbol, price, direction, lot_size, account_balance, sl_adjustment
+            symbol, price, direction, lot_size, account_balance, sl_adjustment, logic=logic
         )
         
         tp_price = self.pip_calculator.calculate_tp_price(
@@ -931,6 +1009,17 @@ class PriceMonitorService:
             )
             if trade_id:
                 trade.trade_id = trade_id
+                self.logger.info(f"✅ [TP_CONTINUATION_ORDER_PLACED] {symbol}: MT5 Order #{trade_id} placed successfully")
+            else:
+                self.logger.error(f"❌ [TP_CONTINUATION_ORDER_FAILED] {symbol}: MT5 order placement returned None")
+                if hasattr(self.trading_engine, 'telegram_bot'):
+                    self.trading_engine.telegram_bot.send_message(
+                        f"⚠️ TP CONTINUATION FAILED\n"
+                        f"Symbol: {symbol}\n"
+                        f"Reason: MT5 order placement failed\n"
+                        f"Chain: {chain_id}"
+                    )
+                return False
         
         # Update chain
         self.reentry_manager.update_chain_level(chain_id, trade.trade_id)
@@ -949,18 +1038,20 @@ class PriceMonitorService:
         
         # Send Telegram notification
         sl_reduction_percent = (1 - sl_adjustment) * 100
-        self.trading_engine.telegram_bot.send_message(
-            f"✅ TP{tp_level} RE-ENTRY\n"
-            f"Strategy: {logic}\n"
-            f"Symbol: {symbol}\n"
-            f"Direction: {direction.upper()}\n"
-            f"Entry: {price:.5f}\n"
-            f"SL: {sl_price:.5f} (-{sl_reduction_percent:.0f}% reduction)\n"
-            f"TP: {tp_price:.5f}\n"
-            f"Lots: {lot_size:.2f}\n"
-            f"Chain Profit: ${chain.total_profit:.2f}\n"
-            f"Level: {tp_level}/{chain.max_level}"
-        )
+        if hasattr(self.trading_engine, 'telegram_bot'):
+            self.trading_engine.telegram_bot.send_message(
+                f"✅ TP{tp_level} RE-ENTRY\n"
+                f"Strategy: {logic}\n"
+                f"Symbol: {symbol}\n"
+                f"Direction: {direction.upper()}\n"
+                f"Entry: {price:.5f}\n"
+                f"SL: {sl_price:.5f} (-{sl_reduction_percent:.0f}% reduction)\n"
+                f"TP: {tp_price:.5f}\n"
+                f"Lots: {lot_size:.2f}\n"
+                f"Chain Profit: ${chain.total_profit:.2f}\n"
+                f"Level: {tp_level}/{chain.max_level}"
+            )
+        return True
     
     def _get_current_price(self, symbol: str, direction: str) -> Optional[float]:
         """Get current price from MT5 (or simulation) using mapped client"""
@@ -1030,18 +1121,37 @@ class PriceMonitorService:
                 f"Target={target_price:.5f} Chain={trade.chain_id} Logic={logic}"
             )
             
-            self.sl_hunt_pending[trade.symbol] = {
+            # Get timeframe-specific window
+            timeframe_config = self.config.get("timeframe_specific_config", {})
+            if timeframe_config.get("enabled", False) and logic in timeframe_config:
+                window_minutes = timeframe_config[logic].get("recovery_window_minutes", 30)
+            else:
+                window_minutes = self.config["re_entry_config"].get("recovery_window_minutes", 30)
+
+            expiration_time = datetime.now() + timedelta(minutes=window_minutes)
+            
+            # Use list for multiple concurrent chains
+            if trade.symbol not in self.sl_hunt_pending:
+                self.sl_hunt_pending[trade.symbol] = []
+                
+            # Add to list (support multiple chains)
+            self.sl_hunt_pending[trade.symbol].append({
                 'target_price': target_price,
                 'direction': trade.direction,
                 'chain_id': trade.chain_id,
                 'sl_price': trade.sl,
-                'logic': logic
-            }
+                'logic': logic,
+                'expiration_time': expiration_time
+            })
             
             self.monitored_symbols.add(trade.symbol)
+            
+            # Count total pending items across all symbols
+            total_pending = sum(len(items) for items in self.sl_hunt_pending.values())
+            
             self.logger.info(
                 f"✅ REGISTERED: SL Hunt monitoring registered: {trade.symbol} @ {target_price:.5f} "
-                f"(Total pending: {len(self.sl_hunt_pending)})"
+                f"(Total pending: {total_pending})"
             )
             
         except KeyError as e:
@@ -1099,17 +1209,36 @@ class PriceMonitorService:
                 f"TP={tp_price:.5f} Chain={trade.chain_id} Logic={logic}"
             )
             
-            self.tp_continuation_pending[trade.symbol] = {
+            # Get timeframe-specific window
+            timeframe_config = self.config.get("timeframe_specific_config", {})
+            if timeframe_config.get("enabled", False) and logic in timeframe_config:
+                window_minutes = timeframe_config[logic].get("recovery_window_minutes", 30)
+            else:
+                window_minutes = self.config["re_entry_config"].get("recovery_window_minutes", 30)
+
+            expiration_time = datetime.now() + timedelta(minutes=window_minutes)
+
+            # Use list for multiple concurrent chains
+            if trade.symbol not in self.tp_continuation_pending:
+                self.tp_continuation_pending[trade.symbol] = []
+
+            # Add to list (support multiple chains)
+            self.tp_continuation_pending[trade.symbol].append({
                 'tp_price': tp_price,
                 'direction': trade.direction,
                 'chain_id': trade.chain_id,
-                'logic': logic
-            }
+                'logic': logic,
+                'expiration_time': expiration_time
+            })
             
             self.monitored_symbols.add(trade.symbol)
+            
+            # Count total pending items across all symbols
+            total_pending = sum(len(items) for items in self.tp_continuation_pending.values())
+
             self.logger.info(
                 f"✅ REGISTERED: TP continuation monitoring registered: {trade.symbol} after TP @ {tp_price:.5f} "
-                f"(Total pending: {len(self.tp_continuation_pending)})"
+                f"(Total pending: {total_pending})"
             )
             
         except Exception as e:

@@ -182,14 +182,14 @@
         "sl_hunt_reentry_enabled": true,
         "reversal_exit_enabled": true,
         "exit_continuation_enabled": true,
-        "price_monitor_interval_seconds": 5,
+        "price_monitor_interval_seconds": 2,
         "tp_continuation_price_gap_pips": 2.0,
         "sl_hunt_cooldown_seconds": 0,
         "price_recovery_check_minutes": 0,
         "autonomous_enabled": true,
         "autonomous_config": {
             "tp_continuation": {
-                "enabled": false,
+                "enabled": true,
                 "cooldown_seconds": 5,
                 "max_levels": 5,
                 "sl_reduction_per_level": 0.3,
@@ -198,7 +198,7 @@
                 "ma_alignment_required": true
             },
             "sl_hunt_recovery": {
-                "enabled": false,
+                "enabled": true,
                 "max_attempts": 1,
                 "recovery_window_minutes": 30,
                 "min_recovery_pips": 2,
@@ -288,6 +288,30 @@
         "LOGIC2",
         "LOGIC3"
     ],
+    "timeframe_specific_config": {
+        "enabled": true,
+        "LOGIC1": {
+            "timeframe": "5m",
+            "lot_multiplier": 1.25,
+            "sl_multiplier": 1.0,
+            "recovery_window_minutes": 30,
+            "description": "Aggressive - Fast moves"
+        },
+        "LOGIC2": {
+            "timeframe": "15m",
+            "lot_multiplier": 1.0,
+            "sl_multiplier": 1.5,
+            "recovery_window_minutes": 45,
+            "description": "Balanced - Medium volatility"
+        },
+        "LOGIC3": {
+            "timeframe": "1h",
+            "lot_multiplier": 0.625,
+            "sl_multiplier": 2.5,
+            "recovery_window_minutes": 120,
+            "description": "Conservative - Wide breathing room"
+        }
+    },
     "daily_reset_time": "03:35",
     "sl_systems": {
         "sl-1": {
@@ -857,6 +881,13 @@
         "partial_success_threshold": 0.75,
         "base_profit": 10,
         "max_level": 4,
+        "enabled_levels": {
+            "0": true,
+            "1": true,
+            "2": true,
+            "3": false,
+            "4": false
+        },
         "multipliers": [
             1,
             2,
@@ -1041,5 +1072,10 @@
             "min_sl_pips": 10
         }
     },
-    "default_risk_tier": "10000"
+    "default_risk_tier": "10000",
+    "profit_protection.current_mode": "BALANCED",
+    "sl_reduction_optimization.current_strategy": "ADAPTIVE",
+    "reverse_shield_config": {
+        "enabled": true
+    }
 }

@@ -2,6 +2,7 @@
 Menu Manager - Handles all menu display and navigation
 """
 from typing import Dict, Any, Optional, List
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from .context_manager import ContextManager
 from .command_executor import CommandExecutor
 from .menu_constants import (
@@ -225,29 +226,34 @@ class MenuManager:
         # Main Categories - Row 1
         cat_row1 = []
         cat_row1.append({"text": "💰 Trading", "callback_data": "menu_trading"})
-        cat_row1.append({"text": "⚡ Performance", "callback_data": "menu_performance"})
-        cat_row1.append({"text": "🔄 Re-entry", "callback_data": "menu_reentry"})
+        cat_row1.append({"text": "⏱️ Timeframe", "callback_data": "menu_timeframe"})
         keyboard.append(cat_row1)
         
         # Main Categories - Row 2
         cat_row2 = []
-        cat_row2.append({"text": "📍 Trends", "callback_data": "menu_trends"})
-        cat_row2.append({"text": "🛡️ Risk", "callback_data": "menu_risk"})
-        cat_row2.append({"text": "⚙️ SL System", "callback_data": "menu_sl_system"})
+        cat_row2.append({"text": "⚡ Performance", "callback_data": "menu_performance"})
+        cat_row2.append({"text": "🔄 Re-entry", "callback_data": "menu_reentry"})
         keyboard.append(cat_row2)
         
         # Main Categories - Row 3
         cat_row3 = []
-        cat_row3.append({"text": "💎 Orders", "callback_data": "menu_orders"})
-        cat_row3.append({"text": "📈 Profit", "callback_data": "menu_profit"})
-        cat_row3.append({"text": "🔧 Settings", "callback_data": "menu_settings"})
+        cat_row3.append({"text": "📍 Trends", "callback_data": "menu_trends"})
+        cat_row3.append({"text": "🛡️ Risk",  "callback_data": "menu_risk"})
+        cat_row3.append({"text": "⚙️ SL System", "callback_data": "menu_sl_system"})
         keyboard.append(cat_row3)
         
-        # Main Categories - Row 4 (Diagnostics and Fine-Tune)
+        # Main Categories - Row 4
         cat_row4 = []
-        cat_row4.append({"text": "🔍 Diagnostics", "callback_data": "menu_diagnostics"})
-        cat_row4.append({"text": "⚡ Fine-Tune", "callback_data": "menu_fine_tune"})
+        cat_row4.append({"text": "💎 Orders", "callback_data": "menu_orders"})
+        cat_row4.append({"text": "📈 Profit", "callback_data": "menu_profit"})
+        cat_row4.append({"text": "🔧 Settings", "callback_data": "menu_settings"})
         keyboard.append(cat_row4)
+        
+        # Main Categories - Row 5 (Diagnostics and Fine-Tune)
+        cat_row5 = []
+        cat_row5.append({"text": "🔍 Diagnostics", "callback_data": "menu_diagnostics"})
+        cat_row5.append({"text": "⚡ Fine-Tune", "callback_data": "menu_fine_tune"})
+        keyboard.append(cat_row5)
         
         keyboard.append([])  # Empty row for spacing
         
@@ -268,6 +274,63 @@ class MenuManager:
         else:
             # Send new message
             return self.bot.send_message_with_keyboard(text, reply_markup)
+
+    def get_persistent_main_menu(self):
+        return {
+            "keyboard": [
+                # Row 1: High Frequency
+                ["📊 Dashboard", "⏸️ Pause/Resume", "📈 Active Trades"],
+                # Row 2: Management
+                ["🛡️ Risk", "🔄 Re-entry", "⚙️ SL System"],
+                # Row 3: Analysis
+                ["📍 Trends", "📈 Profit", "🆘 Help"],
+                # Row 4: Safety (Full Width)
+                ["🚨 PANIC CLOSE"]
+            ],
+            "resize_keyboard": True,  # KEEPS IT COMPACT
+            "is_persistent": True,
+            "one_time_keyboard": False  # Keep button available
+        }
+    
+    def show_timeframe_menu(self, user_id: int, message_id: int):
+        """Show timeframe configuration menu with dynamic status"""
+        config = self.bot.config.get("timeframe_specific_config", {})
+        enabled = config.get("enabled", False)
+        
+        # Dynamic toggle button text
+        toggle_text = f"{'✅' if enabled else '❌'} Toggle System"
+        
+        # Build enhanced keyboard with advanced options
+        keyboard = {
+            "inline_keyboard": [
+                [{"text": toggle_text, "callback_data": "action_toggle_timeframe"}],
+                [{"text": "📊 View All Settings", "callback_data": "action_view_logic_settings"}],
+                [{"text": "⚙️ Configure Logics", "callback_data": "tf_configure_menu"}],
+                [{"text": "📖 Help & Guide", "callback_data": "tf_help_menu"}],
+                [{"text": "🔄 Reset Defaults", "callback_data": "action_reset_timeframe_default"}],
+                [{"text": "🔙 Back", "callback_data": "menu_main"}]
+            ]
+        }
+        
+        status_text = "ENABLED" if enabled else "DISABLED"
+        text = (
+            f"⏱️ <b>Timeframe Logic System</b>\n"
+            f"Status: <b>{status_text}</b>\n\n"
+            f"<b>Quick Overview:</b>\n"
+            f"• LOGIC1 (5m): Aggressive 1.25x lot\n"
+            f"• LOGIC2 (15m): Balanced, 1.5x SL\n"
+            f"• LOGIC3 (1h): Conservative 0.625x lot, 2.5x SL\n\n"
+            f"Use <b>Configure</b> to adjust individual settings.\n"
+            f"Use <b>Help</b> to learn how it works."
+        )
+        
+        if message_id:
+            try:
+                self.bot.edit_message(text, message_id, keyboard, parse_mode="HTML")
+            except Exception:
+                self.bot.send_message_with_keyboard(text, keyboard)
+        else:
+            self.bot.send_message_with_keyboard(text, keyboard)
     
     def show_category_menu(self, user_id: int, category: str, message_id: int):
         """Display category sub-menu"""

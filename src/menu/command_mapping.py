@@ -23,6 +23,8 @@ COMMAND_PARAM_MAP = {
     "performance": {"params": [], "type": "direct", "handler": "handle_performance"},
     "stats": {"params": [], "type": "direct", "handler": "handle_stats"},
     "performance_report": {"params": [], "type": "direct", "handler": "handle_performance_report"},
+    "sessions": {"params": [], "type": "direct", "handler": "handle_sessions"},
+    "session_report": {"params": ["session_id"], "type": "dynamic", "handler": "handle_session_report"},
     "pair_report": {"params": [], "type": "direct", "handler": "handle_pair_report"},
     "strategy_report": {"params": [], "type": "direct", "handler": "handle_strategy_report"},
     "chains": {"params": [], "type": "direct", "handler": "handle_chains_status"},
@@ -49,9 +51,40 @@ COMMAND_PARAM_MAP = {
     "set_recovery_time": {"params": ["value"], "type": "single", "presets": RECOVERY_PRESETS, "handler": "handle_set_recovery_time"},
     "set_max_levels": {"params": ["value"], "type": "single", "presets": MAX_LEVELS_PRESETS, "handler": "handle_set_max_levels"},
     "set_sl_reduction": {"params": ["value"], "type": "single", "presets": SL_REDUCTION_PRESETS, "handler": "handle_set_sl_reduction"},
-    "reset_reentry_config": {"params": [], "type": "direct", "handler": "handle_reset_reentry_config"},
-    
-    # Trend Management (8 commands - Complete trend menu)
+    "reset_reentry_config": {
+        "params": [],
+        "type": "direct",
+        "handler": "handle_reset_reentry_config",
+        "description": "Reset all re-entry settings to defaults"
+    },
+
+    # Timeframe Logic Commands
+    "menu_timeframe": {
+        "params": [],
+        "type": "direct",
+        "handler": "handle_menu_timeframe",
+        "description": "Show timeframe configuration menu"
+    },
+    "toggle_timeframe": {
+        "params": [],
+        "type": "direct",
+        "handler": "handle_toggle_timeframe",
+        "description": "Toggle timeframe-specific logic"
+    },
+    "view_logic_settings": {
+        "params": [],
+        "type": "direct",
+        "handler": "handle_view_logic_settings",
+        "description": "View settings for each logic type"
+    },
+    "reset_timeframe_default": {
+        "params": [],
+        "type": "direct",
+        "handler": "handle_reset_timeframe_default",
+        "description": "Reset timeframe config to defaults"
+    },
+
+    # Trend Commands
     "show_trends": {"params": [], "type": "direct", "handler": "handle_show_trends"},
     "trend_matrix": {"params": [], "type": "direct", "handler": "handle_trend_matrix"},
     "set_trend": {"params": ["symbol", "timeframe", "trend"], "type": "multi", "handler": "handle_set_trend", "presets": {"symbol": SYMBOLS, "timeframe": TIMEFRAMES, "trend": TRENDS}},

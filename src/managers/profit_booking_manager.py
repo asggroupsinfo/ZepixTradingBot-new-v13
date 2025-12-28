@@ -431,20 +431,40 @@ class ProfitBookingManager:
             
             # Progress to next level
             next_level = chain.current_level + 1
+            
+            # CHECK: Is this level enabled?
+            enabled_levels = self.profit_config.get("enabled_levels", {})
+            if not enabled_levels.get(str(next_level), True):
+                self.logger.info(
+                    f"⏹ Level {next_level} is DISABLED - stopping chain {chain.chain_id}"
+                )
+                chain.status = "STOPPED"
+                chain.metadata["stop_reason"] = f"Level {next_level} disabled by user"
+                chain.updated_at = datetime.now().isoformat()
+                self.db.save_profit_chain(chain)
+                
+                trading_engine.telegram_bot.send_message(
+                    f"⏹ **CHAIN STOPPED**\n"
+                    f"Chain: {chain.chain_id}\n"
+                    f"Reason: Level {next_level} is disabled\n"
+                    f"Total Profit: ${chain.total_profit:.2f}"
+                )
+                return False
+            
             next_order_count = self.get_order_multiplier(next_level)
             
+            # Get strategy from chain metadata
+            strategy = chain.metadata.get("strategy", "LOGIC1")
+
             # Place new orders for next level
             account_balance = self.mt5_client.get_account_balance()
-            lot_size = self.risk_manager.get_fixed_lot_size(account_balance)
+            lot_size = self.risk_manager.get_lot_size_for_logic(account_balance, logic=strategy)
             
             # Get current price
             current_price = self.mt5_client.get_current_price(chain.symbol)
             if current_price == 0:
                 self.logger.error(f"Failed to get current price for {chain.symbol}")
                 return False
-            
-            # Get strategy from chain metadata
-            strategy = chain.metadata.get("strategy", "LOGIC1")
             
             # Use logic-based SL for profit booking orders
             sl_price, sl_distance = self.profit_sl_calculator.calculate_sl_price(
@@ -608,19 +628,19 @@ class ProfitBookingManager:
             next_order_count = self.get_order_multiplier(next_level)
             next_profit_target = self.get_profit_target(next_level)
             
+            # Get strategy from chain metadata
+            strategy = chain.metadata.get("strategy", "LOGIC1")
+
             # Place new orders for next level
             orders_placed = 0
             account_balance = self.mt5_client.get_account_balance()
-            lot_size = self.risk_manager.get_fixed_lot_size(account_balance)
+            lot_size = self.risk_manager.get_lot_size_for_logic(account_balance, logic=strategy)
             
             # Get current price
             current_price = self.mt5_client.get_current_price(chain.symbol)
             if current_price == 0:
                 self.logger.error(f"Failed to get current price for {chain.symbol}")
                 return False
-            
-            # Get strategy from chain metadata
-            strategy = chain.metadata.get("strategy", "LOGIC1")
             
             # Use logic-based SL for profit booking orders (not TP Trail SL system)
             sl_price, sl_distance = self.profit_sl_calculator.calculate_sl_price(

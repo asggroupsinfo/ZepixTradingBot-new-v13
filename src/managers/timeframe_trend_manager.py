@@ -33,6 +33,13 @@ class TimeframeTrendManager:
                     print(f"SUCCESS: Loaded trends from {self.config_file}")
                     # Debug: Print summary of loaded manual trends
                     manual_count = 0
+                    
+                    # CLEANUP: Filter out 5m trends if present (they are unused)
+                    if "symbols" in data:
+                        for sym in data["symbols"]:
+                            if "5m" in data["symbols"][sym]:
+                                del data["symbols"][sym]["5m"]
+                                
                     for sym, tfs in data.get("symbols", {}).items():
                         for tf, details in tfs.items():
                             if details.get("mode") == "MANUAL":
@@ -69,6 +76,12 @@ class TimeframeTrendManager:
     def update_trend(self, symbol: str, timeframe: str, signal: str, mode: str = "AUTO"):
         """Update trend for a specific symbol and timeframe"""
         
+        # 5m trends are NOT used for logic alignment (Logic 1 uses 1H+15M)
+        # We ignore 5m trend updates to keep data clean
+        if timeframe.lower() in ["5m", "5min"]:
+            # print(f"DEBUG: Ignoring 5m trend update for {symbol} (Unused by logic)")
+            return False
+
         if symbol not in self.trends["symbols"]:
             self.trends["symbols"][symbol] = {}
         
@@ -346,10 +359,10 @@ class TimeframeTrendManager:
     def get_all_trends(self, symbol: str) -> Dict[str, str]:
         """Get all timeframe trends for a symbol"""
         if symbol not in self.trends["symbols"]:
-            return {"5m": "NEUTRAL", "15m": "NEUTRAL", "1h": "NEUTRAL", "1d": "NEUTRAL"}
+            return {"15m": "NEUTRAL", "1h": "NEUTRAL", "1d": "NEUTRAL"}
         
         result = {}
-        for tf in ["5m", "15m", "1h", "1d"]:
+        for tf in ["15m", "1h", "1d"]:
             result[tf] = self.trends["symbols"][symbol].get(tf, {}).get("trend", "NEUTRAL")
         
         return result
@@ -358,14 +371,13 @@ class TimeframeTrendManager:
         """Get all timeframe trends with mode information"""
         if symbol not in self.trends["symbols"]:
             return {
-                "5m": {"trend": "NEUTRAL", "mode": "AUTO"},
                 "15m": {"trend": "NEUTRAL", "mode": "AUTO"},
                 "1h": {"trend": "NEUTRAL", "mode": "AUTO"},
                 "1d": {"trend": "NEUTRAL", "mode": "AUTO"}
             }
         
         result = {}
-        for tf in ["5m", "15m", "1h", "1d"]:
+        for tf in ["15m", "1h", "1d"]:
             trend_data = self.trends["symbols"][symbol].get(tf, {})
             result[tf] = {
                 "trend": trend_data.get("trend", "NEUTRAL"),

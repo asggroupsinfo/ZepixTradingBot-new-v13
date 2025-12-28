@@ -155,9 +155,81 @@ Checking every {self.MONITORING_INTERVAL}s...
         task = asyncio.create_task(self._monitor_loop(order_id))
         self.monitor_tasks[order_id] = task
     
+    async def start_monitoring_with_shield(
+        self,
+        order_id: int,
+        symbol: str,
+        direction: str,
+        sl_price: float,
+        original_order: Any,
+        recovery_70_level: float,
+        shield_ids: list,
+        order_type: str = "A"
+    ) -> None:
+        """
+        Start monitoring for Reverse Shield (Deep Monitor) - Path B
+        Tracks 70% recovery level trigger for Kill Switch
+        """
+        # Determine max window based on symbol volatility
+        window_minutes = self.RECOVERY_WINDOWS.get(symbol, self.DEFAULT_RECOVERY_WINDOW)
+        max_duration = window_minutes * 60
+        
+        logger.info(f"🎯 STARTING DEEP MONITOR for Order #{order_id} ({symbol})")
+        logger.info(f"   Recovery Level (70%): {recovery_70_level}")
+        logger.info(f"   Active Shields: {shield_ids}")
+        
+        self.active_monitors[order_id] = {
+            "order_id": order_id,
+            "symbol": symbol,
+            "direction": direction,
+            "sl_price": sl_price,
+            "recovery_price": recovery_70_level, # Target is 70% level
+            "start_time": datetime.now(),
+            "max_duration_seconds": max_duration,
+            "original_order": original_order,
+            "order_type": order_type,
+            "status": "active",
+            "check_count": 0,
+            # Shield specific data
+            "is_shield_mode": True,
+            "shield_ids": shield_ids
+        }
+        
+        # Start monitoring task
+        self.monitor_tasks[order_id] = asyncio.create_task(
+            self._monitor_loop(order_id)
+        )
+        
+    async def _handle_shield_recovery(self, order_id: int, current_price: float, elapsed: float):
+        """
+        Handle Kill Switch Trigger (70% Recovery Reached)
+        Closes shields and immediately restores original trade logic
+        """
+        logger.info(f"⚠️ KILL SWITCH TRIGGERED for Order #{order_id}")
+        
+        monitor_data = self.active_monitors.get(order_id)
+        if not monitor_data: return
+        
+        # 1. Execute Kill Switch via Manager
+        if hasattr(self.autonomous_manager, 'reverse_shield_manager') and self.autonomous_manager.reverse_shield_manager:
+            shield_ids = monitor_data.get('shield_ids', [])
+            original_order = monitor_data.get('original_order')
+            
+            await self.autonomous_manager.reverse_shield_manager.kill_switch(
+                shield_ids, original_order, current_price, elapsed
+            )
+            
+        # 2. Restore Original Trade (Immediate Recovery Entry)
+        logger.info(f"🔄 Restoring Original Recovery Trade for #{order_id}")
+        await self._place_recovery_order(monitor_data, current_price)
+        
+        # Cleanup
+        self._cleanup_monitor(order_id)
+    
     async def _monitor_loop(self, order_id: int) -> None:
         """
         Continuous monitoring loop - checks every second
+        Updated for v3.0 Shield Support
         
         Args:
             order_id: Order ID to monitor
@@ -210,10 +282,50 @@ Checking every {self.MONITORING_INTERVAL}s...
                 
                 if is_recovered:
                     # ✅ IMMEDIATE ACTION - Price recovered!
-                    await self._handle_recovery(order_id, current_price, elapsed)
+                    
+                    # Detect if Shield Mode (v3.0)
+                    if monitor_data.get("is_shield_mode", False):
+                         logger.info(f"⚠️ KILL SWITCH CONDITION MET for #{order_id}!")
+                         await self._handle_shield_recovery(order_id, current_price, elapsed)
+                    else:
+                         # Standard Recovery
+                         await self._handle_recovery(order_id, current_price, elapsed)
                     break
                 
                 # Wait for next check
+                
+                # Check Shield Status (if Shield Mode)
+                if monitor_data.get("is_shield_mode", False) and check_count % 5 == 0:
+                    try:
+                        shield_ids = monitor_data.get("shield_ids", [])
+                        if shield_ids:
+                             shield_a_id = shield_ids[0]
+                             # Check if closed
+                             # Need access to mt5 client directly or via autonomous manager?
+                             # autonomous_manager has mt5_client
+                             # This is simpler if we assume mt5_client is available on self.autonomous_manager
+                             if hasattr(self.autonomous_manager, 'mt5_client'):
+                                 pos = self.autonomous_manager.mt5_client.get_position(shield_a_id)
+                                 # If None, it's closed
+                                 if pos is None:
+                                     # Verify profit
+                                     hist = self.autonomous_manager.mt5_client.get_order_history(shield_a_id)
+                                     if hist and hist.get('profit', 0) > 0:
+                                         if not monitor_data.get("victory_notified", False):
+                                             logger.info(f"💰 Shield A #{shield_a_id} Closed in PROFIT!")
+                                             # Notify
+                                             if hasattr(self.autonomous_manager, 'rs_notification'):
+                                                 await self.autonomous_manager.rs_notification.send_shield_profit_booked(
+                                                     shield_order_ticket=shield_a_id,
+                                                     symbol=symbol,
+                                                     profit_amount=hist.get('profit', 0),
+                                                     duration=f"{elapsed:.0f}s",
+                                                     is_order_a=True
+                                                 )
+                                             monitor_data["victory_notified"] = True
+                    except Exception as e:
+                        logger.error(f"Error checking shield status: {e}")
+
                 await asyncio.sleep(self.MONITORING_INTERVAL)
         
         except Exception as e:

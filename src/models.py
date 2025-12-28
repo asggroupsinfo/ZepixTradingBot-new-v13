@@ -27,6 +27,15 @@ class Alert(BaseModel):
 class Trade(BaseModel):
     symbol: str
     entry: float
+    
+    @property
+    def entry_price(self):
+        return self.entry
+
+    @property
+    def sl_price(self):
+        return self.sl
+
     sl: float
     tp: float  # Single TP now (1:1 RR)
     lot_size: float
@@ -50,6 +59,24 @@ class Trade(BaseModel):
     order_type: Optional[str] = None  # "TP_TRAIL" or "PROFIT_TRAIL"
     profit_chain_id: Optional[str] = None  # Link to profit booking chain
     profit_level: int = 0  # Level in profit booking chain (0-4)
+    session_id: Optional[str] = None  # Session ID this trade belongs to
+    
+    # Timeframe logic tracking (Phase 5 & 6)
+    logic_type: Optional[str] = None  # LOGIC1, LOGIC2, LOGIC3
+    base_lot_size: Optional[float] = None  # Original lot before multiplier
+    final_lot_size: Optional[float] = None  # Lot after multiplier applied
+    lot_multiplier: Optional[float] = 1.0  # Multiplier used
+    sl_multiplier: Optional[float] = 1.0  # SL multiplier used
+
+    class Config:
+        extra = "allow"
+        
+    @property
+    def ticket(self):
+        return self.trade_id
+    base_sl_pips: Optional[float] = None  # Original SL distance in pips
+    final_sl_pips: Optional[float] = None  # Final SL distance after multiplier
+
     
     def to_dict(self):
         return {
@@ -70,7 +97,8 @@ class Trade(BaseModel):
             "is_re_entry": self.is_re_entry,
             "order_type": self.order_type,
             "profit_chain_id": self.profit_chain_id,
-            "profit_level": self.profit_level
+            "profit_level": self.profit_level,
+            "session_id": self.session_id
         }
     
     @classmethod
@@ -91,6 +119,7 @@ class ReEntryChain(BaseModel):
     created_at: str
     last_update: str
     trend_at_creation: Dict[str, str] = {}
+    recovery_attempts: int = 0
     metadata: Dict[str, Any] = {}  # Stores SL system info, reductions, etc
 
 class ProfitBookingChain(BaseModel):

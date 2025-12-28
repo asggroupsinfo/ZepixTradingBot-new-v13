@@ -58,6 +58,10 @@ class ReentryMenuHandler:
             exit_cont_config = autonomous_config.get("exit_continuation", {})
             exit_cont_enabled = exit_cont_config.get("enabled", False)
             
+            # Reverse Shield v3.0 (Root Level Config)
+            rev_shield_config = self.config.get("reverse_shield_config", {})
+            rev_shield_enabled = rev_shield_config.get("enabled", False)
+            
             # Build keyboard with 2-column layout
             keyboard = []
             
@@ -74,12 +78,11 @@ class ReentryMenuHandler:
                 self._toggle_button("🛡 SL Hunt", sl_hunt_enabled, "toggle_sl_hunt")
             ])
             
-            # Exit continuation (if odd number, full width)
-            keyboard.append([self._toggle_button(
-                "🔄 Exit Continuation", 
-                exit_cont_enabled, 
-                "toggle_exit_continuation"
-            )])
+            # Reverse Shield & Exit Continuation
+            keyboard.append([
+                self._toggle_button("⚔️ Reverse Shield", rev_shield_enabled, "toggle_reverse_shield"),
+                self._toggle_button("🔄 Exit Continuat.", exit_cont_enabled, "toggle_exit_continuation")
+            ])
             
             # Additional Options (2-column layout)
             keyboard.append([
@@ -92,12 +95,13 @@ class ReentryMenuHandler:
             status_icon = "🟢 ACTIVE" if autonomous_enabled else "🔴 INACTIVE"
             
             message = (
-                f"🔄 <b>RE-ENTRY SYSTEM</b>\n"
+                f"🔄 <b>RE-ENTRY & SHIELD SYSTEM</b>\n"
                 f"━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
                 f"<b>Master Status:</b> {status_icon}\n\n"
                 f"<b>Feature Status:</b>\n"
                 f"• TP Continuation: {'ON ✅' if tp_cont_enabled else 'OFF ❌'}\n"
-                f"• SL Hunt: {'ON ✅' if sl_hunt_enabled else 'OFF ❌'}\n"
+                f"• SL Hunt (Defense): {'ON ✅' if sl_hunt_enabled else 'OFF ❌'}\n"
+                f"• Reverse Shield (Attack): {'ON ✅' if rev_shield_enabled else 'OFF ❌'}\n"
                 f"• Exit Continuation: {'ON ✅' if exit_cont_enabled else 'OFF ❌'}\n\n"
                 f"<b>💡 Tip:</b> Click buttons to toggle ON/OFF\n"
             )
@@ -163,6 +167,11 @@ class ReentryMenuHandler:
                 new_value = self.toggle_exit_continuation()
                 status = "ENABLED ✅" if new_value else "DISABLED ❌"
                 self.bot.send_message(f"🔄 Exit Continuation: {status}")
+                
+            elif callback_data == "toggle_reverse_shield":
+                new_value = self.toggle_reverse_shield()
+                status = "ENABLED ✅" if new_value else "DISABLED ❌"
+                self.bot.send_message(f"⚔️ Reverse Shield: {status}")
             
             # Refresh menu to show updated states
             self.show_reentry_menu(user_id, message_id)
@@ -254,6 +263,27 @@ class ReentryMenuHandler:
         self.config.save()
         
         logger.info(f"Exit Continuation toggled: {current} → {new_value}")
+        return new_value
+    
+    def toggle_reverse_shield(self) -> bool:
+        """
+        Toggle Reverse Shield v3.0 (Attack Mode)
+        
+        Returns:
+            New value (True = enabled, False = disabled)
+        """
+        # Note: Reverse Shield config is at ROOT level, not inside re_entry_config
+        current = self.config.get("reverse_shield_config", {}).get("enabled", False)
+        new_value = not current
+        
+        # Update config directly since it's root level
+        # update_nested works for root keys too like 'reverse_shield_config.enabled'
+        self.config.update_nested("reverse_shield_config.enabled", new_value)
+        
+        # Save config
+        self.config.save()
+        
+        logger.info(f"Reverse Shield toggled: {current} → {new_value}")
         return new_value
     
     def show_reentry_status(self, user_id: int, message_id: Optional[int] = None):

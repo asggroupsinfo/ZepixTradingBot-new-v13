@@ -1,8 +1,11 @@
+import logging
 from datetime import datetime
 from typing import Dict, Any, Optional
 from src.models import Trade, Alert
 from src.config import Config
-import logging
+
+# ✅ GLOBAL LOGGER INITIALIZATION
+logger = logging.getLogger(__name__)
 
 class ReversalExitHandler:
     """
@@ -20,7 +23,7 @@ class ReversalExitHandler:
         self.telegram_bot = telegram_bot
         self.db = db
         self.price_monitor = price_monitor
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger  # Assign global logger to instance
     
     async def check_reversal_exit(self, alert: Alert, open_trades: list) -> list:
         """
@@ -93,100 +96,107 @@ class ReversalExitHandler:
     
     async def execute_reversal_exit(self, trade: Trade, exit_price: float, exit_reason: str):
         """Execute immediate profit booking on reversal signal"""
-        
-        # FIX #10: Prevent duplicate closure attempts
-        if trade.status == "closed":
-            self.logger.warning(f"Trade {trade.trade_id} already closed, skipping reversal exit")
+        try:
+            # FIX #10: Prevent duplicate closure attempts
+            if trade.status == "closed":
+                self.logger.warning(f"Trade {trade.trade_id} already closed, skipping reversal exit")
+                return True
+            
+            # If trade is part of profit booking chain, stop the entire chain
+            if hasattr(trade, 'profit_chain_id') and trade.profit_chain_id:
+                # Get trading engine from price_monitor if available
+                trading_engine = None
+                if self.price_monitor:
+                    trading_engine = getattr(self.price_monitor, 'trading_engine', None)
+                
+                if trading_engine:
+                    profit_manager = getattr(trading_engine, 'profit_booking_manager', None)
+                    if profit_manager:
+                        # Stop the entire profit booking chain
+                        profit_manager.stop_chain(trade.profit_chain_id, f"Exit signal: {exit_reason}")
+                        
+                        # Close all orders in the chain
+                        open_trades = getattr(trading_engine, 'open_trades', [])
+                        chain_orders = [
+                            t for t in open_trades
+                            if hasattr(t, 'profit_chain_id') and t.profit_chain_id == trade.profit_chain_id
+                            and t.status == "open"
+                        ]
+                        
+                        for chain_trade in chain_orders:
+                            if chain_trade.trade_id != trade.trade_id:  # Don't close twice
+                                await trading_engine.close_trade(chain_trade, f"CHAIN_STOPPED_{exit_reason}", exit_price)
+                        
+                        self.logger.info(f"STOPPED: Stopped profit booking chain {trade.profit_chain_id} due to exit signal: {exit_reason}")
+            
+            # Close position in MT5
+            if not self.config.get("simulate_orders", True):
+                success = self.mt5_client.close_position(trade.trade_id)
+                if not success:
+                    self.logger.error(f"Failed to close position {trade.trade_id}")
+                    return False
+            
+            
+            # Calculate PnL using contract size (FIX #9: Remove double multiplier)
+            symbol_config = self.config["symbol_config"][trade.symbol]
+            contract_size = symbol_config.get("contract_size", 100000)  # Default Forex
+            
+            if trade.direction == 'buy':
+                pnl = (exit_price - trade.entry) * trade.lot_size * contract_size
+            else:
+                pnl = (trade.entry - exit_price) * trade.lot_size * contract_size
+            
+            # Update trade
+            trade.close_time = datetime.now().isoformat()
+            trade.pnl = pnl
+            trade.status = "closed"
+            
+            # Save to database
+            self.db.save_trade(trade)
+            
+            # Save reversal exit event
+            cursor = self.db.conn.cursor()
+            cursor.execute('''
+                INSERT INTO reversal_exit_events VALUES (?,?,?,?,?,?,?)
+            ''', (None, trade.trade_id, trade.symbol, exit_price, 
+                  exit_reason, pnl, datetime.now().isoformat()))
+            self.db.conn.commit()
+            
+            # Send Telegram notification
+            profit_emoji = "✅" if pnl >= 0 else "❌"
+            self.telegram_bot.send_message(
+                f"{profit_emoji} REVERSAL EXIT\n"
+                f"Reason: {exit_reason}\n"
+                f"Symbol: {trade.symbol}\n"
+                f"Entry: {trade.entry:.5f}\n"
+                f"Exit: {exit_price:.5f}\n"
+                f"Direction: {trade.direction.upper()}\n"
+                f"PnL: ${pnl:.2f}\n"
+                f"Strategy: {trade.strategy}"
+            )
+            
+            # Register continuation monitoring (NEW FEATURE)
+            # After Exit Appeared/Reversal exit, continue monitoring for re-entry with price gap
+            if self.price_monitor and self.config["re_entry_config"].get("exit_continuation_enabled", True):
+                # Only register for specific exit reasons
+                if any(reason in exit_reason for reason in ['EXIT_APPEARED', 'TREND_REVERSAL', 'REVERSAL_', 'OPPOSITE_SIGNAL']):
+                    self.price_monitor.register_exit_continuation(
+                        trade=trade,
+                        exit_price=exit_price,
+                        exit_reason=exit_reason,
+                        logic=trade.strategy,
+                        timeframe='15M'  # Default timeframe
+                    )
+            
+            self.logger.info(f"SUCCESS: Reversal exit executed: {trade.symbol} PnL ${pnl:.2f}")
             return True
         
-        # If trade is part of profit booking chain, stop the entire chain
-        if hasattr(trade, 'profit_chain_id') and trade.profit_chain_id:
-            # Get trading engine from price_monitor if available
-            trading_engine = None
-            if self.price_monitor:
-                trading_engine = getattr(self.price_monitor, 'trading_engine', None)
-            
-            if trading_engine:
-                profit_manager = getattr(trading_engine, 'profit_booking_manager', None)
-                if profit_manager:
-                    # Stop the entire profit booking chain
-                    profit_manager.stop_chain(trade.profit_chain_id, f"Exit signal: {exit_reason}")
-                    
-                    # Close all orders in the chain
-                    open_trades = getattr(trading_engine, 'open_trades', [])
-                    chain_orders = [
-                        t for t in open_trades
-                        if hasattr(t, 'profit_chain_id') and t.profit_chain_id == trade.profit_chain_id
-                        and t.status == "open"
-                    ]
-                    
-                    for chain_trade in chain_orders:
-                        if chain_trade.trade_id != trade.trade_id:  # Don't close twice
-                            await trading_engine.close_trade(chain_trade, f"CHAIN_STOPPED_{exit_reason}", exit_price)
-                    
-                    self.logger.info(f"STOPPED: Stopped profit booking chain {trade.profit_chain_id} due to exit signal: {exit_reason}")
-        
-        # Close position in MT5
-        if not self.config.get("simulate_orders", True):
-            success = self.mt5_client.close_position(trade.trade_id)
-            if not success:
-                self.logger.error(f"Failed to close position {trade.trade_id}")
-                return False
-        
-        
-        # Calculate PnL using contract size (FIX #9: Remove double multiplier)
-        symbol_config = self.config["symbol_config"][trade.symbol]
-        contract_size = symbol_config.get("contract_size", 100000)  # Default Forex
-        
-        if trade.direction == 'buy':
-            pnl = (exit_price - trade.entry) * trade.lot_size * contract_size
-        else:
-            pnl = (trade.entry - exit_price) * trade.lot_size * contract_size
-        
-        # Update trade
-        trade.close_time = datetime.now().isoformat()
-        trade.pnl = pnl
-        trade.status = "closed"
-        
-        # Save to database
-        self.db.save_trade(trade)
-        
-        # Save reversal exit event
-        cursor = self.db.conn.cursor()
-        cursor.execute('''
-            INSERT INTO reversal_exit_events VALUES (?,?,?,?,?,?,?)
-        ''', (None, trade.trade_id, trade.symbol, exit_price, 
-              exit_reason, pnl, datetime.now().isoformat()))
-        self.db.conn.commit()
-        
-        # Send Telegram notification
-        profit_emoji = "✅" if pnl >= 0 else "❌"
-        self.telegram_bot.send_message(
-            f"{profit_emoji} REVERSAL EXIT\n"
-            f"Reason: {exit_reason}\n"
-            f"Symbol: {trade.symbol}\n"
-            f"Entry: {trade.entry:.5f}\n"
-            f"Exit: {exit_price:.5f}\n"
-            f"Direction: {trade.direction.upper()}\n"
-            f"PnL: ${pnl:.2f}\n"
-            f"Strategy: {trade.strategy}"
-        )
-        
-        # Register continuation monitoring (NEW FEATURE)
-        # After Exit Appeared/Reversal exit, continue monitoring for re-entry with price gap
-        if self.price_monitor and self.config["re_entry_config"].get("exit_continuation_enabled", True):
-            # Only register for specific exit reasons
-            if any(reason in exit_reason for reason in ['EXIT_APPEARED', 'TREND_REVERSAL', 'REVERSAL_', 'OPPOSITE_SIGNAL']):
-                self.price_monitor.register_exit_continuation(
-                    trade=trade,
-                    exit_price=exit_price,
-                    exit_reason=exit_reason,
-                    logic=trade.strategy,
-                    timeframe='15M'  # Default timeframe
-                )
-        
-        self.logger.info(f"SUCCESS: Reversal exit executed: {trade.symbol} PnL ${pnl:.2f}")
-        return True
+        except Exception as e:
+            # ✅ ERROR HANDLING THAT WORKS
+            self.logger.error(f"Error during reversal exit: {e}")
+            self.telegram_bot.send_message(f"❌ Reversal Exit Error: {str(e)}")
+            return False
+
     
     def get_reversal_exit_stats(self) -> Dict[str, Any]:
         """Get statistics for reversal exits"""

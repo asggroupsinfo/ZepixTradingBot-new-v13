@@ -236,14 +236,32 @@ async def lifespan(app: FastAPI):
     print("[OK] Injected trend_manager and telegram_bot into alert_processor")
 
     mode = "SIMULATION" if config.get('simulate_orders', False) else "LIVE TRADING"
+    
+    # REPLY KEYBOARD - Bottom (auto-hides after click)
+    reply_menu = {
+        "keyboard": [
+            [{"text": "📊 Dashboard"}, {"text": "⏸️ Pause/Resume"}],
+            [{"text": "📈 Active Trades"}, {"text": "💰 Performance"}],
+            [{"text": "💱 Trading"}, {"text": "⏱️ Timeframe"}],
+            [{"text": "🔄 Re-entry"}, {"text": "📍 Trends"}],
+            [{"text": "🛡️ Risk"}, {"text": "⚙️ SL System"}],
+            [{"text": "📦 Orders"}, {"text": "📈 Profit"}],
+            [{"text": "⚙️ Settings"}, {"text": "🔬 Diagnostics"}],
+            [{"text": "⚡ Fine-Tune"}, {"text": "🆘 Help"}],
+            [{"text": "🔄 Refresh"}, {"text": "🚨 PANIC CLOSE"}]
+        ],
+        "resize_keyboard": True,
+        "one_time_keyboard": True  # Auto-hide after click
+    }
+
     startup_msg = (
-        f"🤖 *Trading Bot v2.0 Started Successfully!*\n"
+        f"🤖 *Bot Ready!*\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
         f"Mode: *{mode}*\n"
-        f"Re-entry System Enabled\n"
-        f"✅ Menu Active — use /start"
+        f"✅ **Click button → Menu auto-hides**\n"
+        f"📱 Click 'Show Menu' to reopen"
     )
-    telegram_bot.send_message(startup_msg)
+    telegram_bot.send_message(startup_msg, reply_markup=reply_menu)
 
     app.state.background_tasks = []
     try:
@@ -571,6 +589,14 @@ if __name__ == "__main__":
     print(f"+ 1:{rr_ratio} Risk-Reward")
     print("+ Progressive SL reduction")
     print("=" * 50)
+    
+    # DEBUG: verify menu keys (User Verification Request)
+    try:
+        from src.menu.menu_constants import REPLY_MENU_MAP
+        print(f"[DEBUG-MENU] Active Menu Keys ({len(REPLY_MENU_MAP)}):")
+        print(list(REPLY_MENU_MAP.keys()))
+    except Exception as e:
+        print(f"[DEBUG-MENU] Error loading menu map: {e}")
     
     # Start uvicorn server with automatic port permission handling
     try:

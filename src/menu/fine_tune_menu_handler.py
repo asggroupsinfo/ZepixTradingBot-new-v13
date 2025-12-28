@@ -225,7 +225,7 @@ Prevent risking large accumulated profits for small recovery attempts.
         
         keyboard_rows = []
         
-        all_strategies = current_settings.get("all_strategies", self.sl_mgr.strategies)
+        all_strategies = current_settings.get("all_strategies", self.sl_mgr.STRATEGIES)
         for strategy_key, strategy_data in all_strategies.items():
             emoji = strategy_data.get("emoji", "")
             

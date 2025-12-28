@@ -72,8 +72,14 @@ class AlertProcessor:
                     print(f"ERROR: Invalid signal for {alert.type}: {alert.signal}")
                     return False
                     
-            # Store alert
-            self.recent_alerts.append(alert)
+            # CRITICAL FIX: Only store non-entry alerts immediately
+            # Entry alerts should ONLY be stored after successful execution
+            # Otherwise, failed entries will block future legitimate alerts as "duplicates"
+            if alert.type != 'entry':
+                self.recent_alerts.append(alert)
+                print(f"INFO: Stored {alert.type} alert for duplicate detection")
+            else:
+                print(f"INFO: Entry alert validated but NOT stored (will store after execution)")
             
             print("SUCCESS: Alert validation successful")
             return True
@@ -184,3 +190,16 @@ class AlertProcessor:
             filtered = [alert for alert in filtered if alert.tf == tf]
             
         return filtered
+    
+    def store_entry_alert(self, alert: Alert):
+        """
+        Store an entry alert AFTER successful order execution.
+        This prevents failed orders from blocking future legitimate alerts.
+        """
+        try:
+            # Only store if it's actually an entry alert
+            if alert.type == 'entry':
+                self.recent_alerts.append(alert)
+                print(f"INFO: Entry alert stored after successful execution for duplicate detection")
+        except Exception as e:
+            print(f"WARNING: Failed to store entry alert: {str(e)}")

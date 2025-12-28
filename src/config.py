@@ -87,6 +87,35 @@ class Config:
                     "fixed_sl": 10.0
                 },
                 "sl_enabled": True
+            },
+            "reverse_shield_config": {
+                "enabled": False,  # Default OFF for safety
+                "recovery_threshold_percent": 0.70,  # 70% recovery level
+                "shield_order_a_rr": 1.0,  # 1:1 TP for Order A
+                "use_profit_booking_for_order_b": True,
+                "shield_lot_size_multiplier": 0.5,  # 50% of original lot (SAFETY)
+                "max_concurrent_shields": 3,
+                
+                # Risk Integration
+                "risk_integration": {
+                    "enable_smart_adjustment": True,
+                    "min_daily_loss_buffer": 50.0,
+                    "min_margin_buffer_percent": 20.0,
+                    "cancel_if_below_min_lot": True,
+                    "fallback_to_v2_on_cancel": True
+                },
+                
+                # Notifications
+                "notifications": {
+                    "shield_activated": True,
+                    "kill_switch_triggered": True,
+                    "shield_closed": True,
+                    "shield_profit_booked": True,
+                    "shield_cancelled": True,
+                    "show_smart_adjustment_details": True,
+                    "show_pnl_breakdown": True,
+                    "show_recovery_projection": True
+                }
             }
         }
         self.load_config()

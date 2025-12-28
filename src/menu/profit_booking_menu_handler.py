@@ -78,6 +78,7 @@ class ProfitBookingMenuHandler:
                 self._btn("📈 View Config", "cmd_profit_profit_config"),
                 self._btn("📉 Set Targets", "cmd_profit_set_profit_targets")
             ])
+            keyboard.append([self._btn("🎚 Level Control", "profit_levels_menu")])
             keyboard.append([self._btn("🏠 Back to Main Menu", "menu_main")])
             
             # Build message
@@ -219,4 +220,115 @@ class ProfitBookingMenuHandler:
             
         except Exception as e:
             logger.error(f"Error toggling profit SL hunt: {str(e)}")
+            self.bot.send_message(f"❌ Error: {str(e)}")
+    
+    def show_levels_menu(self, user_id: int, message_id: Optional[int] = None):
+        """
+        Show level control menu
+        
+        Args:
+            user_id: Telegram user ID
+            message_id: Message ID to edit (if updating existing message)
+        """
+        try:
+            # Get enabled levels
+            profit_config = self.config.get("profit_booking_config", {})
+            enabled_levels = profit_config.get("enabled_levels", {
+                "0": True, "1": True, "2": True, "3": False, "4": False
+            })
+            
+            # Build message
+            message = (
+                "🎚 <b>PROFIT BOOKING LEVEL CONTROL</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                "<b>Enable/Disable Levels:</b>\n\n"
+            )
+            
+            # Add level status
+            level_info = [
+                ("0", "1 order"),
+                ("1", "2 orders"),
+                ("2", "4 orders"),
+                ("3", "8 orders"),
+                ("4", "16 orders")
+            ]
+            
+            for level, orders in level_info:
+                is_enabled = enabled_levels.get(level, True)
+                status = "✅ Enabled" if is_enabled else "❌ Disabled"
+                message += f"Level {level} ({orders}): {status}\n"
+            
+            message += (
+                "\n<b>💡 Tip:</b> Disable higher levels (3-4) to reduce risk.\n"
+                "Lower levels are safer and book profit faster."
+            )
+            
+            # Build keyboard
+            keyboard = []
+            
+            # Toggle buttons in 3-column layout
+            row1 = [
+                self._btn(f"Toggle L0", "toggle_level_0"),
+                self._btn(f"Toggle L1", "toggle_level_1"),
+                self._btn(f"Toggle L2", "toggle_level_2")
+            ]
+            row2 = [
+                self._btn(f"Toggle L3", "toggle_level_3"),
+                self._btn(f"Toggle L4", "toggle_level_4")
+            ]
+            
+            keyboard.append(row1)
+            keyboard.append(row2)
+            keyboard.append([self._btn("« Back to Profit Booking", "menu_profit_booking")])
+            
+            reply_markup = self._create_keyboard(keyboard)
+            
+            # Send or edit message
+            if message_id:
+                self.bot.edit_message(message, message_id, reply_markup, parse_mode="HTML")
+            else:
+                self.bot.send_message_with_keyboard(message, reply_markup, parse_mode="HTML")
+                
+            logger.info(f"Level control menu shown to user {user_id}")
+            
+        except Exception as e:
+            logger.error(f"Error showing level control menu: {str(e)}")
+            import traceback
+            traceback.print_exc()
+    
+    def toggle_level(self, level: str, user_id: int, message_id: int):
+        """
+        Toggle a specific profit booking level on/off
+        
+        Args:
+            level: Level to toggle (0-4)
+            user_id: Telegram user ID
+            message_id: Message ID to update
+        """
+        try:
+            # Get current levels
+            profit_config = self.config.get("profit_booking_config", {})
+            enabled_levels = profit_config.get("enabled_levels", {
+                "0": True, "1": True, "2": True, "3": False, "4": False
+            })
+            
+            # Toggle
+            current = enabled_levels.get(level, True)
+            new_value = not current
+            enabled_levels[level] = new_value
+            
+            # Update config
+            self.config.update_nested("profit_booking_config.enabled_levels", enabled_levels)
+            self.config.save()
+            
+            status = "ENABLED ✅" if new_value else "DISABLED ❌"
+            self.bot.send_message(f"🎚 Level {level}: {status}")
+            
+            logger.info(f"Level {level} toggled: {current} → {new_value}")
+            
+            # Refresh menu
+            self.show_levels_menu(user_id, message_id)
+            
+        except Exception as e:
+            logger.error(f"Error toggling level {level}: {str(e)}")
             self.bot.send_message(f"❌ Error: {str(e)}")

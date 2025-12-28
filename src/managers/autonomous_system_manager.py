@@ -21,30 +21,45 @@ class AutonomousSystemManager:
     """
     
     def __init__(self, config, reentry_manager, profit_booking_manager, 
-                 profit_booking_reentry_manager, mt5_client, telegram_bot):
+                 profit_booking_reentry_manager, mt5_client, telegram_bot,
+                 risk_manager=None):
         self.config = config
         self.reentry_manager = reentry_manager
         self.profit_booking_manager = profit_booking_manager
         self.profit_booking_reentry_manager = profit_booking_reentry_manager
         self.mt5_client = mt5_client
         self.telegram_bot = telegram_bot
+        self.risk_manager = risk_manager
         
         # Initialize Fine-Tune managers
         try:
             from src.managers.recovery_window_monitor import RecoveryWindowMonitor
             from src.managers.profit_protection_manager import ProfitProtectionManager
             from src.managers.sl_reduction_optimizer import SLReductionOptimizer
+            from src.managers.reverse_shield_manager import ReverseShieldManager
+            from src.services.reverse_shield_notification_handler import ReverseShieldNotificationHandler
+            from src.database import TradeDatabase
+            
+            db = TradeDatabase()
             
             self.recovery_monitor = RecoveryWindowMonitor(self)
             self.profit_protection = ProfitProtectionManager(config)
             self.sl_optimizer = SLReductionOptimizer(config)
             
-            print("✅ Fine-Tune managers initialized (Recovery Monitor, Profit Protection, SL Optimizer)")
+            # Initialize Reverse Shield System (v3.0)
+            self.rs_notification = ReverseShieldNotificationHandler(telegram_bot, config)
+            self.reverse_shield_manager = ReverseShieldManager(
+                config, mt5_client, profit_booking_manager, 
+                risk_manager, db, self.rs_notification
+            )
+            
+            print("✅ Fine-Tune managers & Reverse Shield v3.0 initialized")
         except ImportError as e:
             print(f"⚠️ Warning: Could not initialize Fine-Tune managers: {e}")
             self.recovery_monitor = None
             self.profit_protection = None
             self.sl_optimizer = None
+            self.reverse_shield_manager = None
         
         # Track daily recovery statistics
         self.daily_stats = {
@@ -242,6 +257,133 @@ class AutonomousSystemManager:
             )
             
         return 0
+
+    async def run_autonomous_checks(self, open_trades: List[Trade], trading_engine) -> None:
+        """
+        Run all autonomous system checks (Called from TradingEngine loop)
+        Centralizes: TP Continuation, Profit Booking Checks, etc.
+        """
+        try:
+            # 1. Monitor Autonomous TP Continuation
+            await self.monitor_autonomous_tp_continuation(open_trades, trading_engine)
+            
+            # 2. Monitor Profit Booking SL Hunt (Delegates to RecoveryMonitor)
+            await self.monitor_profit_booking_sl_hunt(open_trades, trading_engine)
+            
+            # 3. Monitor Profit Booking Targets (Dynamic PnL Checks)
+            await self.monitor_profit_booking_targets(open_trades, trading_engine)
+            
+        except Exception as e:
+            print(f"❌ Error in Autonomous Checks: {e}")
+
+    async def monitor_profit_booking_targets(self, open_trades: List[Trade], trading_engine) -> int:
+        """
+        Monitor active profit chains for PnL targets (The missing link!)
+        Checks if any order has reached the dynamic profit target (e.g., $7)
+        """
+        if not self.profit_booking_manager.is_enabled():
+            return 0
+            
+        checks_run = 0
+        
+        # Access chains safely
+        if hasattr(self.profit_booking_manager, 'get_all_chains'):
+            active_chains = self.profit_booking_manager.get_all_chains()
+        else:
+            active_chains = self.profit_booking_manager.active_chains
+            
+        for chain_id, chain in list(active_chains.items()):
+            if chain.status != "ACTIVE": continue
+            
+            # Check targets using the manager's logic
+            # This returns list of trades ready to book
+            orders_to_book = self.profit_booking_manager.check_profit_targets(chain, open_trades)
+            
+            for trade in orders_to_book:
+                print(f"💰 PROFIT TARGET REACHED: Order #{trade.trade_id} (Chain {chain_id})")
+                
+                # Execute booking immediately
+                success = await self.profit_booking_manager.book_individual_order(
+                    trade, chain, open_trades, trading_engine
+                )
+                
+                if success:
+                    # After booking, check if we can progress the chain
+                    # (e.g. if all orders in level are now closed)
+                    await self.profit_booking_manager.check_and_progress_chain(
+                        chain, open_trades, trading_engine
+                    )
+            
+            checks_run += 1
+            
+        return checks_run
+    
+    async def _execute_sl_recovery_registration(self, trade: Trade, strategy: str, order_type: str):
+        """Internal async handler for SL recovery registration"""
+        print(f"🔄 Processing SL Recovery for Trade #{trade.trade_id}")
+        
+        print(f"DEBUG: ASM Reverse Shield Check - Manager: {self.reverse_shield_manager}")
+        if self.reverse_shield_manager:
+            print(f"DEBUG: ASM Reverse Shield Enabled Check: {self.reverse_shield_manager.is_enabled()}")
+
+        # Check Reverse Shield (v3.0)
+        if self.reverse_shield_manager and self.reverse_shield_manager.is_enabled():
+            print(f"🛡️ Reverse Shield Enabled for Trade #{trade.trade_id}")
+            try:
+                shield_result = await self.reverse_shield_manager.activate_shield(trade, strategy)
+                if shield_result:
+                    # Path A: Shield Activated -> Path B: Deep Monitor (70% level)
+                    if self.recovery_monitor:
+                        await self.recovery_monitor.start_monitoring_with_shield(
+                            order_id=trade.trade_id,
+                            symbol=trade.symbol,
+                            direction=trade.direction,
+                            sl_price=trade.sl,
+                            original_order=trade,
+                            recovery_70_level=shield_result['recovery_70_level'],
+                            shield_ids=shield_result['shield_ids'],
+                            order_type=order_type
+                        )
+                    return
+            except Exception as e:
+                print(f"❌ Reverse Shield Error: {e}")
+                import traceback
+                traceback.print_exc()
+                # Fallback to standard recovery
+        
+        # Standard v2.1 Recovery
+        if self.recovery_monitor:
+            await self.recovery_monitor.start_monitoring(
+                order_id=trade.trade_id,
+                symbol=trade.symbol,
+                direction=trade.direction,
+                sl_price=trade.sl,
+                original_order=trade,
+                order_type=order_type
+            )
+
+    def register_sl_recovery(self, trade: Trade, strategy: str) -> bool:
+        """
+        Register a trade for SL Hunt Recovery (Callable from TradingEngine)
+        Connects the 'SL Hit' event to the 'Recovery Window Monitor'
+        """
+        if not self.recovery_monitor:
+            print("❌ Recovery Monitor not available for registration")
+            return False
+            
+        print(f"🔄 REGISTERING AUTONOMOUS SL RECOVERY for Order #{trade.trade_id}")
+        
+        # Determine order type
+        order_type = "A"
+        if hasattr(trade, 'order_type') and trade.order_type == "PROFIT_TRAIL":
+            order_type = "B"
+            
+        # Bridge to async execution
+        asyncio.create_task(self._execute_sl_recovery_registration(
+            trade, strategy, order_type
+        ))
+        
+        return True
     
     async def monitor_profit_booking_sl_hunt(self, open_trades: List[Trade], trading_engine) -> int:
         """
@@ -255,9 +397,13 @@ class AutonomousSystemManager:
             return 0
 
         # Get all active profit booking chains
-        active_chains = self.profit_booking_manager.get_all_chains()
+        # FIX: Ensure get_all_chains exists or access directly
+        if hasattr(self.profit_booking_manager, 'get_all_chains'):
+            active_chains = self.profit_booking_manager.get_all_chains()
+        else:
+            active_chains = self.profit_booking_manager.active_chains
         
-        for chain_id, chain in active_chains.items():
+        for chain_id, chain in list(active_chains.items()):
             if chain.status != "active": continue
             
             # Get current level orders from open_trades

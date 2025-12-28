@@ -50,8 +50,11 @@ class DualOrderManager:
         # Get SL pips from dual SL system
         sl_pips = self.pip_calculator._get_sl_from_dual_system(symbol, account_balance)
         
-        # Calculate pip value for 2x lot size
-        pip_value_std = symbol_config["pip_value_per_std_lot"]
+        # Get pip value (support both config key names)
+        pip_value_std = symbol_config.get("pip_value_per_std_lot")
+        if pip_value_std is None:
+            pip_value_std = symbol_config.get("pip_value", 10.0)
+        
         pip_value = pip_value_std * (lot_size * 2)  # 2x lot size
         
         # Calculate expected loss for 2 orders
@@ -64,17 +67,58 @@ class DualOrderManager:
         risk_params = self.config["risk_tiers"][account_tier]
         
         # Check daily loss cap
+        # Check daily loss cap
         daily_loss = self.risk_manager.daily_loss
-        if daily_loss + expected_loss > risk_params["daily_loss_limit"]:
-            return {
-                "valid": False,
-                "reason": f"Daily loss cap exceeded: ${daily_loss + expected_loss:.2f} > ${risk_params['daily_loss_limit']}"
-            }
+        risk_gap = daily_loss + expected_loss - risk_params["daily_loss_limit"]
         
-        # Check lifetime loss cap
+        if risk_gap > 0:
+            # SMART AUTO-ADJUSTMENT LOGIC
+            # Calculate max allowed risk
+            available_risk = max(0, risk_params["daily_loss_limit"] - daily_loss)
+            
+            if available_risk < 1.0: # If less than $1 available, block trade
+                 return {
+                    "valid": False,
+                    "reason": f"Daily loss cap reached: ${daily_loss:.2f} >= ${risk_params['daily_loss_limit']}"
+                }
+            
+            # Calculate max allowed lot size (reverse engineer from risk formula)
+            # Formula: Risk = sl_pips * (pip_value_std * lot * 2)
+            # So: lot = Risk / (sl_pips * pip_value_std * 2)
+            
+            # Use sl_pips + small buffer to be safe
+            safe_sl_pips = sl_pips if sl_pips > 0 else 1
+            
+            max_allowed_lot = available_risk / (safe_sl_pips * pip_value_std * 2)
+            
+            # Round down to 2 decimal places to be safe
+            import math
+            adjusted_lot = math.floor(max_allowed_lot * 100) / 100.0
+            
+            # Ensure minimum valid lot size
+            min_lot = 0.01
+            if adjusted_lot < min_lot:
+                 return {
+                    "valid": False,
+                    "reason": f"Available risk ${available_risk:.2f} too small for min lot {min_lot}"
+                }
+            
+            self.logger.warning(
+                f"🔧 SMART ADJUSTMENT: Lot reduced {lot_size} -> {adjusted_lot} "
+                f"to fit daily limit (Risk: ${expected_loss:.2f} -> ${available_risk:.2f})"
+            )
+            
+            return {
+                "valid": True,
+                "reason": f"Auto-adjusted lot to {adjusted_lot} to fit daily limit",
+                "adjusted_lot": adjusted_lot,
+                "was_adjusted": True
+            }
+
+        # Check lifetime loss cap (similar logic could be applied, but usually daily limit is the bottleneck)
         lifetime_loss = self.risk_manager.lifetime_loss
         if lifetime_loss + expected_loss > risk_params["max_total_loss"]:
-            return {
+             return {
                 "valid": False,
                 "reason": f"Lifetime loss cap exceeded: ${lifetime_loss + expected_loss:.2f} > ${risk_params['max_total_loss']}"
             }
@@ -84,8 +128,8 @@ class DualOrderManager:
         # Previous broken code (lines 78-112) has been removed
         
         # All validations passed
-        return {"valid": True, "reason": "Risk validation passed (margin check disabled)"}
-    
+        return {"valid": True, "reason": "Risk validation passed"}
+        
     def create_dual_orders(self, alert: Alert, strategy: str, 
                           account_balance: float) -> Dict[str, Any]:
         """
@@ -111,23 +155,34 @@ class DualOrderManager:
             return result
         
         try:
-            # Get lot size (same for both orders)
-            lot_size = self.risk_manager.get_fixed_lot_size(account_balance)
+            # Get lot size (same for both orders) - New: Use timeframe specific logic
+            requested_lot_size = self.risk_manager.get_lot_size_for_logic(account_balance, logic=strategy)
             
             # DEBUG: Log lot size calculation
             self.logger.debug(
                 f"[DUAL_ORDER_LOT_SIZE] Symbol={alert.symbol} Balance=${account_balance:.2f} "
-                f"Lot Size={lot_size:.2f} (SAME for both orders)"
+                f"Requested Lot={requested_lot_size:.2f}"
             )
             
-            if lot_size <= 0:
+            if requested_lot_size <= 0:
                 result["errors"].append("Invalid lot size")
                 return result
             
             # Validate risk for 2x lot size
             risk_validation = self.validate_dual_order_risk(
-                alert.symbol, lot_size, account_balance
+                alert.symbol, requested_lot_size, account_balance
             )
+            
+            # Check for adjusted lot size
+            final_lot_size = requested_lot_size
+            if risk_validation.get("valid") and risk_validation.get("was_adjusted"):
+                final_lot_size = risk_validation.get("adjusted_lot", requested_lot_size)
+                adjustment_msg = (
+                    f"🔧 SMART ADJUSTMENT: Lot reduced {requested_lot_size:.2f} -> {final_lot_size:.2f} "
+                    f"to fit daily limit."
+                )
+                self.logger.info(adjustment_msg)
+                result["smart_adjustment_info"] = adjustment_msg
             
             # DEBUG: Log risk validation
             self.logger.debug(
@@ -139,9 +194,13 @@ class DualOrderManager:
                 result["errors"].append(f"Risk validation failed: {risk_validation['reason']}")
                 return result
             
-            # Calculate SL and TP for Order A (TP Trail) - uses existing SL system
+            # Use final_lot_size for calculations
+            lot_size = final_lot_size
+            
+            # Calculate SL and TP for Order A (TP Trail) - uses existing SL system (with TF multiplier)
             sl_price_a, sl_distance_a = self.pip_calculator.calculate_sl_price(
-                alert.symbol, alert.price, alert.signal, lot_size, account_balance
+                alert.symbol, alert.price, alert.signal, lot_size, account_balance,
+                logic=strategy
             )
             
             tp_price_a = self.pip_calculator.calculate_tp_price(

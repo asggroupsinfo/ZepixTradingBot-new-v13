@@ -25,6 +25,9 @@ class TradeDatabase:
                 direction TEXT,
                 strategy TEXT,
                 pnl REAL,
+                commission REAL,
+                swap REAL,
+                comment TEXT,
                 status TEXT,
                 open_time DATETIME,
                 close_time DATETIME,
@@ -33,7 +36,17 @@ class TradeDatabase:
                 is_re_entry BOOLEAN,
                 order_type TEXT,
                 profit_chain_id TEXT,
-                profit_level INTEGER DEFAULT 0
+                profit_level INTEGER DEFAULT 0,
+                session_id TEXT,
+                sl_adjusted INTEGER DEFAULT 0,
+                original_sl_distance REAL DEFAULT 0.0,
+                logic_type TEXT,
+                base_lot_size REAL DEFAULT 0.0,
+                final_lot_size REAL DEFAULT 0.0,
+                base_sl_pips REAL DEFAULT 0.0,
+                final_sl_pips REAL DEFAULT 0.0,
+                lot_multiplier REAL DEFAULT 1.0,
+                sl_multiplier REAL DEFAULT 1.0
             )
         ''')
         
@@ -52,6 +65,38 @@ class TradeDatabase:
             cursor.execute('ALTER TABLE trades ADD COLUMN profit_level INTEGER DEFAULT 0')
         except sqlite3.OperationalError:
             pass  # Column already exists
+        
+        try:
+            cursor.execute('ALTER TABLE trades ADD COLUMN session_id TEXT')
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+
+        # Add new columns for timeframe logic if they don't exist
+        db_columns_to_add = [
+            ("commission", "REAL"),
+            ("swap", "REAL"),
+            ("comment", "TEXT"),
+            ("sl_adjusted", "INTEGER DEFAULT 0"),
+            ("original_sl_distance", "REAL DEFAULT 0.0"),
+            ("logic_type", "TEXT"),
+            ("base_lot_size", "REAL DEFAULT 0.0"),
+            ("final_lot_size", "REAL DEFAULT 0.0"),
+            ("base_sl_pips", "REAL DEFAULT 0.0"),
+            ("final_sl_pips", "REAL DEFAULT 0.0"),
+            ("lot_multiplier", "REAL DEFAULT 1.0"),
+            ("sl_multiplier", "REAL DEFAULT 1.0")
+        ]
+        
+        cursor.execute("PRAGMA table_info(trades)")
+        existing_columns = [info[1] for info in cursor.fetchall()]
+
+        for col_name, col_type in db_columns_to_add:
+            if col_name not in existing_columns:
+                print(f"Migrating database: Adding {col_name} to trades table...")
+                try:
+                    cursor.execute(f"ALTER TABLE trades ADD COLUMN {col_name} {col_type}")
+                except sqlite3.OperationalError as e:
+                    print(f"Error adding column {col_name}: {e}")
         
         # Re-entry chains table
         cursor.execute('''
@@ -162,18 +207,74 @@ class TradeDatabase:
             )
         ''')
         
+        # Trading sessions table - NEW
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS trading_sessions (
+                session_id TEXT PRIMARY KEY,
+                symbol TEXT NOT NULL,
+                direction TEXT NOT NULL,
+                entry_signal TEXT,
+                exit_reason TEXT,
+                start_time DATETIME NOT NULL,
+                end_time DATETIME,
+                total_pnl REAL DEFAULT 0,
+                total_trades INTEGER DEFAULT 0,
+                status TEXT DEFAULT 'ACTIVE',
+                metadata TEXT
+            )
+        ''')
+        
         self.conn.commit()
 
     def save_trade(self, trade: Trade):
-        cursor = self.conn.cursor()
-        cursor.execute('''
-            INSERT INTO trades VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        ''', (None, trade.trade_id, trade.symbol, trade.entry, trade.close_time, 
-              trade.sl, trade.tp, trade.lot_size, trade.direction, trade.strategy,
-              trade.pnl, trade.status, trade.open_time, trade.close_time,
-              trade.chain_id, trade.chain_level, trade.is_re_entry,
-              trade.order_type, trade.profit_chain_id, trade.profit_level))
-        self.conn.commit()
+        try:
+            cursor = self.conn.cursor()
+            
+            # Extract timeframe logic details if available
+            logic_type = getattr(trade, 'logic_type', None)
+            # Default to current values if base values not available
+            base_lot = getattr(trade, 'base_lot_size', trade.lot_size)
+            final_lot = trade.lot_size
+            
+            # Calculate SL pips if possible
+            base_sl_pips = getattr(trade, 'base_sl_pips', 0.0)
+            final_sl_pips = 0.0
+            if trade.entry and trade.sl:
+                final_sl_pips = abs(trade.entry - trade.sl)
+                # Normalize if we have pip size info, otherwise store raw price diff
+                if hasattr(trade, 'symbol') and "JPY" in trade.symbol:
+                     final_sl_pips *= 100
+                else:
+                     final_sl_pips *= 10000
+            
+            lot_mult = getattr(trade, 'lot_multiplier', 1.0)
+            sl_mult = getattr(trade, 'sl_multiplier', 1.0)
+            
+            # Get close_price if exists
+            close_price = getattr(trade, 'close_price', None)
+            
+            cursor.execute("""
+                INSERT OR REPLACE INTO trades (
+                    trade_id, symbol, entry_price, exit_price, sl_price, tp_price, lot_size, direction, 
+                    strategy, pnl, commission, swap, comment, status, open_time, close_time, 
+                    chain_id, chain_level, is_re_entry, order_type, profit_chain_id, profit_level, 
+                    session_id, sl_adjusted, original_sl_distance,
+                    logic_type, base_lot_size, final_lot_size, base_sl_pips, final_sl_pips,
+                    lot_multiplier, sl_multiplier
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                trade.trade_id, trade.symbol, trade.entry, close_price, trade.sl, 
+                trade.tp, trade.lot_size, trade.direction, trade.strategy, trade.pnl, 
+                getattr(trade, 'commission', 0.0), getattr(trade, 'swap', 0.0), getattr(trade, 'comment', None),
+                trade.status, trade.open_time, trade.close_time, getattr(trade, 'chain_id', None), 
+                getattr(trade, 'chain_level', 1), getattr(trade, 'is_re_entry', False), getattr(trade, 'order_type', None), 
+                getattr(trade, 'profit_chain_id', None), getattr(trade, 'profit_level', 0), getattr(trade, 'session_id', None),
+                getattr(trade, 'sl_adjusted', 0), getattr(trade, 'original_sl_distance', 0.0),
+                logic_type, base_lot, final_lot, base_sl_pips, final_sl_pips, lot_mult, sl_mult
+            ))
+            self.conn.commit()
+        except Exception as e:
+            print(f"Error saving trade: {e}")
 
     def save_chain(self, chain: ReEntryChain):
         cursor = self.conn.cursor()
@@ -380,3 +481,111 @@ class TradeDatabase:
         result = cursor.fetchone()
         columns = [desc[0] for desc in cursor.description]
         return dict(zip(columns, result)) if result else {}
+    
+    # ==================== SESSION TRACKING METHODS ====================
+    
+    def create_session(self, session_id: str, symbol: str, direction: str, entry_signal: str):
+        """Create new trading session"""
+        cursor = self.conn.cursor()
+        cursor.execute('''
+            INSERT INTO trading_sessions 
+            (session_id, symbol, direction, entry_signal, start_time, status)
+            VALUES (?, ?, ?, ?, ?, 'ACTIVE')
+        ''', (session_id, symbol, direction, entry_signal, datetime.now().isoformat()))
+        self.conn.commit()
+    
+    def close_session(self, session_id: str, exit_reason: str):
+        """Close trading session"""
+        cursor = self.conn.cursor()
+        cursor.execute('''
+            UPDATE trading_sessions
+            SET status = 'COMPLETED', end_time = ?, exit_reason = ?
+            WHERE session_id = ?
+        ''', (datetime.now().isoformat(), exit_reason, session_id))
+        self.conn.commit()
+    
+    def update_session_stats(self, session_id: str):
+        """Recalculate session total_pnl and total_trades from trades table"""
+        cursor = self.conn.cursor()
+        cursor.execute('''
+            SELECT COUNT(*), COALESCE(SUM(pnl), 0)
+            FROM trades
+            WHERE session_id = ? AND status = 'closed'
+        ''', (session_id,))
+        
+        total_trades, total_pnl = cursor.fetchone()
+        
+        cursor.execute('''
+            UPDATE trading_sessions
+            SET total_pnl = ?, total_trades = ?
+            WHERE session_id = ?
+        ''', (total_pnl, total_trades, session_id))
+        self.conn.commit()
+    
+    def get_active_session(self, symbol: str = None) -> Dict[str, Any]:
+        """Get active session for symbol (or any active session if symbol is None)"""
+        cursor = self.conn.cursor()
+        if symbol:
+            cursor.execute('''
+                SELECT * FROM trading_sessions
+                WHERE symbol = ? AND status = 'ACTIVE'
+                ORDER BY start_time DESC LIMIT 1
+            ''', (symbol,))
+        else:
+            cursor.execute('''
+                SELECT * FROM trading_sessions
+                WHERE status = 'ACTIVE'
+                ORDER BY start_time DESC LIMIT 1
+            ''')
+        
+        row = cursor.fetchone()
+        if row:
+            columns = [desc[0] for desc in cursor.description]
+            return dict(zip(columns, row))
+        return {}
+    
+    def get_sessions_by_date(self, target_date: date) -> List[Dict[str, Any]]:
+        """Get all sessions for a specific date"""
+        cursor = self.conn.cursor()
+        cursor.execute('''
+            SELECT * FROM trading_sessions
+            WHERE DATE(start_time) = DATE(?)
+            ORDER BY start_time DESC
+        ''', (target_date.isoformat(),))
+        
+        columns = [desc[0] for desc in cursor.description]
+        return [dict(zip(columns, row)) for row in cursor.fetchall()]
+    
+    def get_session_details(self, session_id: str) -> Dict[str, Any]:
+        """Get detailed session report including breakdown"""
+        cursor = self.conn.cursor()
+        
+        # Get session info
+        cursor.execute('SELECT * FROM trading_sessions WHERE session_id = ?', (session_id,))
+        row = cursor.fetchone()
+        if not row:
+            return {}
+        
+        columns = [desc[0] for desc in cursor.description]
+        session = dict(zip(columns, row))
+        
+        # Get win/loss breakdown
+        cursor.execute('''
+            SELECT 
+                COUNT(CASE WHEN pnl > 0 THEN 1 END) as wins,
+                COUNT(CASE WHEN pnl < 0 THEN 1 END) as losses,
+                COALESCE(SUM(CASE WHEN pnl > 0 THEN pnl END), 0) as total_profit,
+                COALESCE(SUM(CASE WHEN pnl < 0 THEN pnl END), 0) as total_loss,
+                COUNT(DISTINCT CASE WHEN order_type = 'DUAL_A' OR order_type = 'DUAL_B' THEN 1 END) as dual_orders,
+                COUNT(DISTINCT profit_chain_id) as profit_chains,
+                COUNT(CASE WHEN is_re_entry THEN 1 END) as reentries
+            FROM trades
+            WHERE session_id = ? AND status = 'closed'
+        ''', (session_id,))
+        
+        breakdown = cursor.fetchone()
+        if breakdown:
+            cols = [desc[0] for desc in cursor.description]
+            session['breakdown'] = dict(zip(cols, breakdown))
+        
+        return session

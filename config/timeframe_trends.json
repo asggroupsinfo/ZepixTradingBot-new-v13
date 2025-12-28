@@ -3,23 +3,18 @@
         "XAUUSD": {
             "1h": {
                 "trend": "BEARISH",
-                "mode": "MANUAL",
-                "last_update": "2025-11-25T00:40:47.572023"
+                "mode": "AUTO",
+                "last_update": "2025-12-24T15:15:03.254557"
             },
             "15m": {
-                "trend": "BULLISH",
-                "mode": "MANUAL",
-                "last_update": "2025-12-04T00:05:36.307988"
+                "trend": "BEARISH",
+                "mode": "AUTO",
+                "last_update": "2025-12-24T15:14:29.562448"
             },
             "1d": {
                 "trend": "BULLISH",
                 "mode": "AUTO",
-                "last_update": "2025-12-02T01:31:44.906205"
-            },
-            "5m": {
-                "trend": "BULLISH",
-                "mode": "MANUAL",
-                "last_update": "2025-11-27T04:24:12.095820"
+                "last_update": "2025-12-18T02:06:16.504070"
             }
         },
         "EURUSD": {

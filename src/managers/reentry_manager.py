@@ -77,11 +77,13 @@ class ReEntryManager:
             trades=trade_ids,
             created_at=datetime.now().isoformat(),
             last_update=datetime.now().isoformat(),
-            metadata={
+           metadata={
                 "sl_system_used": active_system,
                 "sl_reduction_percent": symbol_reduction,
                 "original_sl_pips": original_sl_pips,
-                "applied_sl_pips": applied_sl_pips
+                "applied_sl_pips": applied_sl_pips,
+                "actual_lot_size": trade.lot_size,  # ✅ CRITICAL FIX: Store broker-adjusted lot for SL Hunt recovery
+                "logic": trade.strategy  # Store strategy/logic for recovery
             }
         )
         
@@ -392,19 +394,33 @@ class ReEntryManager:
             print(f"⏰ TIMEOUT: Chain {chain.chain_id} recovery window expired → Chain stopped")
             return result
         
-        # Price recovery check (SL + min_pips)
-        min_pips = hunt_config.get("min_recovery_pips", 2)
+        # Price recovery check (70% of SL Distance Rule)
+        # Old Logic: SL + 1 pip (Rejected)
+        # New Logic: SL + (Original_SL_Dist * 0.70)
+        
+        
+        # Ensure pip_size is available
         pip_size = self.config.get("symbol_config", {}).get(chain.symbol, {}).get("pip_size", 0.01)
-        min_distance = min_pips * pip_size
+
+        original_sl_dist = chain.original_sl_distance
+        if not original_sl_dist:
+            # Fallback if distance not stored
+            original_sl_dist = chain.metadata.get("applied_sl_pips", 50) * pip_size
+            
+        recovery_threshold = original_sl_dist * 0.70
         
         price_recovered = False
+        target_price = 0.0
+        
         if chain.direction == "buy":
-            price_recovered = current_price >= (recovery_sl + min_distance)
+            target_price = recovery_sl + recovery_threshold
+            price_recovered = current_price >= target_price
         else:
-            price_recovered = current_price <= (recovery_sl - min_distance)
+            target_price = recovery_sl - recovery_threshold
+            price_recovered = current_price <= target_price
         
         if not price_recovered:
-            result["reason"] = f"Price not recovered ({current_price} needs {min_pips} pips from {recovery_sl})"
+            result["reason"] = f"Price not recovered 70% (Current: {current_price:.5f}, Target: {target_price:.5f})"
             return result
         
         # Trend alignment check

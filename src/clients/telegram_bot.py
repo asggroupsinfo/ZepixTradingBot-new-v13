@@ -12,6 +12,7 @@ from src.services.analytics_engine import AnalyticsEngine
 from src.managers.timeframe_trend_manager import TimeframeTrendManager
 from src.clients.menu_callback_handler import MenuCallbackHandler
 from src.menu.fine_tune_menu_handler import FineTuneMenuHandler
+from src.menu.menu_constants import REPLY_MENU_MAP
 
 if TYPE_CHECKING:
     from src.core.trading_engine import TradingEngine
@@ -23,6 +24,9 @@ class TelegramBot:
         self.chat_id = config["telegram_chat_id"]
         self.base_url = f"https://api.telegram.org/bot{self.token}"
         self.logger = logging.getLogger(__name__)
+        
+        # Connection pooling for faster API requests
+        self.session = requests.Session()
         
         self.trend_manager = None
         self.polling_stop_event = threading.Event()
@@ -96,6 +100,10 @@ class TelegramBot:
             "/profit_sl_mode": self.handle_profit_sl_mode,
             "/enable_profit_sl": self.handle_enable_profit_sl,
             "/disable_profit_sl": self.handle_disable_profit_sl,
+            "/set_sl1_1": self.handle_set_sl1_1,
+            "/set_sl2_1": self.handle_set_sl2_1,
+            # Reverse Shield v3.0
+            "/shield": self.handle_shield_command,
             "/set_profit_sl": self.handle_set_profit_sl,
             "/reset_profit_sl": self.handle_reset_profit_sl,
             # Dashboard command
@@ -107,8 +115,18 @@ class TelegramBot:
             "/profit_protection": self.handle_profit_protection,
             "/sl_reduction": self.handle_sl_reduction,
             "/recovery_windows": self.handle_recovery_windows,
-            "/autonomous_status": self.handle_autonomous_status
+            "/recovery_windows": self.handle_recovery_windows,
+            "/autonomous_status": self.handle_autonomous_status,
+            "/view_logic_settings": self.handle_view_logic_settings,
+            "/reset_timeframe_default": self.handle_reset_timeframe_default,
         }
+        
+
+
+
+
+
+
         
         self.risk_manager = None
         self.trading_engine = None
@@ -120,6 +138,11 @@ class TelegramBot:
         
         # Initialize menu callback handler
         self.menu_callback_handler = MenuCallbackHandler(self)
+        
+        # CRITICAL: Clean up any existing webhooks on initialization
+        print("[INIT] Cleaning up webhooks on bot initialization...")
+        self._cleanup_webhook_before_polling()
+        print("[INIT] Webhook cleanup complete")
 
     def set_dependencies(self, risk_manager: RiskManager, trading_engine: 'TradingEngine'):
         """Set dependent modules"""
@@ -234,6 +257,103 @@ class TelegramBot:
                 self.fine_tune_handler = FineTuneMenuHandler(self, am.profit_protection, am.sl_optimizer)
                 print("✅ TelegramBot: Fine-Tune Menu Handler initialized (Lazy Load)")
 
+    def handle_autonomous_status(self, message):
+        """Show full status of the autonomous system"""
+        if self.reentry_menu_handler:
+            self.reentry_menu_handler.show_reentry_status(message.get("from", {}).get("id"))
+        else:
+            self.send_message("❌ Re-entry handler not available")
+
+    def handle_panic_close(self, message_or_callback):
+        """
+        Emergency handler to close all open positions.
+        Requires confirmation to prevent accidental activation.
+        """
+        # Step 1: Show confirmation
+        keyboard = {
+            "inline_keyboard": [
+                [
+                    {"text": "✅ YES - CLOSE ALL", "callback_data": "confirm_panic_close"},
+                    {"text": "❌ CANCEL", "callback_data": "menu_main"}
+                ]
+            ]
+        }
+        
+        warning = (
+            "🚨 *PANIC CLOSE CONFIRMATION* 🚨\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+            "⚠️ This will close ALL open trades *IMMEDIATELY*:\n\n"
+            "• All positions will be closed at market price\n"
+            "• No recovery attempts will be made\n"
+            "• This action cannot be undone\n\n"
+            "*Are you absolutely sure?*"
+        )
+        
+        # Check if called from callback or dictionary
+        if isinstance(message_or_callback, dict):
+            # It's a message dict or callback dict
+            self.send_message_with_keyboard(warning, keyboard)
+        else:
+            # It might be a callback query object or message object
+            self.send_message_with_keyboard(warning, keyboard)
+
+    def handle_confirm_panic_close(self, callback_query):
+        """Execute panic close after confirmation"""
+        try:
+            user_id = callback_query.get("from", {}).get("id")
+            self.logger.warning(f"🚨 PANIC CLOSE INITIATED BY USER {user_id}")
+            
+            if not self.trading_engine:
+                self.logger.error("❌ Panic close failed: Trading engine not available")
+                self.send_message("❌ Trading engine not available")
+                return
+            
+            # Get all open trades
+            open_trades = self.db.get_open_trades()
+            
+            if not open_trades:
+                self.send_message("ℹ️ No open trades to close")
+                return
+            
+            # Close all positions
+            closed_count = 0
+            failed_count = 0
+            
+            self.send_message("⏳ Executing EMERGENCY CLOSE on all positions...")
+            
+            for trade in open_trades:
+                try:
+                    # Direct close via MT5 client
+                    result = self.mt5_client.close_order(trade.ticket)
+                    if result:
+                        closed_count += 1
+                        self.logger.info(f"🚨 Panic Close: Trade {trade.ticket} closed successfully")
+                    else:
+                        failed_count += 1
+                        self.logger.error(f"🚨 Panic Close: Failed to close {trade.ticket}")
+                except Exception as e:
+                    self.logger.error(f"Failed to close {trade.ticket}: {e}")
+                    failed_count += 1
+            
+            # Report results
+            report = (
+                f"🚨 *PANIC CLOSE EXECUTED*\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"✅ Closed: {closed_count} trades\n"
+                f"❌ Failed: {failed_count} trades\n\n"
+                f"All emergency actions completed.\n"
+                f"Bot is now in PAUSED state."
+            )
+            
+            # Auto-pause the bot for safety
+            self.trading_engine.is_paused = True
+            
+            self.send_message(report)
+            
+        except Exception as e:
+            self.logger.error(f"Panic close critical error: {e}")
+            self.send_message(f"❌ Panic close critical error: {str(e)}")
+
     def set_trend_manager(self, trend_manager: TimeframeTrendManager):
         """Set trend manager"""
         self.trend_manager = trend_manager
@@ -269,14 +389,14 @@ class TelegramBot:
                 keyboard = [[{"text": "🏠 MAIN MENU", "callback_data": "menu_main"}]]
                 payload["reply_markup"] = {"inline_keyboard": keyboard}
             
-            response = requests.post(url, json=payload, timeout=10)
+            response = requests.post(url, json=payload, timeout=2)
             if response.status_code == 200:
                 result = response.json()
                 return result.get("result", {}).get("message_id") if result.get("ok") else True
             elif response.status_code == 400:
                 print(f"WARNING: Parse mode '{parse_mode}' error, retrying without formatting...")
                 payload.pop("parse_mode", None)
-                retry_response = requests.post(url, json=payload, timeout=10)
+                retry_response = requests.post(url, json=payload, timeout=2)
                 if retry_response.status_code == 200:
                     result = retry_response.json()
                     return result.get("result", {}).get("message_id") if result.get("ok") else True
@@ -349,7 +469,7 @@ class TelegramBot:
                 "reply_markup": reply_markup,
                 "parse_mode": "HTML"  # Use HTML to support <b> tags
             }
-            response = requests.post(url, json=payload, timeout=10)
+            response = requests.post(url, json=payload, timeout=2)
             if response.status_code == 200:
                 result = response.json()
                 if result.get("ok"):
@@ -358,7 +478,7 @@ class TelegramBot:
                 # Retry without parse_mode if unsupported
                 print("WARNING: Parse mode error, retrying without formatting...")
                 payload.pop("parse_mode", None)
-                response = requests.post(url, json=payload, timeout=10)
+                response = requests.post(url, json=payload, timeout=2)
                 if response.status_code == 200:
                     result = response.json()
                     if result.get("ok"):
@@ -454,7 +574,7 @@ class TelegramBot:
             if reply_markup:
                 payload["reply_markup"] = reply_markup
             
-            response = requests.post(url, json=payload, timeout=10)
+            response = requests.post(url, json=payload, timeout=2)
             if response.status_code == 200:
                 return True
             elif response.status_code == 400:
@@ -467,15 +587,14 @@ class TelegramBot:
                     else:
                         self.send_message(text)
                     return False
-                # Retry without parse_mode if unsupported
-                print(f"WARNING: Parse mode '{parse_mode}' error, retrying without formatting...")
-                payload.pop("parse_mode", None)
-                response = requests.post(url, json=payload, timeout=10)
-                if response.status_code == 200:
-                    return True
+                # REMOVED RETRY - was causing extra 10s delay
+                # Just fall back to new message immediately
+                print(f"WARNING: Edit failed, sending new message")
+                if reply_markup:
+                    self.send_message_with_keyboard(text, reply_markup)
                 else:
-                    print(f"WARNING: Telegram API error (Retry): Status {response.status_code}, Response: {response.text}")
-                    return False
+                    self.send_message(text)
+                return False
             else:
                 print(f"WARNING: Telegram API error: Status {response.status_code}, Response: {response.text}")
                 return False
@@ -484,23 +603,63 @@ class TelegramBot:
             return False
 
     def handle_start(self, message):
-        """Handle /start command - ALWAYS show interactive menu with buttons"""
+        """Handle /start command - Reply Keyboard with auto-hide + reopen button"""
         try:
-            # Get user_id from message
             user_id = message.get("from", {}).get("id") if isinstance(message, dict) else self.chat_id
             
-            # ALWAYS show main menu with buttons
-            # This ensures menu is always accessible, even after errors
-            result = self.menu_manager.show_main_menu(user_id)
+            # REPLY KEYBOARD - Bottom of screen
+            reply_menu = {
+                "keyboard": [
+                    [{"text": "📊 Dashboard"}, {"text": "⏸️ Pause/Resume"}, {"text": "📈 Active Trades"}],
+                    [{"text": "💱 Trading"}, {"text": "⏱️ Timeframe"}, {"text": "🔄 Re-entry"}],
+                    [{"text": "📍 Trends"}, {"text": "🛡️ Risk"}, {"text": "⚙️ SL System"}],
+                    [{"text": "📦 Orders"}, {"text": "📈 Profit"}, {"text": "⚙️ Settings"}],
+                    [{"text": "🔬 Diagnostics"}, {"text": "⚡ Fine-Tune"}, {"text": "🆘 Help"}],
+                    [{"text": "🔄 Refresh"}, {"text": "🚨 PANIC CLOSE"}]
+                ],
+                "resize_keyboard": True,
+                "one_time_keyboard": True  # Auto-hide after click
+            }
             
-            # If menu failed to send, try fallback with buttons
-            if result is None:
-                print("WARNING: Menu system returned None, trying fallback with buttons")
-                self._send_start_fallback_with_buttons(user_id)
-                
+            import json
+            import requests
+            
+            url = f"{self.base_url}/sendMessage"
+            payload = {
+                "chat_id": user_id,
+                "text": "✅ **Menu Active!**\n\n👇 Click button → Menu hides\n📱 Click 'Show Menu' to reopen",
+                "parse_mode": "Markdown",
+                "reply_markup": json.dumps(reply_menu)
+            }
+            
+            print(f"[HYBRID-MENU] Sending Reply Keyboard with auto-hide")
+            requests.post(url, data=payload, timeout=5)
+            
         except Exception as e:
-            # Fallback to menu with buttons if menu system fails
-            print(f"Menu system error: {e}")
+            print(f"Error in handle_start: {e}")
+    
+    def send_menu_toggle_button(self, user_id=None):
+        """Send inline button to reopen menu"""
+        if not user_id:
+            user_id = self.chat_id
+        
+        import json
+        import requests
+        
+        inline_button = {
+            "inline_keyboard": [[{"text": "📱 Show Menu", "callback_data": "reopen_menu"}]]
+        }
+        
+        url = f"{self.base_url}/sendMessage"
+        payload = {
+            "chat_id": user_id,
+            "text": "Menu hidden. Click below to reopen:",
+            "reply_markup": json.dumps(inline_button)
+        }
+        
+        requests.post(url, data=payload, timeout=5)
+    
+    def handle_callback_query(self, query):
             import traceback
             traceback.print_exc()
             try:
@@ -752,8 +911,11 @@ class TelegramBot:
         # FIX #1: Force reload trends from file for real-time data
         self.trend_manager.load_trends()
         
-        symbols = ["XAUUSD", "EURUSD", "GBPUSD", "USDJPY", "USDCAD"]
+        # FIX #2: Load ALL active symbols from config instead of hardcoded list
+        from src.menu.menu_constants import SYMBOLS
+        symbols = SYMBOLS  # This pulls all 10 symbols: XAUUSD, EURUSD, GBPUSD, USDJPY, USDCAD, AUDUSD, NZDUSD, EURJPY, GBPJPY, AUDJPY
         
+        # Build complete matrix
         msg = "🎯 <b>Complete Trend Matrix</b>\n\n"
         
         for symbol in symbols:
@@ -780,7 +942,41 @@ class TelegramBot:
             msg += "─────────────\n"
         
         msg += "\n<b>Legend:</b> 🟢BULLISH 🔴BEARISH ⚪NEUTRAL 🔒MANUAL 🔄AUTO"
-        self.send_message(msg)
+        
+        # FIX #3: Handle Telegram's 4096 character limit
+        # If message is too long, split into multiple messages
+        if len(msg) > 4000:  # Leave buffer for safety
+            # Split by finding midpoint symbol
+            lines = msg.split('\n')
+            mid_point = len(symbols) // 2
+            
+            # Build first message (Majors)
+            msg1 = "🎯 <b>Trend Matrix - Part 1 (Majors)</b>\n\n"
+            current_symbol_count = 0
+            for line in lines[2:]:  # Skip header
+                if '<b>' in line and '</b>' in line:  # Symbol header
+                    current_symbol_count += 1
+                if current_symbol_count <= mid_point:
+                    msg1 += line + '\n'
+                else:
+                    break
+            msg1 += "\n<b>Legend:</b> 🟢BULLISH 🔴BEARISH ⚪NEUTRAL 🔒MANUAL 🔄AUTO"
+            
+            # Build second message (Minors + Crosses)
+            msg2 = "🎯 <b>Trend Matrix - Part 2 (Minors & Crosses)</b>\n\n"
+            for line in lines[2:]:
+                if '<b>' in line and '</b>' in line:
+                    current_symbol_count += 1
+                if current_symbol_count > mid_point:
+                    msg2 += line + '\n'
+            msg2 += "\n<b>Legend:</b> 🟢BULLISH 🔴BEARISH ⚪NEUTRAL 🔒MANUAL 🔄AUTO"
+            
+            # Send both messages
+            self.send_message(msg1)
+            self.send_message(msg2)
+        else:
+            # Single message is fine
+            self.send_message(msg)
 
     # Trading Control Commands
     def handle_pause(self, message):
@@ -820,6 +1016,128 @@ class TelegramBot:
             f"🔻 Lifetime Loss: ${stats['lifetime_loss']:.2f}"
         )
         self.send_message(performance_msg)
+            
+    def handle_sessions(self, message):
+        """Handle /sessions command - List today's sessions"""
+        self._ensure_dependencies()
+        if not self.trading_engine or not hasattr(self.trading_engine, 'session_manager'):
+            self.send_message("❌ Session manager not initialized yet.")
+            return
+
+        sessions = self.trading_engine.session_manager.get_today_sessions()
+        
+        if not sessions:
+            self.send_message("📅 <b>TODAY'S SESSIONS</b>\n━━━━━━━━━━━━━━━━━━━━━━━━\n\nNo sessions recorded today.")
+            return
+
+        response = f"📅 <b>TODAY'S SESSIONS ({datetime.now().strftime('%d %b %Y')})</b>\n━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        
+        for i, session in enumerate(sessions, 1):
+            s_id = session.get('session_id')
+            symbol = session.get('symbol')
+            direction = session.get('direction', '').upper()
+            pnl = session.get('total_pnl', 0)
+            trades = session.get('total_trades', 0)
+            status = session.get('status')
+            
+            # Format time
+            start_dt = datetime.fromisoformat(session.get('start_time'))
+            start_str = start_dt.strftime('%H:%M')
+            end_str = "Active"
+            if session.get('end_time'):
+                end_dt = datetime.fromisoformat(session.get('end_time'))
+                end_str = end_dt.strftime('%H:%M')
+            
+            icon = "💰" if pnl > 0 else "❌"
+            if status == 'ACTIVE':
+                icon = "🟢"
+            
+            response += (
+                f"{i}️⃣ <b>Session #{s_id.split('_')[-1]}</b> ({status})\n"
+                f"   🕐 {start_str} - {end_str}\n"
+                f"   📊 {symbol} {direction}\n"
+                f"   {icon} <b>${pnl:.2f}</b> ({trades} trades)\n"
+                f"   /session_report_{s_id}\n\n"
+            )
+            
+        self.send_message(response)
+
+    def handle_session_report(self, message):
+        """Handle /session_report_<id> command"""
+        text = message.get('text', '')
+        parts = text.split('_')
+        
+        if len(parts) < 3:  # /session_report_SES_ID
+            self.send_message("❌ Invalid session ID format.")
+            return
+            
+        session_id = "_".join(parts[2:])  # Reconstruct ID part if it had underscores
+        # Actually expected format: /session_report_SES_2025...
+        # Let's support both /session_report <id> and /session_report_<id>
+        
+        if text.startswith('/session_report '):
+            session_id = text.replace('/session_report ', '').strip()
+        elif text.startswith('/session_report_'):
+            session_id = text.replace('/session_report_', '').strip()
+            
+        self._ensure_dependencies()
+        if not self.trading_engine or not hasattr(self.trading_engine, 'session_manager'):
+            self.send_message("❌ Session manager not initialized.")
+            return
+            
+        # Update stats first if active
+        active_id = self.trading_engine.session_manager.get_active_session()
+        if active_id == session_id:
+            self.trading_engine.session_manager.update_session()
+            
+        report = self.trading_engine.session_manager.get_session_report(session_id)
+        if not report:
+            self.send_message(f"❌ Session not found: {session_id}")
+            return
+            
+        # Construct Report
+        symbol = report.get('symbol')
+        direction = report.get('direction', '').upper()
+        pnl = report.get('total_pnl', 0)
+        trades_count = report.get('total_trades', 0)
+        start_time = datetime.fromisoformat(report.get('start_time')).strftime('%H:%M')
+        
+        end_time = "Ongoing"
+        duration = "..."
+        if report.get('end_time'):
+            end_dt = datetime.fromisoformat(report.get('end_time'))
+            end_time = end_dt.strftime('%H:%M')
+            duration_mins = int((end_dt - datetime.fromisoformat(report.get('start_time'))).total_seconds() / 60)
+            duration = f"{duration_mins} min"
+            
+        breakdown = report.get('breakdown', {})
+        wins = breakdown.get('wins', 0)
+        losses = breakdown.get('losses', 0)
+        win_rate = (wins / trades_count * 100) if trades_count > 0 else 0
+        
+        msg = (
+            f"📊 <b>SESSION REPORT</b>\n"
+            f"ID: <code>{session_id}</code>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+            f"📍 <b>{symbol} {direction}</b>\n"
+            f"⏰ {start_time} - {end_time} ({duration})\n\n"
+            f"🎯 <b>SUMMARY:</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"💰 Profit: ${breakdown.get('total_profit', 0):.2f}\n"
+            f"❌ Loss: ${breakdown.get('total_loss', 0):.2f}\n"
+            f"📊 <b>Net P&L: ${pnl:.2f}</b>\n"
+            f"🎯 Win Rate: {win_rate:.1f}% ({wins}W / {losses}L)\n\n"
+            f"📋 <b>ACTIVITY:</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"🔸 Dual Orders: {breakdown.get('dual_orders', 0)}\n"
+            f"🔸 Profit Chains: {breakdown.get('profit_chains', 0)}\n"
+            f"🔸 Re-entries: {breakdown.get('reentries', 0)}\n\n"
+            f"✅ Entry: {report.get('entry_signal', 'Unknown')}\n"
+            f"🏁 Exit: {report.get('exit_reason', 'Active')}\n"
+        )
+        
+        self.send_message(msg)
+
 
     def handle_stats(self, message):
         """Handle /stats command - shows current active tier settings"""
@@ -2386,7 +2704,7 @@ class TelegramBot:
                 f"Status: {'✅ ENABLED' if enabled else '❌ DISABLED'}\n"
                 f"Mode: Both orders use same lot size (no split)\n"
                 f"Order A: TP Trail (existing system)\n"
-                f"Order B: Profit Trail (pyramid system)\n\n"
+                f"Order B: Profit Trail (pyramid system)\n"
                 f"Note: Orders work independently - no rollback"
             )
             self.send_message(status_msg)
@@ -3185,12 +3503,12 @@ class TelegramBot:
             "━━━━━━━━━━━━━━━━━━━━━━\n"
             f"<b>Status:</b> ✅ RUNNING\n"
             f"<b>Daily Recoveries:</b> {daily_recoveries}/10\n"
-            f"<b>Active Monitors:</b> {active_recoveries}\n\n"
+            f"<b>Active Monitors:</b> {active_recoveries}\n"
             
             "<b>🔍 Sub-Systems:</b>\n"
             f"• Profit Protection: {pp_status}\n"
             f"• SL Optimizer: {sl_status}\n"
-            f"• Recovery Windows: ✅ Active\n\n"
+            f"• Recovery Windows: ✅ Active\n"
             
             "<b>⚙ Active Configuration:</b>\n"
             "• TP Continuation: ON\n"
@@ -3583,6 +3901,23 @@ class TelegramBot:
                     self.send_message(text)
                 return
             
+            # ZERO-TYPING / PANIC HANDLERS
+            if callback_data == "panic_close":
+                self.handle_panic_close(callback_query)
+                return
+            elif callback_data == "confirm_panic_close":
+                self.handle_confirm_panic_close(callback_query)
+                return
+            elif callback_data == "reopen_menu":
+                # Re-show the Reply Keyboard
+                self.handle_start({"from": {"id": user_id}})
+                self.bot.answer_callback_query(query_id, text="Menu reopened!")
+            
+            elif callback_data == "action_panic_close":
+                # Route from persistent keyboard (Zero-Typing UI)
+                self.handle_panic_close(callback_query)
+                return
+
             # Handle dashboard callbacks (existing functionality)
             if callback_data.startswith("dashboard_"):
                 if callback_data == "dashboard_refresh":
@@ -3757,7 +4092,7 @@ Use /dashboard to return to main view"""
                          return
                 
                 # Check for known complex types first
-                complex_types = ["profit_sl_mode", "lot_size", "sl_system", "sl_reduction", "sl_offset", "max_levels", "start_date", "end_date", "chain_id"]
+                complex_types = ["profit_sl_mode", "lot_size", "sl_system", "sl_reduction", "max_levels", "start_date", "end_date", "chain_id"]
                 param_type = None
                 
                 for pt in complex_types:
@@ -4051,13 +4386,7 @@ Use /dashboard to return to main view"""
                 
                 if command in self_messaging_commands:
                     # These commands handle their own messaging
-                    # Just return to main menu after a short delay
-                    import threading
-                    def return_to_menu():
-                        import time
-                        time.sleep(3)
-                        self.menu_manager.show_main_menu(user_id, None)
-                    threading.Thread(target=return_to_menu, daemon=True).start()
+                    # ANTI-SPAM: User has persistent keyboard, no need to re-show menu
                     return
                 
                 # Get execution stats for confirmation
@@ -4098,13 +4427,8 @@ Use /dashboard to return to main view"""
                 
                 self.edit_message(text, message_id, reply_markup)
                 
-                # Return to main menu after 2 seconds
-                import threading
-                def return_to_menu():
-                    import time
-                    time.sleep(2)
-                    self.menu_manager.show_main_menu(user_id, message_id)
-                threading.Thread(target=return_to_menu, daemon=True).start()
+                # Success message already shown
+                # ANTI-SPAM: User has persistent keyboard for navigation
             else:
                 # Show error message
                 text = (
@@ -4385,7 +4709,7 @@ _Use /dashboard to return to main view_"""
                     url = f"{self.base_url}/getUpdates?offset={offset}&timeout=30"
                     self.logger.debug(f"[POLLING-DEBUG] Making request to: {url[:80]}...")
                     self.logger.debug(f"[POLLING-CYCLE-{cycle}] Making request to Telegram...")
-                    response = requests.get(url, timeout=35)
+                    response = self.session.get(url, timeout=35)
                     self.logger.debug(f"[POLLING-DEBUG] Got response status={response.status_code}")
                     self.logger.debug(f"[POLLING-CYCLE-{cycle}] Got response: status={response.status_code}")
                     
@@ -4440,23 +4764,45 @@ _Use /dashboard to return to main view_"""
                     # Get updates and process them
                     updates = data.get("result", [])
                     
+                    # CRITICAL DEBUG: Log how many updates received
+                    if len(updates) > 0:
+                        self.logger.info(f"[POLLING-UPDATES] 🔔 Received {len(updates)} update(s) in cycle {cycle}")
+                    else:
+                        self.logger.debug(f"[POLLING-CYCLE-{cycle}] No new updates (updates array empty)")
+                    
                     for update in updates:
                         offset = update["update_id"] + 1
+                        
+                        # CRITICAL DEBUG: Log what type of update
+                        self.logger.info(f"[POLLING-UPDATE] Processing update_id={update.get('update_id')}, keys={list(update.keys())}")
                         
                         # Handle callback queries (inline keyboard buttons)
                         if "callback_query" in update:
                             callback_query = update["callback_query"]
                             user_id = callback_query["from"]["id"]
+                            callback_data = callback_query.get("data", "")
+                            
+                            # CRITICAL DEBUG: Log callback details
+                            self.logger.info(f"[CALLBACK] 🔘 Button clicked! user_id={user_id}, data='{callback_data}'")
+                            self.logger.info(f"[CALLBACK] Allowed user: {self.config['allowed_telegram_user']}, Match: {user_id == self.config['allowed_telegram_user']}")
                             
                             if user_id == self.config["allowed_telegram_user"]:
                                 try:
+                                    start_time = time.time()
+                                    self.logger.info(f"[CALLBACK] ✅ Processing authorized callback: {callback_data}")
+                                    
                                     self.handle_callback_query(callback_query)
-                                    # Answer callback query
-                                    callback_id = callback_query["id"]
-                                    url = f"{self.base_url}/answerCallbackQuery"
-                                    requests.post(url, json={"callback_query_id": callback_id}, timeout=5)
+                                    
+                                    elapsed = time.time() - start_time
+                                    self.logger.info(f"[CALLBACK] ✅ Completed in {elapsed:.2f}s")
+                                    # NOTE: handle_callback_query already answers the callback - no redundant call needed
                                 except Exception as e:
+                                    self.logger.error(f"[CALLBACK] ❌ Error: {e}")
                                     print(f"Callback query error: {e}")
+                                    import traceback
+                                    traceback.print_exc()
+                            else:
+                                self.logger.warning(f"[CALLBACK] ❌ UNAUTHORIZED user {user_id} tried to use button")
                             continue
                         
                         if "message" in update and "text" in update["message"]:
@@ -4486,6 +4832,24 @@ _Use /dashboard to return to main view_"""
                                         # Process custom input
                                         self.logger.info(f"[CUSTOM INPUT] Received value for {waiting_for}: {text}")
                                         self._process_custom_input(user_id, waiting_for, text)
+                                        continue
+                                    
+                                    # [ZERO-TYPING UI] Interceptor
+                                    # Check if text matches a Reply Keyboard button
+                                    if text in REPLY_MENU_MAP:
+                                        self.logger.info(f"[INTERCEPTOR] 🔄 Translating text '{text}' to callback")
+                                        callback_data = REPLY_MENU_MAP[text]
+                                        
+                                        # Create synthetic callback query
+                                        synthetic_callback = {
+                                            "id": f"synthetic_{int(time.time()*1000)}",
+                                            "from": message_data["from"],
+                                            "message": message_data,
+                                            "data": callback_data,
+                                            "chat_instance": str(message_data["chat"]["id"]) if "chat" in message_data else "0"
+                                        }
+                                        
+                                        self.handle_callback_query(synthetic_callback)
                                         continue
                                 
                                 command_parts = text.split()
@@ -4601,3 +4965,150 @@ _Use /dashboard to return to main view_"""
                 
         except Exception as e:
             self.logger.error(f"[POLLING-INIT] Unexpected error in cleanup: {e}")
+
+    # Timeframe Specific Logic Handlers
+    def handle_toggle_timeframe(self, message):
+        """Toggle timeframe specific logic"""
+        try:
+             # Logic to toggle
+             # Handle dict message from menu system
+             if isinstance(message, dict):
+                 # Check if 'enabled' param is provided directly
+                 if 'enabled' in message:
+                     new_state = str(message['enabled']).lower() == 'true'
+                 else:
+                     # Toggle if no param
+                     current = self.config.get("timeframe_specific_config", {}).get("enabled", False)
+                     new_state = not current
+             else:
+                 # Standard toggle
+                 current = self.config.get("timeframe_specific_config", {}).get("enabled", False)
+                 new_state = not current
+             
+             if "timeframe_specific_config" not in self.config:
+                 self.config["timeframe_specific_config"] = {}
+             
+             self.config["timeframe_specific_config"]["enabled"] = new_state
+             self.config.save_config()
+             
+             state_str = "✅ ENABLED" if new_state else "❌ DISABLED"
+             self.send_message(f"<b>Timeframe Specific Logic</b>\nStatus: {state_str}")
+        except Exception as e:
+             self.send_message(f"❌ Error toggling timeframe logic: {str(e)}")
+             import traceback
+             traceback.print_exc()
+
+    def handle_view_logic_settings(self, message):
+        """View logic settings"""
+        try:
+            config = self.config.get("timeframe_specific_config", {})
+            enabled = config.get("enabled", False)
+            msg = f"📊 <b>Timeframe Specific Logic</b>\nStatus: {'✅ ENABLED' if enabled else '❌ DISABLED'}\n\n"
+            
+            for logic in ["LOGIC1", "LOGIC2", "LOGIC3"]:
+                logic_config = config.get(logic, {})
+                lot_mult = logic_config.get("lot_multiplier", 1.0)
+                sl_mult = logic_config.get("sl_multiplier", 1.0)
+                window = logic_config.get("recovery_window_minutes", 30)
+                
+                msg += f"<b>{logic}</b>\n"
+                msg += f"🔸 Lot Multiplier: {lot_mult}x\n"
+                msg += f"🔸 SL Multiplier: {sl_mult}x\n"
+                msg += f"🔸 Recovery Window: {window}m\n\n"
+            
+            self.send_message(msg)
+        except Exception as e:
+            self.send_message(f"❌ Error viewing logic settings: {str(e)}")
+
+    def handle_reset_timeframe_default(self, message):
+        """Reset timeframe specific logic to defaults"""
+        try:
+            default_config = {
+                "enabled": False,
+                "LOGIC1": {"lot_multiplier": 1.0, "sl_multiplier": 1.0, "recovery_window_minutes": 30},
+                "LOGIC2": {"lot_multiplier": 1.0, "sl_multiplier": 1.0, "recovery_window_minutes": 60},
+                "LOGIC3": {"lot_multiplier": 1.5, "sl_multiplier": 1.2, "recovery_window_minutes": 120}
+            }
+            
+            self.config["timeframe_specific_config"] = default_config
+            self.config.save_config()
+            
+            self.send_message(f"✅ <b>Timeframe Logic Reset</b>\nSettings have been reset to default values.")
+            
+            # Show new settings
+            self.handle_view_logic_settings(message)
+            
+        except Exception as e:
+             self.send_message(f"❌ Error resetting timeframe logic: {str(e)}")
+
+    def update_timeframe_logic_config(self, logic: str, param: str, value: float):
+        """Update a specific parameter for a logic (for Fine Tune menu)"""
+        try:
+            if "timeframe_specific_config" not in self.config:
+                self.config["timeframe_specific_config"] = {}
+                
+            if logic not in self.config["timeframe_specific_config"]:
+                self.config["timeframe_specific_config"][logic] = {}
+                
+            self.config["timeframe_specific_config"][logic][param] = float(value)
+            self.config.save_config()
+            self.send_message(f"✅ Config updated: {logic} {param} = {value}")
+            return True
+        except Exception as e:
+            print(f"Error updating timeframe config: {e}")
+            return False
+
+    def handle_set_sl1_1(self, update: Any, context: Any) -> None:
+        """Placeholder for SL-1.1 Setup"""
+        # Feature not fully requested in this task, but handler prevents crash
+        self.send_message("Feature coming soon: SL-1.1 Setup")
+
+    def handle_set_sl2_1(self, update: Any, context: Any) -> None:
+        """Placeholder for SL-2.1 Setup"""
+        self.send_message("Feature coming soon: SL-2.1 Setup")
+
+    def handle_shield_command(self, update: Any, context: Any) -> None:
+        """Handle /shield command for Reverse Shield v3.0 control"""
+        if not self.check_auth(update): return
+        
+        args = context.args
+        if not args:
+            # Show Status
+            rs_config = self.config.config.get("reverse_shield_config", {})
+            status = "✅ ENABLED" if rs_config.get("enabled", False) else "❌ DISABLED"
+            
+            msg = f"🛡️ <b>REVERSE SHIELD SYSTEM (v3.0)</b>\n"
+            msg += f"Status: <b>{status}</b>\n\n"
+            
+            try:
+                msg += f"Recovery Level: {rs_config.get('recovery_threshold_percent', 0.70)*100}%\n"
+                msg += f"Lot Multiplier: {rs_config.get('shield_lot_size_multiplier', 0.5)}x\n"
+                msg += f"Smart Risk: {'ON' if rs_config.get('risk_integration', {}).get('enable_smart_adjustment') else 'OFF'}\n\n"
+            except:
+                pass
+
+            msg += "<b>Commands:</b>\n"
+            msg += "/shield on - Enable Shield System\n"
+            msg += "/shield off - Disable Shield System\n"
+            msg += "/shield status - detailed status"
+            
+            self.send_message(msg, parse_mode='HTML')
+            return
+
+        action = args[0].lower()
+        
+        if action == "on":
+            self.config.config.setdefault("reverse_shield_config", {})["enabled"] = True
+            self.config.save_config()
+            self.send_message("🛡️ <b>Reverse Shield ENABLED</b>", parse_mode='HTML')
+            
+        elif action == "off":
+            self.config.config.setdefault("reverse_shield_config", {})["enabled"] = False
+            self.config.save_config()
+            self.send_message("🛡️ <b>Reverse Shield DISABLED</b>\n(Active shields will continue until closed)", parse_mode='HTML')
+        
+        elif action == "status":
+             self.handle_shield_command(update, context)
+             
+        else:
+            self.send_message("Invalid command. Use /shield on|off")

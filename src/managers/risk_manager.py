@@ -168,6 +168,32 @@ class RiskManager:
         self.config.config["manual_lot_overrides"][str(balance_tier)] = lot_size
         self.config.save_config()
     
+    def get_lot_size_for_logic(self, balance: float, logic: str = None) -> float:
+        """
+        Get lot size with timeframe-specific multiplier adjustment
+        """
+        # Get base lot size
+        base_lot = self.get_fixed_lot_size(balance)
+        
+        # Apply timeframe multiplier
+        try:
+            timeframe_config = self.config.get("timeframe_specific_config", {})
+            if timeframe_config.get("enabled", False) and logic:
+                logic_config = timeframe_config.get(logic)
+                if logic_config:
+                    multiplier = logic_config.get("lot_multiplier", 1.0)
+                    adjusted_lot = base_lot * multiplier
+                    
+                    # Sanity Check: Min lot 0.01
+                    adjusted_lot = max(0.01, round(adjusted_lot, 3))
+                    
+                    # print(f"Timeframe Config: {logic} Lot x{multiplier} -> {adjusted_lot} lots")
+                    return adjusted_lot
+        except Exception as e:
+            print(f"Error applying timeframe lot multiplier: {e}")
+                
+        return base_lot
+    
     def get_risk_tier(self, balance: float) -> str:
         """Get risk tier based on account balance"""
         for tier in ["100000", "50000", "25000", "10000", "5000"]:
@@ -266,8 +292,18 @@ class RiskManager:
         sl_estimates = {"LOW": 30, "MEDIUM": 45, "HIGH": 60}
         estimated_sl_pips = sl_estimates.get(volatility, 60)
         
+        
         # Calculate expected loss for 2 orders
         expected_loss = estimated_sl_pips * pip_value
+
+        # DEBUG PRINTS FOR USER
+        print(f"\n[DEBUG RISK] Validating {symbol} Dual Orders")
+        print(f"[DEBUG RISK] Lot Size: {lot_size}")
+        print(f"[DEBUG RISK] Volatility: {volatility}")
+        print(f"[DEBUG RISK] Pip Value Std: {pip_value_std}")
+        print(f"[DEBUG RISK] Estimated SL Pips: {estimated_sl_pips}")
+        print(f"[DEBUG RISK] Max Daily Limit: {risk_params['daily_loss_limit']}")
+        print(f"[DEBUG RISK] Calculated Expected Loss: {expected_loss}")
         
         # Check daily loss cap
         if self.daily_loss + expected_loss > risk_params["daily_loss_limit"]:

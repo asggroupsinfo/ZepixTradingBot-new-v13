@@ -13,13 +13,15 @@ class PipCalculator:
         
     def calculate_sl_price(self, symbol: str, entry_price: float, 
                           direction: str, lot_size: float, 
-                          account_balance: float, sl_adjustment: float = 1.0) -> Tuple[float, float]:
+                          account_balance: float, sl_adjustment: float = 1.0, 
+                          logic: str = None) -> Tuple[float, float]:
         """
-        Calculate SL price using dual SL system (sl-1 or sl-2)
+        Calculate SL price using dual SL system (sl-1 or sl-2) and timeframe logic
         Symbol parameter uses TradingView naming (XAUUSD, not GOLD)
         Returns: (sl_price, sl_distance_in_price)
         
         sl_adjustment: Multiplier for SL (used in re-entry system, default 1.0)
+        logic: Current strategy logic (LOGIC1/LOGIC2/LOGIC3) for timeframe adjustment
         """
         
         # Get symbol configuration
@@ -29,14 +31,31 @@ class PipCalculator:
         # Get SL in pips from dual SL system
         sl_pips = self._get_sl_from_dual_system(symbol, account_balance)
         
+        # --- NEW: Apply Timeframe Multiplier ---
+        try:
+            timeframe_config = self.config.get("timeframe_specific_config", {})
+            if timeframe_config.get("enabled", False) and logic:
+                logic_config = timeframe_config.get(logic)
+                if logic_config:
+                    tf_multiplier = logic_config.get("sl_multiplier", 1.0)
+                    sl_pips = sl_pips * tf_multiplier
+                    # print(f"Timeframe Config: {logic} SL x{tf_multiplier} -> {sl_pips:.1f} pips")
+        except Exception as e:
+            print(f"Error applying timeframe multiplier: {e}")
+        # ---------------------------------------
+        
         # Apply SL adjustment (for re-entry progressive reduction)
         sl_pips = sl_pips * sl_adjustment
         
         # Convert pips to price distance
         sl_distance = sl_pips * pip_size
         
+        # Normalize direction
+        d = direction.lower()
+        is_buy = d in ['buy', 'bullish', 'long']
+        
         # Calculate actual SL price based on direction
-        if direction == "buy":
+        if is_buy:
             sl_price = entry_price - sl_distance
         else:
             sl_price = entry_price + sl_distance
@@ -101,6 +120,7 @@ class PipCalculator:
         sl_pips = risk_cap / pip_value
         
         return sl_pips
+
     def _get_pip_value(self, symbol: str, lot_size: float) -> float:
         """
         Get pip value for a specific lot size
@@ -136,7 +156,7 @@ class PipCalculator:
         Returns: float (dollar value per pip)
         """
         return self._get_pip_value(symbol, lot_size)
-    
+
     def calculate_tp_price(self, entry_price: float, sl_price: float, 
                           direction: str, rr_ratio: float = 1.0) -> float:
         """
@@ -150,8 +170,12 @@ class PipCalculator:
         # Calculate TP distance based on RR ratio
         tp_distance = sl_distance * rr_ratio
         
+        # Normalize direction
+        d = direction.lower()
+        is_buy = d in ['buy', 'bullish', 'long']
+        
         # Calculate TP price based on direction
-        if direction == "buy":
+        if is_buy:
             tp_price = entry_price + tp_distance
         else:
             tp_price = entry_price - tp_distance
@@ -174,15 +198,15 @@ class PipCalculator:
     def _get_account_tier(self, balance: float) -> str:
         """
         Determine account tier based on balance
-        Returns tier key as string for config lookup
+        Aligned with RiskManager logic to prevent risk mismatch
         """
-        if balance < 7500:
+        if balance < 10000:
             return "5000"
-        elif balance < 17500:
+        elif balance < 25000:
             return "10000"
-        elif balance < 37500:
+        elif balance < 50000:
             return "25000"
-        elif balance < 75000:
+        elif balance < 100000:
             return "50000"
         else:
             return "100000"

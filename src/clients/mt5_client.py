@@ -423,14 +423,15 @@ class MT5Client:
             print(f"Position close error: {str(e)}")
             return False
 
-    def get_current_price(self, symbol: str) -> float:
+    def get_current_price(self, symbol: str) -> Optional[float]:
         """
         Get current price for a symbol with automatic mapping support
         Handles both TradingView symbols and broker symbols
+        Returns None if price cannot be fetched
         """
         if not self.initialized:
             if not self.initialize():
-                return 0.0
+                return None
         
         # Simulation mode - return dummy prices
         if not MT5_AVAILABLE or self.config.get("simulate_orders", True):
@@ -448,9 +449,9 @@ class MT5Client:
             tick = mt5.symbol_info_tick(mt5_symbol)
             if tick:
                 return (tick.ask + tick.bid) / 2
-            return 0.0
+            return None
         except:
-            return 0.0
+            return None
 
     def get_account_balance(self) -> float:
         """Get current account balance"""
@@ -600,6 +601,50 @@ class MT5Client:
         info = self.get_account_info_detailed()
         return info.get("margin_level", 0.0)
 
+    def modify_position(self, ticket: int, sl: float = None, tp: float = None) -> bool:
+        """
+        Modify Stop Loss and Take Profit for an existing position
+        """
+        if not self.initialized:
+            if not self.initialize():
+                return False
+        
+        # Simulation mode
+        if not MT5_AVAILABLE or self.config.get("simulate_orders", True):
+            print(f"SIMULATED MODIFY: Ticket {ticket} -> SL={sl}, TP={tp}")
+            return True
+            
+        try:
+            # Prepare request
+            request = {
+                "action": mt5.TRADE_ACTION_SLTP,
+                "position": ticket,
+                "symbol": self.get_position(ticket)['symbol'], # Helper get_position needed or use existing
+                "sl": sl,
+                "tp": tp,
+                "magic": 234000
+            }
+            # Handle get_position usage explicitly if needed or rely on robust implementation below
+            # Re-fetch symbol if needed
+            pos_info = self.get_position(ticket)
+            if not pos_info:
+                print(f"ERROR: Cannot modify position {ticket} - not found")
+                return False
+            
+            request["symbol"] = pos_info["symbol"]
+            
+            result = mt5.order_send(request)
+            if result.retcode == mt5.TRADE_RETCODE_DONE:
+                logger.info(f"SUCCESS: Position {ticket} modified. SL={sl}, TP={tp}")
+                return True
+            else:
+                logger.error(f"Failed to modify position {ticket}: {result.comment}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Modify position error: {str(e)}")
+            return False
+
     def get_required_margin_for_order(self, symbol: str, lot_size: float) -> float:
         """
         Calculate required margin for a position
@@ -667,3 +712,38 @@ class MT5Client:
             mt5.shutdown()
             self.initialized = False
             print("MT5 connection closed")
+
+    def get_closed_trade_profit(self, ticket_id: int) -> Optional[float]:
+        """
+        Fetch ACTUAL profit from MT5 history for a closed position.
+        This is the REAL profit including commission, swap, and correct contract size.
+        
+        Args:
+            ticket_id: MT5 position ticket ID
+            
+        Returns:
+            Actual profit/loss in account currency (e.g., USD), or None if not found
+        """
+        if not self.initialized or not MT5_AVAILABLE:
+            logger.warning(f"Cannot fetch profit for ticket {ticket_id}: MT5 not initialized")
+            return None
+        
+        try:
+            # Request trade history for this specific position
+            # We need to look in deals (not positions, since it's closed)
+            deals = mt5.history_deals_get(position=ticket_id)
+            
+            if not deals:
+                logger.warning(f"No history found for ticket {ticket_id}")
+                return None
+            
+            # Sum up all deal profits for this position
+            # (Usually 2 deals: entry + exit, but could be partial closes)
+            total_profit = sum(deal.profit for deal in deals)
+            
+            logger.debug(f"Fetched actual profit for ticket {ticket_id}: ${total_profit:.2f}")
+            return total_profit
+            
+        except Exception as e:
+            logger.error(f"Error fetching profit for ticket {ticket_id}: {e}")
+            return None

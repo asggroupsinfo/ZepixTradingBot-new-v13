@@ -48,17 +48,77 @@ class ProfitProtectionManager:
         }
     }
     
-    def __init__(self, config_manager):
+    def __init__(self, config_manager, mt5_client=None, risk_manager=None):
         """
         Initialize Profit Protection Manager
         
         Args:
             config_manager: Reference to configuration manager
+            mt5_client: MT5 Client for modifying orders
+            risk_manager: Risk Manager
         """
         self.config = config_manager
+        self.mt5_client = mt5_client
+        self.risk_manager = risk_manager
         self.load_settings()
         
         logger.info("✅ ProfitProtectionManager initialized")
+
+    async def check_and_update_sl(self, trade: Any, current_price: float) -> bool:
+        """
+        Check if trade should have SL moved to lock profit (Trailing/BreakEven)
+        
+        Args:
+            trade: Trade object
+            current_price: Current market price
+            
+        Returns:
+            bool: True if SL was updated
+        """
+        if not self.enabled:
+            return False
+            
+        if not self.mt5_client:
+            return False
+
+        # Determine logic based on mode or hardcoded "Lock Profit" rule requested
+        # Rule: If Profit >= 40 pips, Lock +10 pips.
+        
+        try:
+            # Calculate profit in pips
+            if trade.direction == "buy":
+                diff = current_price - trade.entry
+                sl_to_be = trade.entry + 0.0010 # +10 pips (assuming 0.0001 pip)
+                trigger_price = trade.entry + 0.0040 # +40 pips
+                
+                # Check condition
+                if current_price >= trigger_price:
+                    # Check if SL is already better
+                    if trade.sl < sl_to_be:
+                         # Update SL
+                         success = self.mt5_client.modify_position(trade.trade_id, sl=sl_to_be, tp=trade.tp)
+                         if success:
+                             trade.sl = sl_to_be
+                             logger.info(f"🛡️ PROFIT PROTECTION: SL Locked at {sl_to_be:.5f} for {trade.symbol}")
+                             return True
+            else: # Sell
+                diff = trade.entry - current_price
+                sl_to_be = trade.entry - 0.0010
+                trigger_price = trade.entry - 0.0040
+                
+                if current_price <= trigger_price:
+                    if trade.sl > sl_to_be:
+                         success = self.mt5_client.modify_position(trade.trade_id, sl=sl_to_be, tp=trade.tp)
+                         if success:
+                             trade.sl = sl_to_be
+                             logger.info(f"🛡️ PROFIT PROTECTION: SL Locked at {sl_to_be:.5f} for {trade.symbol}")
+                             return True
+                             
+            return False
+            
+        except Exception as e:
+            logger.error(f"Error in check_and_update_sl: {e}")
+            return False
     
     def load_settings(self) -> None:
         """Load current profit protection settings from config"""

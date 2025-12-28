@@ -189,6 +189,7 @@ class CommandExecutor:
                 "performance": lambda p: self.bot.handle_performance({"message_id": None}),
                 "stats": lambda p: self.bot.handle_stats({"message_id": None}),
                 "performance_report": lambda p: self.bot.handle_performance_report({"message_id": None}),
+                "sessions": lambda p: self.bot.handle_sessions({"message_id": None}),
                 "pair_report": lambda p: self.bot.handle_pair_report({"message_id": None}),
                 "strategy_report": lambda p: self.bot.handle_strategy_report({"message_id": None}),
                 
@@ -215,6 +216,12 @@ class CommandExecutor:
                 "set_max_levels": self._execute_set_max_levels,
                 "set_sl_reduction": self._execute_set_sl_reduction,
                 "reset_reentry_config": lambda p: self.bot.handle_reset_reentry_config({"message_id": None}),
+                
+                # Timeframe Logic Commands
+                "menu_timeframe": lambda p: self.bot.menu_manager.show_timeframe_menu(p.get("user_id"), p.get("message_id")),
+                "toggle_timeframe": lambda p: self.bot.handle_toggle_timeframe({"message_id": None}),
+                "view_logic_settings": lambda p: self.bot.handle_view_logic_settings({"message_id": None}),
+                "reset_timeframe_default": lambda p: self.bot.handle_reset_timeframe_default({"message_id": None}),
                 
                 # Trend commands
                 "show_trends": lambda p: self.bot.handle_show_trends({"message_id": None}),

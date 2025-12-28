@@ -106,6 +106,46 @@ def get_date_presets(days=7):
         })
     return dates
 
+# Menu Layouts and Structures
+DEFAULT_MENU_LAYOUT = {
+    "dashboard": [
+        [{"text": "📊 Bot Status", "callback_data": "action_status"},
+         {"text": "⏸️ Pause/Resume", "callback_data": "action_toggle_pause"}],
+        [{"text": "💰 Profit Report", "callback_data": "action_profit_report"},
+         {"text": "📈 Performance", "callback_data": "menu_performance"}],
+        [{"text": "⏱️ Timeframe Logic", "callback_data": "menu_timeframe"}],
+        [{"text": "⚙️ Settings", "callback_data": "menu_settings"},
+         {"text": "❓ Help", "callback_data": "action_help"}]
+    ],
+    "trading": [
+        [{"text": "🎯 Signal Status", "callback_data": "action_signal_status"},
+         {"text": "📝 Active Trades", "callback_data": "action_trades"}],
+        [{"text": "🔄 Re-entry Config", "callback_data": "menu_reentry"},
+         {"text": "📉 SL System", "callback_data": "menu_sl_system"}],
+        [{"text": "⏱️ Timeframe Config", "callback_data": "menu_timeframe"}],
+        [{"text": "🏠 Main Menu", "callback_data": "menu_main"}]
+    ],
+    "timeframe": [
+        [{"text": "⏱️ Toggle System", "callback_data": "action_toggle_timeframe"}],
+        [{"text": "📊 View Settings", "callback_data": "action_view_logic_settings"}],
+        [{"text": "🔄 Reset Defaults", "callback_data": "action_reset_timeframe_default"}],
+        [{"text": "🔙 Back", "callback_data": "menu_main"}]
+    ]
+}
+
+MENU_CATEGORIES = {
+    "dashboard": {"title": "📊 Dashboard", "description": "Main control center"},
+    "trading": {"title": "💰 Trading", "description": "Trade management"},
+    "performance": {"title": "⚡ Performance", "description": "Stats & Reports"},
+    "reentry": {"title": "🔄 Re-entry", "description": "Re-entry configuration"},
+    "trends": {"title": "📍 Trends", "description": "Trend management"},
+    "risk": {"title": "🛡️ Risk", "description": "Risk management"},
+    "sl_system": {"title": "⚙️ SL System", "description": "Stop Loss configuration"},
+    "orders": {"title": "💎 Orders", "description": "Order management"},
+    "profit": {"title": "📈 Profit", "description": "Profit booking"},
+    "timeframe": {"title": "⏱️ Timeframe Config", "description": "Logic-specific parameters"}
+}
+
 DATE_PRESETS = get_date_presets(7)  # Last 7 days
 
 # Command Categories Mapping (lazy loaded)
@@ -131,6 +171,7 @@ def get_command_categories():
             "performance": COMMAND_PARAM_MAP["performance"],
             "stats": COMMAND_PARAM_MAP["stats"],
             "performance_report": COMMAND_PARAM_MAP["performance_report"],
+            "sessions": COMMAND_PARAM_MAP["sessions"],
             "pair_report": COMMAND_PARAM_MAP["pair_report"],
             "strategy_report": COMMAND_PARAM_MAP["strategy_report"],
             "chains": COMMAND_PARAM_MAP["chains"],
@@ -312,3 +353,45 @@ QUICK_ACTIONS = {
     "performance": {"handler": "handle_performance", "text": "💰 Performance"},
 }
 
+# Zero-Typing UI - Reply Keyboard to Callback Mapping
+# Maps Reply Keyboard Text Buttons to Internal Callback Data (2-Column Layout)
+REPLY_MENU_MAP = {
+    # Row 1
+    "📊 Dashboard": "action_dashboard",
+    "⏸️ Pause/Resume": "action_pause_resume",
+    
+    # Row 2
+    "📈 Active Trades": "action_trades",
+    "💰 Performance": "performance",
+    
+    # Row 3
+    "💱 Trading": "trading",
+    "⏱️ Timeframe": "menu_timeframe",
+    
+    # Row 4
+    "🔄 Re-entry": "menu_reentry",
+    "📍 Trends": "menu_trend",
+    
+    # Row 5
+    "🛡️ Risk": "menu_risk",
+    "⚙️ SL System": "menu_sl_system",
+    
+    # Row 6
+    "📦 Orders": "orders",
+    "📈 Profit": "menu_profit",
+    
+    # Row 7
+    "⚙️ Settings": "settings",
+    "🔬 Diagnostics": "menu_diagnostics",
+    
+    # Row 8
+    "⚡ Fine-Tune": "menu_finetune",
+    "🆘 Help": "action_help",
+    
+    # Row 9
+    "🔄 Refresh": "refresh",
+    "🚨 PANIC CLOSE": "action_panic_close"
+}
+
+# Reverse mapping for validation
+CALLBACK_TO_BUTTON = {v: k for k, v in REPLY_MENU_MAP.items()}

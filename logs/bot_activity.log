@@ -764,3 +764,554 @@ profit_level
 [2025-12-11 01:17:52] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
 [2025-12-11 01:17:52] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'UNKNOWN'}
 [2025-12-11 01:17:52] 🔍 TRADING_DEBUG: SignalDir=UNKNOWN, Logic=UNKNOWN
+[2025-12-12 23:48:23] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-12 23:48:23] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-12 23:48:23] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-12 23:56:56] Trade monitor cancelled - graceful shutdown
+[2025-12-12 23:57:34] Trade monitor cancelled - graceful shutdown
+[2025-12-13 00:06:35] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:06:35] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 00:06:35] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 00:07:07] Trade monitor cancelled - graceful shutdown
+[2025-12-13 00:12:47] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:12:47] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 00:12:47] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 00:13:10] Trade monitor cancelled - graceful shutdown
+[2025-12-13 00:20:59] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:20:59] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 00:20:59] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 00:21:23] Trade monitor cancelled - graceful shutdown
+[2025-12-13 00:31:15] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:31:15] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 00:31:15] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 00:31:16] [DUAL_ORDER_CHAIN] ✅ Assigned chain_id be86d9f1-6f4... to BOTH orders for SL Hunt
+[2025-12-13 00:46:15] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:46:15] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 00:46:15] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 00:52:08] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:52:08] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 00:52:08] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 00:58:07] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 00:58:07] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 00:58:07] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 01:04:09] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 01:04:09] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 01:04:09] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 01:08:44] Trade monitor cancelled - graceful shutdown
+[2025-12-13 01:12:57] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-13 01:12:57] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-13 01:12:57] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-13 01:40:54] Trade monitor cancelled - graceful shutdown
+[2025-12-13 02:12:08] Trade monitor cancelled - graceful shutdown
+[2025-12-13 03:21:10] Trade monitor cancelled - graceful shutdown
+[2025-12-13 18:35:10] Trade monitor cancelled - graceful shutdown
+[2025-12-13 18:42:05] Trade monitor cancelled - graceful shutdown
+[2025-12-13 18:49:21] Trade monitor cancelled - graceful shutdown
+[2025-12-13 18:53:54] Trade monitor cancelled - graceful shutdown
+[2025-12-13 18:57:59] Trade monitor cancelled - graceful shutdown
+[2025-12-13 19:01:03] Trade monitor cancelled - graceful shutdown
+[2025-12-13 19:07:05] Trade monitor cancelled - graceful shutdown
+[2025-12-13 19:16:24] Trade monitor cancelled - graceful shutdown
+[2025-12-13 19:25:29] Trade monitor cancelled - graceful shutdown
+[2025-12-14 00:21:11] Trade monitor cancelled - graceful shutdown
+[2025-12-17 02:10:40] Trade monitor cancelled - graceful shutdown
+[2025-12-17 02:20:13] Trade monitor cancelled - graceful shutdown
+[2025-12-17 02:27:35] Trade monitor cancelled - graceful shutdown
+[2025-12-17 02:35:57] Trade monitor cancelled - graceful shutdown
+[2025-12-17 02:48:45] Trade monitor cancelled - graceful shutdown
+[2025-12-17 03:14:59] Trade monitor cancelled - graceful shutdown
+[2025-12-18 02:18:10] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-18 02:18:10] 🔍 TRADING_DEBUG: SignalDir=BULLISH, Logic=LOGIC1
+[2025-12-18 02:18:10] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BULLISH
+[2025-12-18 02:21:37] Trade monitor cancelled - graceful shutdown
+[2025-12-18 03:10:01] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-18 03:10:01] 🔍 TRADING_DEBUG: SignalDir=BULLISH, Logic=LOGIC1
+[2025-12-18 03:10:01] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BULLISH
+[2025-12-18 03:11:33] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-18 03:11:33] 🔍 TRADING_DEBUG: SignalDir=BULLISH, Logic=LOGIC1
+[2025-12-18 03:11:33] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BULLISH
+[2025-12-18 03:12:34] Trade monitor cancelled - graceful shutdown
+[2025-12-19 01:22:47] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: SignalDir=BULLISH, Logic=LOGIC1
+[2025-12-19 01:22:47] ❌ Signal BULLISH doesn't match trend BEARISH
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'UNKNOWN'}
+[2025-12-19 01:22:47] 🔍 TRADING_DEBUG: SignalDir=UNKNOWN, Logic=UNKNOWN
+[2025-12-19 01:23:42] Trade monitor cancelled - graceful shutdown
+[2025-12-19 01:26:55] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-19 01:26:55] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-19 01:26:55] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-19 01:26:56] [DUAL_ORDER_CHAIN] ✅ Assigned chain_id dc4fd453-c04... to BOTH orders for SL Hunt
+[2025-12-19 01:32:20] Trade monitor cancelled - graceful shutdown
+[2025-12-19 02:08:32] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: Alert=buy, TF=5m, Symbol=XAUUSD
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BULLISH', 'details': {'1h': 'BULLISH', '15m': 'BULLISH'}, 'failure_reason': None}
+[2025-12-19 02:08:32] 🔍 TRADING_DEBUG: SignalDir=BULLISH, Logic=LOGIC1
+[2025-12-19 02:08:32] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BULLISH
+[2025-12-19 02:08:32] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain XAUUSD_4c28161b for BOTH orders
+[2025-12-19 02:08:32] [DUAL_ORDER_CHAIN] ✅ Order B #494006573 added to shared chain XAUUSD_4c28161b
+[2025-12-19 02:26:26] Trade monitor cancelled - graceful shutdown
+[2025-12-24 15:15:58] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-24 15:15:58] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-24 15:15:58] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-24 15:15:58] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain XAUUSD_24926a21 for BOTH orders
+[2025-12-24 15:15:58] [DUAL_ORDER_CHAIN] ✅ Order B #498221674 added to shared chain XAUUSD_24926a21
+[2025-12-24 15:16:02] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:04] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:06] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:08] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:10] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:12] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:14] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:16] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:18] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:20] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:20] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:16:24] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:26] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:28] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:30] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:32] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:34] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:36] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:38] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:40] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:42] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:42] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:16:46] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:48] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:50] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:52] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:54] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:56] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:16:58] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:00] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:02] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:04] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:04] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:17:07] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:09] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:11] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:13] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:15] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:17] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:19] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:21] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:23] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:25] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:25] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:17:29] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:31] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:33] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:35] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:37] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:39] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:41] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:43] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:45] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:47] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:47] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:17:50] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:52] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:54] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:56] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:17:58] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:00] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:02] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:06] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:08] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:10] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:10] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:18:17] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:19] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:21] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:23] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:25] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:27] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:29] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:31] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:34] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:36] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:36] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:18:39] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:41] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:43] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:45] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:48] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:50] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:52] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:54] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:56] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:58] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:18:58] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:19:01] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:03] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:05] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:07] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:09] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:11] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:14] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:16] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:18] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:20] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:20] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:19:23] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:25] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:27] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:29] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:31] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:33] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:35] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:37] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:39] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:41] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:41] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:19:45] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:47] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:49] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:51] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:53] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:55] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:57] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:19:59] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:01] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:03] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:03] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:20:07] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:09] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:11] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:29] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:31] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:33] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:35] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:37] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:39] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:41] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:43] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:45] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:47] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:47] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:20:51] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:20:53] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:03] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:05] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:07] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:09] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:11] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:13] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:15] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:17] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:19] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:21] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:21] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:21:25] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:36] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:38] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:40] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:42] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:44] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:46] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:48] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:50] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:52] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:54] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:21:54] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:21:58] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:00] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:02] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:04] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:06] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:08] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:10] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:12] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:14] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:16] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:16] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:22:19] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:21] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:24] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:26] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:28] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:30] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:32] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:34] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:36] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:38] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:38] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:22:42] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:44] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:46] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:48] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:50] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:52] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:54] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:56] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:22:58] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:00] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:00] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:23:03] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:05] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:07] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:09] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:11] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:13] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:15] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:17] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:19] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:21] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:21] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:23:25] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:27] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:29] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:31] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:33] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:35] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:37] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:39] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:41] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:43] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:43] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:23:47] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:49] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:51] ❌ Price monitor error #3: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:53] ❌ Price monitor error #4: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:55] ❌ Price monitor error #5: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:57] ❌ Price monitor error #6: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:23:59] ❌ Price monitor error #7: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:24:01] ❌ Price monitor error #8: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:24:03] ❌ Price monitor error #9: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:24:05] ❌ Price monitor error #10: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:24:05] ❌ ⚠️ High error rate: 10 errors detected
+[2025-12-24 15:24:09] ❌ Price monitor error #1: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:24:16] Trade monitor cancelled - graceful shutdown
+[2025-12-24 15:24:16] ❌ Price monitor error #2: cannot access local variable 'account_balance' where it is not associated with a value
+[2025-12-24 15:47:42] 🔔 Processing entry alert | Symbol: XAUUSD, TF: 5m
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: Alignment={'aligned': False, 'direction': 'PENDING'}
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: SignalDir=PENDING, Logic=LOGIC1
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: Alert=sell, TF=5m, Symbol=XAUUSD
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: Alignment={'aligned': True, 'direction': 'BEARISH', 'details': {'1h': 'BEARISH', '15m': 'BEARISH'}, 'failure_reason': None}
+[2025-12-24 15:47:42] 🔍 TRADING_DEBUG: SignalDir=BEARISH, Logic=LOGIC1
+[2025-12-24 15:47:42] 🔔 Trade execution starting | Symbol: XAUUSD, Direction: BEARISH
+[2025-12-24 15:47:43] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain XAUUSD_0251d448 for BOTH orders
+[2025-12-24 15:47:43] [DUAL_ORDER_CHAIN] ✅ Order B #498259514 added to shared chain XAUUSD_0251d448
+[2025-12-24 15:58:35] Trade monitor cancelled - graceful shutdown
+[2025-12-24 16:46:25] Trade monitor cancelled - graceful shutdown
+[2025-12-25 02:09:16] Trade monitor cancelled - graceful shutdown
+[2025-12-25 02:19:54] Trade monitor cancelled - graceful shutdown
+[2025-12-25 03:10:32] Trade monitor cancelled - graceful shutdown
+[2025-12-25 03:17:38] Trade monitor cancelled - graceful shutdown
+[2025-12-25 03:35:21] Trade monitor cancelled - graceful shutdown
+[2025-12-26 04:35:50] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_ca2eaeb6 for BOTH orders
+[2025-12-26 04:35:50] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_ca2eaeb6
+[2025-12-26 04:37:30] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_453da6e3 for BOTH orders
+[2025-12-26 04:37:30] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_453da6e3
+[2025-12-26 04:40:17] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_6d5dc443 for BOTH orders
+[2025-12-26 04:40:17] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_6d5dc443
+[2025-12-26 04:49:11] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_9a23908a for BOTH orders
+[2025-12-26 04:49:11] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_9a23908a
+[2025-12-26 04:51:49] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_5a098523 for BOTH orders
+[2025-12-26 04:51:49] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_5a098523
+[2025-12-26 04:54:21] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_921d22d7 for BOTH orders
+[2025-12-26 04:54:21] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_921d22d7
+[2025-12-26 05:05:40] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_99d53df0 for BOTH orders
+[2025-12-26 05:05:40] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_99d53df0
+[2025-12-26 05:06:17] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_81531907 for BOTH orders
+[2025-12-26 05:06:17] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_81531907
+[2025-12-26 05:06:48] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_2bccceff for BOTH orders
+[2025-12-26 05:06:48] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_2bccceff
+[2025-12-26 05:09:11] Trade monitor cancelled - graceful shutdown
+[2025-12-26 05:14:48] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_b93cdf09 for BOTH orders
+[2025-12-26 05:14:48] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_b93cdf09
+[2025-12-26 05:16:40] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_a3d0bfd5 for BOTH orders
+[2025-12-26 05:16:40] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_a3d0bfd5
+[2025-12-26 05:17:17] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_d79bf095 for BOTH orders
+[2025-12-26 05:17:17] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_d79bf095
+[2025-12-26 05:17:44] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_6192af54 for BOTH orders
+[2025-12-26 05:17:44] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_6192af54
+[2025-12-26 05:18:17] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_608749a2 for BOTH orders
+[2025-12-26 05:18:17] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_608749a2
+[2025-12-26 05:20:05] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_f5cc99f4 for BOTH orders
+[2025-12-26 05:20:05] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_f5cc99f4
+[2025-12-26 05:21:07] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_b3b73425 for BOTH orders
+[2025-12-26 05:21:07] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_b3b73425
+[2025-12-26 05:23:03] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_9d215426 for BOTH orders
+[2025-12-26 05:23:03] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_9d215426
+[2025-12-27 00:47:35] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_ce97d6af for BOTH orders
+[2025-12-27 00:47:35] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_ce97d6af
+[2025-12-27 00:47:56] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_0f38ae9f for BOTH orders
+[2025-12-27 00:47:56] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_0f38ae9f
+[2025-12-27 00:48:28] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_c3e8532d for BOTH orders
+[2025-12-27 00:48:28] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_c3e8532d
+[2025-12-27 00:53:10] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_c8965aea for BOTH orders
+[2025-12-27 00:53:10] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_c8965aea
+[2025-12-27 00:53:53] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_f542b89a for BOTH orders
+[2025-12-27 00:53:53] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_f542b89a
+[2025-12-27 00:54:31] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_f9132ae4 for BOTH orders
+[2025-12-27 00:54:31] [DUAL_ORDER_CHAIN] ✅ Order B #2 added to shared chain EURUSD_f9132ae4
+[2025-12-27 02:03:19] Trade monitor cancelled - graceful shutdown
+[2025-12-27 02:11:22] Trade monitor cancelled - graceful shutdown
+[2025-12-27 02:27:25] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_e8dbcb79 for BOTH orders
+[2025-12-27 02:27:25] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_e8dbcb79
+[2025-12-27 02:28:23] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_bca38ed3 for BOTH orders
+[2025-12-27 02:28:23] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_bca38ed3
+[2025-12-27 02:29:25] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_16ec0ba3 for BOTH orders
+[2025-12-27 02:29:25] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_16ec0ba3
+[2025-12-27 02:31:38] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_018a8148 for BOTH orders
+[2025-12-27 02:31:38] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_018a8148
+[2025-12-27 02:32:47] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_f3333250 for BOTH orders
+[2025-12-27 02:32:47] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_f3333250
+[2025-12-27 03:11:06] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_5136bc06 for BOTH orders
+[2025-12-27 03:11:06] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_5136bc06
+[2025-12-27 03:11:53] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_af810792 for BOTH orders
+[2025-12-27 03:11:53] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_af810792
+[2025-12-27 04:03:04] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_fbfffd5f for BOTH orders
+[2025-12-27 04:03:04] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_fbfffd5f
+[2025-12-27 04:11:32] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_4dcb0147 for BOTH orders
+[2025-12-27 04:11:32] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_4dcb0147
+[2025-12-27 04:16:17] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_3bae602a for BOTH orders
+[2025-12-27 04:16:17] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_3bae602a
+[2025-12-27 04:41:20] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_959384b2 for BOTH orders
+[2025-12-27 04:41:20] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_959384b2
+[2025-12-28 02:36:27] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_22bbc40c for BOTH orders
+[2025-12-28 02:36:27] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_22bbc40c
+[2025-12-28 02:49:28] [DUAL_ORDER_CHAIN] ✅ Created shared reentry chain EURUSD_8d9d9426 for BOTH orders
+[2025-12-28 02:49:28] [DUAL_ORDER_CHAIN] ✅ Order B #1001 added to shared chain EURUSD_8d9d9426
+[2025-12-28 03:03:50] Trade monitor cancelled - graceful shutdown
